@@ -151,3 +151,15 @@ export {
   createSfxChunks,
   checkSfxConcatRequired,
 } from "./sfx/index.js";
+
+export {
+  AMBIENT_CATEGORIES,
+  type AmbientCategory,
+  type AmbientEntry,
+  type AmbientConfig,
+  type AmbientWarning,
+  type AmbientResult,
+  type RedactResult,
+  redactSensitive,
+  AmbientEmitter,
+} from "./ambient/index.js";

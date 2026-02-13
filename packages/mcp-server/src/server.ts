@@ -2,12 +2,16 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { ArtifactMode } from "@mcp-tool-shop/voice-soundboard-core";
+import {
+  AmbientEmitter,
+  type ArtifactMode,
+} from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "./backend.js";
 import { buildStatusResponse } from "./tools/voiceStatus.js";
 import { handleSpeak } from "./tools/voiceSpeak.js";
 import { handleInterrupt } from "./tools/voiceInterrupt.js";
 import { handleDialogue } from "./tools/voiceDialogue.js";
+import { handleInnerMonologue } from "./tools/voiceInnerMonologue.js";
 
 export interface ServerOptions {
   backend: Backend;
@@ -15,10 +19,17 @@ export interface ServerOptions {
   defaultArtifactMode?: ArtifactMode;
   /** Sandboxed output root directory. */
   outputRoot?: string;
+  /** Enable ambient/inner-monologue system. Default: false. */
+  ambient?: boolean;
 }
 
 export function createServer(options: ServerOptions): McpServer {
-  const { backend, defaultArtifactMode, outputRoot } = options;
+  const { backend, defaultArtifactMode, outputRoot, ambient } = options;
+
+  // Create ambient emitter (enabled via --ambient flag or env var)
+  const ambientEnabled = ambient
+    ?? process.env.VOICE_SOUNDBOARD_AMBIENT_ENABLED === "1";
+  const ambientEmitter = new AmbientEmitter({ enabled: ambientEnabled });
 
   const server = new McpServer(
     {
@@ -103,6 +114,24 @@ export function createServer(options: ServerOptions): McpServer {
         outputRoot,
       });
       const isError = "error" in result && result.error === true;
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        isError,
+      };
+    },
+  );
+
+  // voice_inner_monologue
+  server.tool(
+    "voice_inner_monologue",
+    "Submit an ephemeral inner-monologue micro-utterance. Rate-limited, redacted, volatile. Requires VOICE_SOUNDBOARD_AMBIENT_ENABLED=1.",
+    {
+      text: z.string().max(500).describe("The monologue text (max 500 chars). Sensitive content is auto-redacted."),
+      category: z.enum(["general", "thinking", "observation", "debug"]).optional().describe("Category tag (default: 'general')"),
+    },
+    async (args) => {
+      const result = handleInnerMonologue(args, ambientEmitter);
+      const isError = !result.accepted;
       return {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         isError,

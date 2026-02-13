@@ -9,9 +9,11 @@ import { readBackendConfig, selectBackend } from "./backend.js";
 function parseCliFlags(argv: string[]): {
   artifactMode?: ArtifactMode;
   outputRoot?: string;
+  ambient?: boolean;
 } {
   let artifactMode: ArtifactMode | undefined;
   let outputRoot: string | undefined;
+  let ambient: boolean | undefined;
 
   for (const arg of argv) {
     if (arg.startsWith("--artifact=")) {
@@ -23,21 +25,25 @@ function parseCliFlags(argv: string[]): {
     if (arg.startsWith("--output-dir=")) {
       outputRoot = arg.slice("--output-dir=".length);
     }
+    if (arg === "--ambient") {
+      ambient = true;
+    }
   }
 
-  return { artifactMode, outputRoot };
+  return { artifactMode, outputRoot, ambient };
 }
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const backendConfig = readBackendConfig(argv);
-  const { artifactMode, outputRoot } = parseCliFlags(argv);
+  const { artifactMode, outputRoot, ambient } = parseCliFlags(argv);
 
   const backend = await selectBackend(backendConfig);
   const server = createServer({
     backend,
     defaultArtifactMode: artifactMode,
     outputRoot: outputRoot ?? defaultOutputRoot(),
+    ambient,
   });
 
   const transport = new StdioServerTransport();
