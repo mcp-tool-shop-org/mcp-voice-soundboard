@@ -85,3 +85,15 @@ export {
   CHUNK_LIMITS,
   chunkText,
 } from "./chunking/index.js";
+
+export {
+  type SynthesizeFn,
+  type ChunkArtifact,
+  type RunPlanOptions,
+  type SpeechResult,
+  type OrchestratorWarning,
+  type RunPlanInput,
+  runPlan,
+  concatWavFiles,
+  concatWavBase64,
+} from "./orchestrator/index.js";
