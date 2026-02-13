@@ -97,3 +97,15 @@ export {
   concatWavFiles,
   concatWavBase64,
 } from "./orchestrator/index.js";
+
+export {
+  type DialogueLine,
+  type DialoguePause,
+  type DialogueCue,
+  type CueSheet,
+  type DialogueWarning,
+  type CastMap,
+  parseDialogue,
+  DialogueParseError,
+  type ParseDialogueOptions,
+} from "./dialogue/index.js";
