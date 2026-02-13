@@ -10,8 +10,11 @@ import {
   defaultOutputRoot,
   resolveOutputDir,
   OutputDirError,
+  hasEmotionTags,
+  runEmotionPlan,
   type ArtifactMode,
   type CastMap,
+  type EmotionSynthesisContext,
 } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend, SynthesisResult } from "../backend.js";
 import { HttpBackendError } from "../backends/httpBackend.js";
@@ -108,7 +111,49 @@ export async function handleDialogue(
       continue;
     }
 
-    // Build synthesis request for this line
+    // If line text contains emotion tags, route through emotion pipeline
+    if (hasEmotionTags(cue.text)) {
+      try {
+        const emotionResult = await runEmotionPlan({
+          text: cue.text,
+          synthesize: async (text: string, _idx: number, ctx: EmotionSynthesisContext) => {
+            const req = buildSynthesisRequest({
+              text,
+              voice: ctx.voiceId,
+              speed: args.speed != null ? args.speed * ctx.speed : ctx.speed,
+              artifactMode,
+              outputDir: resolvedOutputDir,
+            });
+            const sr = await backend.synthesize(req);
+            return {
+              audioPath: sr.audioPath,
+              audioBytesBase64: sr.audioBytesBase64,
+              durationMs: sr.durationMs,
+              sampleRate: sr.sampleRate,
+              format: sr.format,
+            };
+          },
+          options: { artifactMode, outputDir: resolvedOutputDir, concat: true },
+        });
+        artifacts.push({
+          speaker: cue.speaker,
+          voiceId: cue.voiceId,
+          text: cue.text,
+          audioPath: emotionResult.concatPath ?? emotionResult.chunks[0]?.audioPath,
+          audioBytesBase64: emotionResult.concatBase64 ?? emotionResult.chunks[0]?.audioBytesBase64,
+          durationMs: emotionResult.totalDurationMs,
+        });
+        totalDurationMs += emotionResult.totalDurationMs;
+      } catch (e) {
+        if (e instanceof HttpBackendError || e instanceof PythonBackendError) {
+          return errorResponse((e as any).code, e.message);
+        }
+        return errorResponse("SYNTHESIS_FAILED", String(e));
+      }
+      continue;
+    }
+
+    // Standard (non-emotion) synthesis for this line
     let request;
     try {
       request = buildSynthesisRequest({

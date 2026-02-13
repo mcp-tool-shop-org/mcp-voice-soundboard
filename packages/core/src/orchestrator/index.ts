@@ -13,4 +13,11 @@ export {
   runPlan,
 } from "./runner.js";
 
+export {
+  type EmotionSynthesisContext,
+  type EmotionSynthesizeFn,
+  type RunEmotionPlanInput,
+  runEmotionPlan,
+} from "./emotionRunner.js";
+
 export { concatWavFiles, concatWavBase64 } from "./concat.js";

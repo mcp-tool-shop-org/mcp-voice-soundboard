@@ -8,10 +8,13 @@ import {
   OutputDirError,
   defaultOutputRoot,
   resolveOutputDir,
+  hasEmotionTags,
+  runEmotionPlan,
   type VoiceSpeakResponse,
   type VoiceErrorResponse,
   type ArtifactMode,
   type OutputFormat,
+  type EmotionSynthesisContext,
 } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
 import { HttpBackendError } from "../backends/httpBackend.js";
@@ -53,6 +56,11 @@ export async function handleSpeak(
       }
       return errorResponse("OUTPUT_DIR_INVALID", String(e));
     }
+  }
+
+  // Emotion-aware path: if text contains emotion tags, route through runEmotionPlan
+  if (hasEmotionTags(args.text)) {
+    return handleEmotionSpeak(args, backend, artifactMode ?? "path", resolvedOutputDir);
   }
 
   let request;
@@ -101,5 +109,66 @@ export async function handleSpeak(
       return errorResponse(e.code as any, e.message, request.traceId);
     }
     return errorResponse("SYNTHESIS_FAILED", String(e), request.traceId);
+  }
+}
+
+async function handleEmotionSpeak(
+  args: SpeakArgs,
+  backend: Backend,
+  artifactMode: ArtifactMode,
+  outputDir?: string,
+): Promise<VoiceSpeakResponse | VoiceErrorResponse> {
+  if (!backend.ready) {
+    return errorResponse("BACKEND_UNAVAILABLE", "Backend is not ready");
+  }
+
+  try {
+    const result = await runEmotionPlan({
+      text: args.text,
+      synthesize: async (text: string, _chunkIndex: number, ctx: EmotionSynthesisContext) => {
+        const request = buildSynthesisRequest({
+          text,
+          voice: ctx.voiceId,
+          speed: args.speed != null ? args.speed * ctx.speed : ctx.speed,
+          artifactMode,
+          outputDir,
+        });
+        const synthResult = await backend.synthesize(request);
+        return {
+          audioPath: synthResult.audioPath,
+          audioBytesBase64: synthResult.audioBytesBase64,
+          durationMs: synthResult.durationMs,
+          sampleRate: synthResult.sampleRate,
+          format: synthResult.format,
+        };
+      },
+      options: {
+        artifactMode,
+        outputDir,
+        concat: true,
+      },
+    });
+
+    // Return the first chunk's info for the response
+    const firstChunk = result.chunks[0];
+    return {
+      traceId: "emotion-plan",
+      voiceUsed: "emotion-mapped",
+      speed: 1.0,
+      artifactMode,
+      audioPath: result.concatPath ?? firstChunk?.audioPath,
+      audioBytesBase64: result.concatBase64 ?? firstChunk?.audioBytesBase64,
+      durationMs: result.totalDurationMs,
+      sampleRate: firstChunk?.sampleRate,
+      format: firstChunk?.format ?? "wav",
+    };
+  } catch (e) {
+    if (e instanceof HttpBackendError) {
+      return errorResponse(e.code as any, e.message);
+    }
+    if (e instanceof PythonBackendError) {
+      return errorResponse(e.code as any, e.message);
+    }
+    return errorResponse("SYNTHESIS_FAILED", String(e));
   }
 }

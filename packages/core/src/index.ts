@@ -94,6 +94,10 @@ export {
   type OrchestratorWarning,
   type RunPlanInput,
   runPlan,
+  type EmotionSynthesisContext,
+  type EmotionSynthesizeFn,
+  type RunEmotionPlanInput,
+  runEmotionPlan,
   concatWavFiles,
   concatWavBase64,
 } from "./orchestrator/index.js";
