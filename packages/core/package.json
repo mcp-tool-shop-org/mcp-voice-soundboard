@@ -1,10 +1,36 @@
 {
   "name": "@mcp-tool-shop/voice-soundboard-core",
   "version": "0.1.0",
+  "description": "Backend-agnostic core library for MCP Voice Soundboard — validation, SSML-lite, chunking, emotion spans, SFX tags, and schemas.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
+  "license": "MIT",
+  "author": "mcp-tool-shop <64996768+mcp-tool-shop@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcp-tool-shop-org/mcp-voice-soundboard.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues"
+  },
+  "keywords": [
+    "mcp",
+    "voice",
+    "tts",
+    "text-to-speech",
+    "soundboard",
+    "ssml",
+    "speech-synthesis",
+    "ai-agent",
+    "model-context-protocol"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
