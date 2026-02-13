@@ -164,3 +164,9 @@ export {
   redactSensitive,
   AmbientEmitter,
 } from "./ambient/index.js";
+
+export {
+  SAFE_FILE_PREFIX,
+  generateSafeFilename,
+  isSymlink,
+} from "./sandbox.js";

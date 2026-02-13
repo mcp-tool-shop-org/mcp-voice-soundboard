@@ -16,6 +16,7 @@ import { handleInnerMonologue } from "./tools/voiceInnerMonologue.js";
 import { SynthesisSemaphore, BusyError } from "./concurrency.js";
 import { ToolRateLimiter, RateLimitError } from "./rateLimit.js";
 import { withTimeout, TimeoutError } from "./timeout.js";
+import { startRetentionTimer, DEFAULT_RETENTION_MINUTES, type RetentionHandle } from "./retention.js";
 
 export interface ServerOptions {
   backend: Backend;
@@ -29,6 +30,8 @@ export interface ServerOptions {
   maxConcurrent?: number;
   /** Per-request timeout in ms. Default: SHIP_LIMITS.requestTimeoutMs. */
   requestTimeoutMs?: number;
+  /** Retention cleanup period in minutes. Default: 240. Set 0 to disable. */
+  retentionMinutes?: number;
 }
 
 /** Format a guardrail error for MCP response. */
@@ -69,6 +72,7 @@ export function createServer(options: ServerOptions): McpServer {
     ambient,
     maxConcurrent = SHIP_LIMITS.maxConcurrentSynth,
     requestTimeoutMs = SHIP_LIMITS.requestTimeoutMs,
+    retentionMinutes = DEFAULT_RETENTION_MINUTES,
   } = options;
 
   // Create ambient emitter (enabled via --ambient flag or env var)
@@ -79,6 +83,11 @@ export function createServer(options: ServerOptions): McpServer {
   // Guardrails
   const semaphore = new SynthesisSemaphore(maxConcurrent);
   const rateLimiter = new ToolRateLimiter();
+
+  // Retention cleanup (start timer if output root is provided and retention > 0)
+  if (outputRoot && retentionMinutes > 0) {
+    startRetentionTimer(outputRoot, retentionMinutes);
+  }
 
   const server = new McpServer(
     {

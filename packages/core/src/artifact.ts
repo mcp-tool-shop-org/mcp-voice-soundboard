@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { resolve, relative, isAbsolute } from "node:path";
 import { mkdir, access, constants } from "node:fs/promises";
 import type { ArtifactMode } from "./schemas.js";
+import { isSymlink } from "./sandbox.js";
 
 export { type ArtifactMode };
 
@@ -73,6 +74,13 @@ export async function resolveOutputDir(
   if (rel.startsWith("..") || isAbsolute(rel)) {
     throw new OutputDirError(
       `Output directory "${outputDir}" escapes sandbox root "${root}"`,
+    );
+  }
+
+  // Symlink check: reject if target is a symlink (prevents escape via symlink)
+  if (await isSymlink(resolved)) {
+    throw new OutputDirError(
+      `Output directory "${resolved}" is a symlink — not allowed`,
     );
   }
 
