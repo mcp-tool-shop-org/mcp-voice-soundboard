@@ -59,3 +59,21 @@ export {
   buildSynthesisRequest,
   errorResponse,
 } from "./request.js";
+
+export {
+  type BreakEvent,
+  type ProsodyEvent,
+  type ProsodyEndEvent,
+  type EmphasisEvent,
+  type EmphasisEndEvent,
+  type SpeechEvent,
+  type TextSegment,
+  type EventSegment,
+  type PlanSegment,
+  type SsmlWarning,
+  type SpeechPlan,
+  SSML_LIMITS,
+  parseSsmlLite,
+  looksLikeSsml,
+  SsmlParseError,
+} from "./ssml/index.js";
