@@ -11,6 +11,7 @@ import {
   type OutputFormat,
 } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
+import { HttpBackendError } from "../backends/httpBackend.js";
 
 export interface SpeakArgs {
   text: string;
@@ -74,6 +75,9 @@ export async function handleSpeak(
       format: result.format,
     };
   } catch (e) {
+    if (e instanceof HttpBackendError) {
+      return errorResponse(e.code as any, e.message, request.traceId);
+    }
     return errorResponse("SYNTHESIS_FAILED", String(e), request.traceId);
   }
 }
