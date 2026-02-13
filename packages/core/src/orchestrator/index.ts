@@ -20,4 +20,4 @@ export {
   runEmotionPlan,
 } from "./emotionRunner.js";
 
-export { concatWavFiles, concatWavBase64 } from "./concat.js";
+export { concatWavFiles, concatWavBase64, buildWavFile } from "./concat.js";

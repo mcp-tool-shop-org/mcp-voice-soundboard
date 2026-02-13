@@ -130,7 +130,7 @@ function parseWavData(wav: Buffer): WavData | null {
   return null;
 }
 
-function buildWavFile(pcmData: Buffer, sampleRate: number): Buffer {
+export function buildWavFile(pcmData: Buffer, sampleRate: number): Buffer {
   const bytesPerSample = 2;
   const channels = 1;
   const fileSize = 44 + pcmData.length;

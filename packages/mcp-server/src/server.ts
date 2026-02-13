@@ -53,6 +53,7 @@ export function createServer(options: ServerOptions): McpServer {
       format: z.enum(["wav", "mp3", "ogg", "raw"]).optional().describe("Output audio format"),
       artifactMode: z.enum(["path", "base64"]).optional().describe("Delivery mode: file path or base64"),
       outputDir: z.string().optional().describe("Subdirectory within output root for path mode"),
+      sfx: z.boolean().optional().describe("Enable SFX tags [ding], [chime], etc. (default: false)"),
     },
     async (args) => {
       const result = await handleSpeak(args, backend, {

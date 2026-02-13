@@ -20,3 +20,15 @@ export {
   hasSfxTags,
   parseSfxTags,
 } from "./parser.js";
+
+export {
+  generateSfxWav,
+  getSfxDurationMs,
+} from "./generator.js";
+
+export {
+  type SfxStitchWarning,
+  type SfxStitchResult,
+  createSfxChunks,
+  checkSfxConcatRequired,
+} from "./stitcher.js";

@@ -100,6 +100,7 @@ export {
   runEmotionPlan,
   concatWavFiles,
   concatWavBase64,
+  buildWavFile,
 } from "./orchestrator/index.js";
 
 export {
@@ -143,4 +144,10 @@ export {
   SFX_MAX_EVENTS,
   hasSfxTags,
   parseSfxTags,
+  generateSfxWav,
+  getSfxDurationMs,
+  type SfxStitchWarning,
+  type SfxStitchResult,
+  createSfxChunks,
+  checkSfxConcatRequired,
 } from "./sfx/index.js";
