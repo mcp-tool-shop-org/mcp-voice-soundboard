@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-tool-shop/voice-soundboard-core",
+  "name": "@mcptoolshop/voice-soundboard-core",
   "version": "0.1.0",
   "description": "Backend-agnostic core library for MCP Voice Soundboard — validation, SSML-lite, chunking, emotion spans, SFX tags, and schemas.",
   "type": "module",

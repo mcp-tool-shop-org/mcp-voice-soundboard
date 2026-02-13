@@ -15,7 +15,7 @@ import {
   resolveOutputDir,
   OutputDirError,
   LimitError,
-} from "@mcp-tool-shop/voice-soundboard-core";
+} from "@mcptoolshop/voice-soundboard-core";
 import { SynthesisSemaphore, BusyError } from "../src/concurrency.js";
 import { ToolRateLimiter } from "../src/rateLimit.js";
 import { withTimeout, TimeoutError } from "../src/timeout.js";

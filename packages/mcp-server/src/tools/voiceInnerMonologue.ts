@@ -4,7 +4,7 @@ import {
   AmbientEmitter,
   type AmbientCategory,
   type AmbientResult,
-} from "@mcp-tool-shop/voice-soundboard-core";
+} from "@mcptoolshop/voice-soundboard-core";
 
 export interface InnerMonologueArgs {
   text: string;

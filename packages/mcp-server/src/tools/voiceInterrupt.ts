@@ -1,6 +1,6 @@
 /** voice.interrupt tool — stop/rollback active audio. */
 
-import type { VoiceInterruptResponse } from "@mcp-tool-shop/voice-soundboard-core";
+import type { VoiceInterruptResponse } from "@mcptoolshop/voice-soundboard-core";
 
 export interface InterruptArgs {
   streamId?: string;

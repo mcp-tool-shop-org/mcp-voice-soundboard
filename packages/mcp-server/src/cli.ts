@@ -2,7 +2,7 @@
 /** CLI entrypoint — starts the MCP server over stdio. */
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { defaultOutputRoot, type ArtifactMode } from "@mcp-tool-shop/voice-soundboard-core";
+import { defaultOutputRoot, type ArtifactMode } from "@mcptoolshop/voice-soundboard-core";
 import { createServer } from "./server.js";
 import { readBackendConfig, selectBackend } from "./backend.js";
 

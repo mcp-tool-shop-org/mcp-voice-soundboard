@@ -6,7 +6,7 @@ import {
   AmbientEmitter,
   SHIP_LIMITS,
   type ArtifactMode,
-} from "@mcp-tool-shop/voice-soundboard-core";
+} from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "./backend.js";
 import { buildStatusResponse } from "./tools/voiceStatus.js";
 import { handleSpeak } from "./tools/voiceSpeak.js";

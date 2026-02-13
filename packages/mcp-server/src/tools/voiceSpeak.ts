@@ -15,7 +15,7 @@ import {
   type ArtifactMode,
   type OutputFormat,
   type EmotionSynthesisContext,
-} from "@mcp-tool-shop/voice-soundboard-core";
+} from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
 import { HttpBackendError } from "../backends/httpBackend.js";
 import { PythonBackendError } from "../backends/pythonBackend.js";

@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-tool-shop/voice-soundboard-mcp",
+  "name": "@mcptoolshop/voice-soundboard-mcp",
   "version": "0.1.0",
   "description": "MCP server for text-to-speech — 12 voices, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
   "type": "module",
@@ -43,7 +43,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@mcp-tool-shop/voice-soundboard-core": "workspace:*",
+    "@mcptoolshop/voice-soundboard-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "zod": "^4.0.0"
   },

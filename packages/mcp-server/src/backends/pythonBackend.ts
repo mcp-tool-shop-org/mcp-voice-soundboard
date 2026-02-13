@@ -4,7 +4,7 @@ import { spawn, type ChildProcess } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import type { Backend, BackendHealth, SynthesisResult } from "../backend.js";
-import type { SynthesisRequest } from "@mcp-tool-shop/voice-soundboard-core";
+import type { SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
 
 export interface PythonBackendConfig {
   /** Python executable (default: "python"). */

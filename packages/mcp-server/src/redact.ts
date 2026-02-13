@@ -1,6 +1,6 @@
 /** Server-level redaction — strips secrets from error messages and logs. */
 
-import { redactSensitive } from "@mcp-tool-shop/voice-soundboard-core";
+import { redactSensitive } from "@mcptoolshop/voice-soundboard-core";
 
 /**
  * Additional patterns for server-level redaction (beyond core ambient patterns).

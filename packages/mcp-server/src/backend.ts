@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { execFile } from "node:child_process";
-import type { SynthesisRequest } from "@mcp-tool-shop/voice-soundboard-core";
+import type { SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
 
 // ── Types ──
 

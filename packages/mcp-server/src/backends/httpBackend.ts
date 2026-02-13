@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import type { Backend, BackendHealth, SynthesisResult } from "../backend.js";
-import type { SynthesisRequest } from "@mcp-tool-shop/voice-soundboard-core";
+import type { SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
 
 export interface HttpBackendConfig {
   url: string;

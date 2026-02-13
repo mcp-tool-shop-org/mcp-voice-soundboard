@@ -1,4 +1,4 @@
-// @mcp-tool-shop/voice-soundboard-core
+// @mcptoolshop/voice-soundboard-core
 // Backend-agnostic voice soundboard core library
 
 export {

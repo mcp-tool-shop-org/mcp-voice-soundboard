@@ -5,7 +5,7 @@ import {
   PRESETS,
   DEFAULT_VOICE,
   type VoiceStatusResponse,
-} from "@mcp-tool-shop/voice-soundboard-core";
+} from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
 
 export async function buildStatusResponse(backend: Backend): Promise<VoiceStatusResponse> {

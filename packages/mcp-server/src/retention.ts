@@ -2,7 +2,7 @@
 
 import { readdir, stat, unlink } from "node:fs/promises";
 import { join } from "node:path";
-import { SAFE_FILE_PREFIX } from "@mcp-tool-shop/voice-soundboard-core";
+import { SAFE_FILE_PREFIX } from "@mcptoolshop/voice-soundboard-core";
 
 /** Default retention period in minutes. */
 export const DEFAULT_RETENTION_MINUTES = 240;
