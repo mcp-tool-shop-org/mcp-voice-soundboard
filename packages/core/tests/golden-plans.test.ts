@@ -60,7 +60,7 @@ describe("golden: SSML plan shapes", () => {
   });
 
   it("fallback plan has SSML_PARSE_FAILED warning", () => {
-    const overLimit = "<break/>".repeat(250); // exceeds maxNodes
+    const overLimit = "<break/>".repeat(450); // exceeds maxNodes (400)
     const plan = parseSsmlLite(`<speak>Hello${overLimit}</speak>`);
     expect(plan.wasSSML).toBe(true);
     expect(plan.warnings).toEqual(
@@ -171,8 +171,8 @@ describe("golden: stable error codes", () => {
   });
 
   it("SSML_PARSE_FAILED warning on malformed SSML", () => {
-    // Force parse error via node limit
-    const plan = parseSsmlLite(`<speak>${"<break/>".repeat(250)}</speak>`);
+    // Force parse error via node limit (400)
+    const plan = parseSsmlLite(`<speak>${"<break/>".repeat(450)}</speak>`);
     expect(plan.warnings.some((w) => w.code === "SSML_PARSE_FAILED")).toBe(true);
   });
 });

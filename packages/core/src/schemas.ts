@@ -78,4 +78,10 @@ export type VoiceErrorCode =
   | "SYNTHESIS_FAILED"
   | "STREAM_NOT_FOUND"
   | "OUTPUT_DIR_INVALID"
-  | "INTERNAL_ERROR";
+  | "INTERNAL_ERROR"
+  // Phase 5: guardrails
+  | "LIMIT_EXCEEDED"
+  | "BUSY"
+  | "REQUEST_TIMEOUT"
+  | "RATE_LIMITED"
+  | "VALIDATION_FAILED";

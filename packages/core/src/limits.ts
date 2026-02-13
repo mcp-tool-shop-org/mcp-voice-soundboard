@@ -2,13 +2,37 @@
 
 export const LIMITS = {
   /** Maximum text length in characters. */
-  maxTextLength: 10_000,
+  maxTextLength: 12_000,
   /** Maximum speed multiplier. */
   maxSpeed: 2.0,
   /** Minimum speed multiplier. */
   minSpeed: 0.5,
   /** Default speed multiplier. */
   defaultSpeed: 1.0,
+} as const;
+
+/** Consolidated ship-ready limits for the entire stack. */
+export const SHIP_LIMITS = {
+  /** Maximum total characters across all inputs. */
+  maxTotalChars: 12_000,
+  /** Maximum chunks per request. */
+  maxChunks: 50,
+  /** Maximum emotion spans per request. */
+  maxSpans: 100,
+  /** Maximum SSML element nodes. */
+  maxSsmlNodes: 400,
+  /** Maximum SFX events per text. */
+  maxSfxEvents: 30,
+  /** Maximum break duration in ms. */
+  maxBreakMs: 2_000,
+  /** Maximum concurrent synthesis requests. */
+  maxConcurrentSynth: 1,
+  /** Per-request timeout in ms. */
+  requestTimeoutMs: 20_000,
+  /** Per-chunk timeout in ms. */
+  chunkTimeoutMs: 10_000,
+  /** Health check timeout in ms. */
+  healthTimeoutMs: 2_000,
 } as const;
 
 export class LimitError extends Error {

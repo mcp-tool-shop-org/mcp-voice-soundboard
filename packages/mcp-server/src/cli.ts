@@ -10,10 +10,14 @@ function parseCliFlags(argv: string[]): {
   artifactMode?: ArtifactMode;
   outputRoot?: string;
   ambient?: boolean;
+  maxConcurrent?: number;
+  requestTimeoutMs?: number;
 } {
   let artifactMode: ArtifactMode | undefined;
   let outputRoot: string | undefined;
   let ambient: boolean | undefined;
+  let maxConcurrent: number | undefined;
+  let requestTimeoutMs: number | undefined;
 
   for (const arg of argv) {
     if (arg.startsWith("--artifact=")) {
@@ -28,15 +32,23 @@ function parseCliFlags(argv: string[]): {
     if (arg === "--ambient") {
       ambient = true;
     }
+    if (arg.startsWith("--max-concurrent=")) {
+      const val = parseInt(arg.slice("--max-concurrent=".length), 10);
+      if (val > 0) maxConcurrent = val;
+    }
+    if (arg.startsWith("--timeout=")) {
+      const val = parseInt(arg.slice("--timeout=".length), 10);
+      if (val > 0) requestTimeoutMs = val;
+    }
   }
 
-  return { artifactMode, outputRoot, ambient };
+  return { artifactMode, outputRoot, ambient, maxConcurrent, requestTimeoutMs };
 }
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const backendConfig = readBackendConfig(argv);
-  const { artifactMode, outputRoot, ambient } = parseCliFlags(argv);
+  const { artifactMode, outputRoot, ambient, maxConcurrent, requestTimeoutMs } = parseCliFlags(argv);
 
   const backend = await selectBackend(backendConfig);
   const server = createServer({
@@ -44,6 +56,8 @@ async function main(): Promise<void> {
     defaultArtifactMode: artifactMode,
     outputRoot: outputRoot ?? defaultOutputRoot(),
     ambient,
+    maxConcurrent,
+    requestTimeoutMs,
   });
 
   const transport = new StdioServerTransport();

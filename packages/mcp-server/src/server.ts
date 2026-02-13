@@ -4,6 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
   AmbientEmitter,
+  SHIP_LIMITS,
   type ArtifactMode,
 } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "./backend.js";
@@ -12,6 +13,9 @@ import { handleSpeak } from "./tools/voiceSpeak.js";
 import { handleInterrupt } from "./tools/voiceInterrupt.js";
 import { handleDialogue } from "./tools/voiceDialogue.js";
 import { handleInnerMonologue } from "./tools/voiceInnerMonologue.js";
+import { SynthesisSemaphore, BusyError } from "./concurrency.js";
+import { ToolRateLimiter, RateLimitError } from "./rateLimit.js";
+import { withTimeout, TimeoutError } from "./timeout.js";
 
 export interface ServerOptions {
   backend: Backend;
@@ -21,15 +25,60 @@ export interface ServerOptions {
   outputRoot?: string;
   /** Enable ambient/inner-monologue system. Default: false. */
   ambient?: boolean;
+  /** Maximum concurrent synthesis requests. Default: SHIP_LIMITS.maxConcurrentSynth. */
+  maxConcurrent?: number;
+  /** Per-request timeout in ms. Default: SHIP_LIMITS.requestTimeoutMs. */
+  requestTimeoutMs?: number;
+}
+
+/** Format a guardrail error for MCP response. */
+function guardrailErrorResponse(error: unknown): {
+  content: Array<{ type: "text"; text: string }>;
+  isError: true;
+} {
+  let code = "INTERNAL_ERROR";
+  let message = "Unknown error";
+
+  if (error instanceof BusyError) {
+    code = error.code;
+    message = error.message;
+  } else if (error instanceof RateLimitError) {
+    code = error.code;
+    message = error.message;
+  } else if (error instanceof TimeoutError) {
+    code = error.code;
+    message = error.message;
+  } else if (error instanceof Error) {
+    message = error.message;
+  }
+
+  return {
+    content: [{
+      type: "text",
+      text: JSON.stringify({ error: true, code, message }, null, 2),
+    }],
+    isError: true,
+  };
 }
 
 export function createServer(options: ServerOptions): McpServer {
-  const { backend, defaultArtifactMode, outputRoot, ambient } = options;
+  const {
+    backend,
+    defaultArtifactMode,
+    outputRoot,
+    ambient,
+    maxConcurrent = SHIP_LIMITS.maxConcurrentSynth,
+    requestTimeoutMs = SHIP_LIMITS.requestTimeoutMs,
+  } = options;
 
   // Create ambient emitter (enabled via --ambient flag or env var)
   const ambientEnabled = ambient
     ?? process.env.VOICE_SOUNDBOARD_AMBIENT_ENABLED === "1";
   const ambientEmitter = new AmbientEmitter({ enabled: ambientEnabled });
+
+  // Guardrails
+  const semaphore = new SynthesisSemaphore(maxConcurrent);
+  const rateLimiter = new ToolRateLimiter();
 
   const server = new McpServer(
     {
@@ -41,7 +90,7 @@ export function createServer(options: ServerOptions): McpServer {
     },
   );
 
-  // voice_status — no arguments
+  // voice_status — no arguments, lightweight, not rate-limited
   server.tool(
     "voice_status",
     "Get engine health, available voices, presets, and backend info",
@@ -53,7 +102,7 @@ export function createServer(options: ServerOptions): McpServer {
     },
   );
 
-  // voice_speak
+  // voice_speak — guarded with semaphore + timeout + rate limit
   server.tool(
     "voice_speak",
     "Synthesize speech from text",
@@ -67,15 +116,25 @@ export function createServer(options: ServerOptions): McpServer {
       sfx: z.boolean().optional().describe("Enable SFX tags [ding], [chime], etc. (default: false)"),
     },
     async (args) => {
-      const result = await handleSpeak(args, backend, {
-        defaultArtifactMode,
-        outputRoot,
-      });
-      const isError = "error" in result && result.error === true;
-      return {
-        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-        isError,
-      };
+      if (!rateLimiter.check("voice_speak")) {
+        return guardrailErrorResponse(new RateLimitError("voice_speak"));
+      }
+      try {
+        const result = await withTimeout(
+          () => semaphore.run(() => handleSpeak(args, backend, {
+            defaultArtifactMode,
+            outputRoot,
+          })),
+          requestTimeoutMs,
+        );
+        const isError = "error" in result && result.error === true;
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          isError,
+        };
+      } catch (error) {
+        return guardrailErrorResponse(error);
+      }
     },
   );
 
@@ -95,7 +154,7 @@ export function createServer(options: ServerOptions): McpServer {
     },
   );
 
-  // voice_dialogue
+  // voice_dialogue — guarded with semaphore + timeout + rate limit
   server.tool(
     "voice_dialogue",
     "Synthesize multi-speaker dialogue from a script",
@@ -109,19 +168,29 @@ export function createServer(options: ServerOptions): McpServer {
       outputDir: z.string().optional().describe("Subdirectory within output root for path mode"),
     },
     async (args) => {
-      const result = await handleDialogue(args as any, backend, {
-        defaultArtifactMode,
-        outputRoot,
-      });
-      const isError = "error" in result && result.error === true;
-      return {
-        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-        isError,
-      };
+      if (!rateLimiter.check("voice_dialogue")) {
+        return guardrailErrorResponse(new RateLimitError("voice_dialogue"));
+      }
+      try {
+        const result = await withTimeout(
+          () => semaphore.run(() => handleDialogue(args as any, backend, {
+            defaultArtifactMode,
+            outputRoot,
+          })),
+          requestTimeoutMs,
+        );
+        const isError = "error" in result && result.error === true;
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          isError,
+        };
+      } catch (error) {
+        return guardrailErrorResponse(error);
+      }
     },
   );
 
-  // voice_inner_monologue
+  // voice_inner_monologue — lightweight, not rate-limited by server (has own rate limiter)
   server.tool(
     "voice_inner_monologue",
     "Submit an ephemeral inner-monologue micro-utterance. Rate-limited, redacted, volatile. Requires VOICE_SOUNDBOARD_AMBIENT_ENABLED=1.",

@@ -24,4 +24,4 @@ export const SFX_REGISTRY: Readonly<Record<SfxTag, SfxGenParams>> = {
 };
 
 /** Max SFX events allowed per text. */
-export const SFX_MAX_EVENTS = 10;
+export const SFX_MAX_EVENTS = 30;
