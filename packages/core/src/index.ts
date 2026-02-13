@@ -77,3 +77,11 @@ export {
   looksLikeSsml,
   SsmlParseError,
 } from "./ssml/index.js";
+
+export {
+  type ChunkingOptions,
+  type ChunkResult,
+  type ChunkWarning,
+  CHUNK_LIMITS,
+  chunkText,
+} from "./chunking/index.js";
