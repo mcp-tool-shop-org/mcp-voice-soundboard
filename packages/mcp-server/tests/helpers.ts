@@ -11,13 +11,24 @@ export interface McpTestClient {
   close(): void;
 }
 
+export interface SpawnOptions {
+  /** Extra CLI args (e.g. ["--backend=http"]). */
+  args?: string[];
+  /** Extra env vars to set. */
+  env?: Record<string, string>;
+}
+
 /**
  * Spawn the MCP server and return a simple test client.
  * Messages are newline-delimited JSON over stdio.
  */
-export function spawnServer(): McpTestClient {
-  const proc: ChildProcess = spawn("node", [CLI_PATH], {
+export function spawnServer(opts?: SpawnOptions): McpTestClient {
+  const cliArgs = opts?.args ?? [];
+  const extraEnv = opts?.env ?? {};
+
+  const proc: ChildProcess = spawn("node", [CLI_PATH, ...cliArgs], {
     stdio: ["pipe", "pipe", "pipe"],
+    env: { ...process.env, ...extraEnv },
   });
 
   let buffer = "";
@@ -64,8 +75,8 @@ export function spawnServer(): McpTestClient {
 }
 
 /** Initialize the MCP handshake and return the client ready for tool calls. */
-export async function initClient(): Promise<McpTestClient> {
-  const client = spawnServer();
+export async function initClient(opts?: SpawnOptions): Promise<McpTestClient> {
+  const client = spawnServer(opts);
 
   client.send({
     jsonrpc: "2.0",
