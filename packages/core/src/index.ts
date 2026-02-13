@@ -48,6 +48,9 @@ export {
   type OutputFormat,
   type ArtifactConfig,
   buildArtifactConfig,
+  OutputDirError,
+  defaultOutputRoot,
+  resolveOutputDir,
 } from "./artifact.js";
 
 export {

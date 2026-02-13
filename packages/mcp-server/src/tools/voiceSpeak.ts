@@ -5,6 +5,9 @@ import {
   errorResponse,
   VoiceValidationError,
   LimitError,
+  OutputDirError,
+  defaultOutputRoot,
+  resolveOutputDir,
   type VoiceSpeakResponse,
   type VoiceErrorResponse,
   type ArtifactMode,
@@ -23,10 +26,35 @@ export interface SpeakArgs {
   outputDir?: string;
 }
 
+export interface SpeakDefaults {
+  defaultArtifactMode?: ArtifactMode;
+  outputRoot?: string;
+}
+
 export async function handleSpeak(
   args: SpeakArgs,
   backend: Backend,
+  defaults?: SpeakDefaults,
 ): Promise<VoiceSpeakResponse | VoiceErrorResponse> {
+  // Resolve artifact mode: per-call > server default > core default
+  const artifactMode = (args.artifactMode as ArtifactMode)
+    ?? defaults?.defaultArtifactMode
+    ?? undefined;
+
+  // Resolve output dir with sandboxing (only for path mode)
+  let resolvedOutputDir: string | undefined;
+  if (artifactMode !== "base64") {
+    const root = defaults?.outputRoot ?? defaultOutputRoot();
+    try {
+      resolvedOutputDir = await resolveOutputDir(args.outputDir, root);
+    } catch (e) {
+      if (e instanceof OutputDirError) {
+        return errorResponse(e.code as any, e.message);
+      }
+      return errorResponse("OUTPUT_DIR_INVALID", String(e));
+    }
+  }
+
   let request;
   try {
     request = buildSynthesisRequest({
@@ -34,25 +62,15 @@ export async function handleSpeak(
       voice: args.voice,
       speed: args.speed,
       format: (args.format as OutputFormat) ?? undefined,
-      artifactMode: (args.artifactMode as ArtifactMode) ?? undefined,
-      outputDir: args.outputDir,
+      artifactMode,
+      outputDir: resolvedOutputDir,
     });
   } catch (e) {
     if (e instanceof VoiceValidationError) {
-      return errorResponse(
-        e.code as any,
-        e.message,
-        undefined,
-        e.context,
-      );
+      return errorResponse(e.code as any, e.message, undefined, e.context);
     }
     if (e instanceof LimitError) {
-      return errorResponse(
-        e.code as any,
-        e.message,
-        undefined,
-        e.context,
-      );
+      return errorResponse(e.code as any, e.message, undefined, e.context);
     }
     return errorResponse("INTERNAL_ERROR", String(e));
   }

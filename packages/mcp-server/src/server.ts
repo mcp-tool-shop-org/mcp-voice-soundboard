@@ -2,6 +2,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import type { ArtifactMode } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "./backend.js";
 import { buildStatusResponse } from "./tools/voiceStatus.js";
 import { handleSpeak } from "./tools/voiceSpeak.js";
@@ -9,10 +10,14 @@ import { handleInterrupt } from "./tools/voiceInterrupt.js";
 
 export interface ServerOptions {
   backend: Backend;
+  /** Default artifact mode (overridable per-call). */
+  defaultArtifactMode?: ArtifactMode;
+  /** Sandboxed output root directory. */
+  outputRoot?: string;
 }
 
 export function createServer(options: ServerOptions): McpServer {
-  const { backend } = options;
+  const { backend, defaultArtifactMode, outputRoot } = options;
 
   const server = new McpServer(
     {
@@ -46,10 +51,13 @@ export function createServer(options: ServerOptions): McpServer {
       speed: z.number().min(0.5).max(2.0).optional().describe("Speed multiplier (0.5-2.0)"),
       format: z.enum(["wav", "mp3", "ogg", "raw"]).optional().describe("Output audio format"),
       artifactMode: z.enum(["path", "base64"]).optional().describe("Delivery mode: file path or base64"),
-      outputDir: z.string().optional().describe("Output directory for path mode"),
+      outputDir: z.string().optional().describe("Subdirectory within output root for path mode"),
     },
     async (args) => {
-      const result = await handleSpeak(args, backend);
+      const result = await handleSpeak(args, backend, {
+        defaultArtifactMode,
+        outputRoot,
+      });
       const isError = "error" in result && result.error === true;
       return {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
