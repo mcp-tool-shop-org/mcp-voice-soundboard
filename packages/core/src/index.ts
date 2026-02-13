@@ -129,3 +129,18 @@ export {
   hasEmotionTags,
   parseEmotionSpans,
 } from "./emotion/index.js";
+
+export {
+  SFX_TAGS,
+  type SfxTag,
+  type SfxEvent,
+  type SfxTextSegment,
+  type SfxSegment,
+  type SfxWarning,
+  type SfxParseResult,
+  type SfxGenParams,
+  SFX_REGISTRY,
+  SFX_MAX_EVENTS,
+  hasSfxTags,
+  parseSfxTags,
+} from "./sfx/index.js";
