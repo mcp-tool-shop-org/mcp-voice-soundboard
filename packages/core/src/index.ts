@@ -34,3 +34,25 @@ export {
   type VoiceErrorResponse,
   type VoiceErrorCode,
 } from "./schemas.js";
+
+export {
+  LIMITS,
+  LimitError,
+  validateText,
+  validateSpeed,
+} from "./limits.js";
+
+export {
+  DEFAULT_ARTIFACT_MODE,
+  DEFAULT_OUTPUT_FORMAT,
+  type OutputFormat,
+  type ArtifactConfig,
+  buildArtifactConfig,
+} from "./artifact.js";
+
+export {
+  type SynthesisRequest,
+  type SpeakInput,
+  buildSynthesisRequest,
+  errorResponse,
+} from "./request.js";
