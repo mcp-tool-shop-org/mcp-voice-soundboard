@@ -17,6 +17,8 @@ import { SynthesisSemaphore, BusyError } from "./concurrency.js";
 import { ToolRateLimiter, RateLimitError } from "./rateLimit.js";
 import { withTimeout, TimeoutError } from "./timeout.js";
 import { startRetentionTimer, DEFAULT_RETENTION_MINUTES, type RetentionHandle } from "./retention.js";
+import { redactForLog } from "./redact.js";
+import { ValidationError } from "./validation.js";
 
 export interface ServerOptions {
   backend: Backend;
@@ -34,8 +36,8 @@ export interface ServerOptions {
   retentionMinutes?: number;
 }
 
-/** Format a guardrail error for MCP response. */
-function guardrailErrorResponse(error: unknown): {
+/** Format a guardrail/validation error for MCP response with redaction. */
+function safeErrorResponse(error: unknown): {
   content: Array<{ type: "text"; text: string }>;
   isError: true;
 } {
@@ -51,9 +53,15 @@ function guardrailErrorResponse(error: unknown): {
   } else if (error instanceof TimeoutError) {
     code = error.code;
     message = error.message;
+  } else if (error instanceof ValidationError) {
+    code = error.code;
+    message = error.message;
   } else if (error instanceof Error) {
     message = error.message;
   }
+
+  // Redact any secrets that may have leaked into error messages
+  message = redactForLog(message);
 
   return {
     content: [{
@@ -126,7 +134,7 @@ export function createServer(options: ServerOptions): McpServer {
     },
     async (args) => {
       if (!rateLimiter.check("voice_speak")) {
-        return guardrailErrorResponse(new RateLimitError("voice_speak"));
+        return safeErrorResponse(new RateLimitError("voice_speak"));
       }
       try {
         const result = await withTimeout(
@@ -142,7 +150,7 @@ export function createServer(options: ServerOptions): McpServer {
           isError,
         };
       } catch (error) {
-        return guardrailErrorResponse(error);
+        return safeErrorResponse(error);
       }
     },
   );
@@ -178,7 +186,7 @@ export function createServer(options: ServerOptions): McpServer {
     },
     async (args) => {
       if (!rateLimiter.check("voice_dialogue")) {
-        return guardrailErrorResponse(new RateLimitError("voice_dialogue"));
+        return safeErrorResponse(new RateLimitError("voice_dialogue"));
       }
       try {
         const result = await withTimeout(
@@ -194,7 +202,7 @@ export function createServer(options: ServerOptions): McpServer {
           isError,
         };
       } catch (error) {
-        return guardrailErrorResponse(error);
+        return safeErrorResponse(error);
       }
     },
   );
