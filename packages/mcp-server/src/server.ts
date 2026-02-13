@@ -29,7 +29,7 @@ export function createServer(options: ServerOptions): McpServer {
     "voice_status",
     "Get engine health, available voices, presets, and backend info",
     async () => {
-      const status = buildStatusResponse(backend);
+      const status = await buildStatusResponse(backend);
       return {
         content: [{ type: "text", text: JSON.stringify(status, null, 2) }],
       };

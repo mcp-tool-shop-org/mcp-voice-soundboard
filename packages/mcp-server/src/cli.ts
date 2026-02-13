@@ -3,10 +3,11 @@
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createServer } from "./server.js";
-import { MockBackend } from "./backend.js";
+import { readBackendConfig, selectBackend } from "./backend.js";
 
 async function main(): Promise<void> {
-  const backend = new MockBackend();
+  const config = readBackendConfig(process.argv.slice(2));
+  const backend = await selectBackend(config);
   const server = createServer({ backend });
   const transport = new StdioServerTransport();
   await server.connect(transport);

@@ -8,16 +8,18 @@ import {
 } from "@mcp-tool-shop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
 
-export function buildStatusResponse(backend: Backend): VoiceStatusResponse {
+export async function buildStatusResponse(backend: Backend): Promise<VoiceStatusResponse> {
+  const health = await backend.health();
   return {
     voices: [...VOICES.values()],
     presets: [...PRESETS.values()],
     defaultVoice: DEFAULT_VOICE,
     backend: {
       type: backend.type,
-      ready: backend.ready,
+      ready: health.ready,
       model: backend.model,
       sampleRate: backend.sampleRate,
+      details: health.details,
     },
   };
 }

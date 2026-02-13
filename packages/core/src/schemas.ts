@@ -10,6 +10,7 @@ export interface BackendInfo {
   readonly ready: boolean;
   readonly model?: string;
   readonly sampleRate?: number;
+  readonly details?: string;
 }
 
 export interface VoiceStatusResponse {
@@ -70,6 +71,10 @@ export type VoiceErrorCode =
   | "TEXT_EMPTY"
   | "SPEED_OUT_OF_RANGE"
   | "BACKEND_UNAVAILABLE"
+  | "BACKEND_TIMEOUT"
+  | "BACKEND_BAD_RESPONSE"
+  | "BACKEND_UNREACHABLE"
   | "SYNTHESIS_FAILED"
   | "STREAM_NOT_FOUND"
+  | "OUTPUT_DIR_INVALID"
   | "INTERNAL_ERROR";
