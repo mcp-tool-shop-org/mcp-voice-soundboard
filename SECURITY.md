@@ -4,47 +4,42 @@
 
 | Version | Supported |
 |---------|-----------|
-| 2.5.x   | Yes       |
-| 2.4.x   | Yes       |
-| < 2.4   | No        |
+| 0.x     | Yes       |
 
-## Overview
+## Reporting a Vulnerability
 
-Voice Soundboard is a **local text-to-speech engine** with optional cloud backend
-support. The core engine runs entirely on the user's machine. Cloud backends
-(OpenAI, Azure, ElevenLabs) make network requests only when explicitly configured.
+If you discover a security vulnerability in this project, please report it responsibly.
 
-## Security Properties
+**Preferred:** Open a [private Security Advisory](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/security/advisories/new) on GitHub.
 
-- **Input validation**: SSML injection prevention with tag whitelisting and
-  attribute validation. Text length limits enforced at the compiler layer.
-- **Plugin sandboxing**: RestrictedPython-based isolation prevents plugins from
-  accessing the filesystem, network, or OS primitives.
-- **Rate limiting**: Token bucket and sliding window algorithms with per-user,
-  per-IP, and per-API-key enforcement.
-- **Audit logging**: Structured security event tracking with tamper detection.
-- **Secret management**: API keys for cloud backends are handled through
-  environment variables or memory-only storage. No secrets are written to disk
-  or included in logs.
-- **Engine isolation**: The engine layer never imports from the compiler layer,
-  preventing feature logic from accessing synthesis internals.
+**Alternative:** Email 64996768+mcp-tool-shop@users.noreply.github.com
 
-## Cloud Backend Security
+**Response timeline:**
+- Acknowledgment within 72 hours
+- Assessment and severity classification within 7 days
+- Fix or mitigation plan within 30 days for confirmed issues
 
-When using cloud backends (OpenAI, Azure, ElevenLabs):
-- API keys are read from environment variables only
-- TLS is enforced for all API communication
-- No audio data is cached after synthesis unless explicitly configured
-- Cloud backend usage is opt-in and requires installing the corresponding extra
+**What to include:**
+- Description of the vulnerability
+- Steps to reproduce
+- Affected version(s)
+- Potential impact assessment
 
-## Reporting Vulnerabilities
+**Please do not:**
+- Open public GitHub issues for security vulnerabilities
+- Exploit the vulnerability beyond proof-of-concept
+- Share details before a fix is available
 
-If you discover a security vulnerability, please report it responsibly:
+## Scope
 
-1. **Preferred**: Open a [private Security Advisory](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/security/advisories/new) on GitHub.
-2. **Alternative**: Email security concerns to the maintainer via GitHub profile.
+This policy covers the `@mcp-tool-shop/voice-soundboard-core` and `@mcp-tool-shop/voice-soundboard-mcp` npm packages, including:
 
-Please **do not** open public issues for security vulnerabilities.
+- Input validation and sanitization
+- Filesystem sandbox (output directory traversal)
+- Backend communication (HTTP/Python bridge)
+- Secret/PII redaction pipeline
+- Rate limiting and resource exhaustion protections
 
-We aim to acknowledge reports within 48 hours and provide a fix or mitigation
-plan within 7 days for confirmed vulnerabilities.
+## Security Design
+
+See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
