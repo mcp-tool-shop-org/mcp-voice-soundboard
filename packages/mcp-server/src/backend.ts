@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import { execFile } from "node:child_process";
 import type { SynthesisRequest } from "@mcp-tool-shop/voice-soundboard-core";
 
 // ── Types ──
@@ -77,6 +78,15 @@ export function readBackendConfig(argv: string[]): BackendConfig {
   return config;
 }
 
+/** Check if python is available on PATH. */
+async function isPythonAvailable(): Promise<boolean> {
+  return new Promise((resolve) => {
+    execFile("python", ["--version"], { timeout: 3000 }, (err) => {
+      resolve(!err);
+    });
+  });
+}
+
 /**
  * Select and instantiate the appropriate backend.
  *
@@ -121,8 +131,17 @@ export async function selectBackend(config: BackendConfig): Promise<Backend> {
     });
   }
 
-  // Auto-detect: Python available? (deferred to commit 3)
-  // For now, fall through to mock
+  // Auto-detect: Python available?
+  if (config.pythonCommand || await isPythonAvailable()) {
+    const { PythonBackend } = await import("./backends/pythonBackend.js");
+    const backend = new PythonBackend({
+      command: config.pythonCommand,
+      module: config.pythonModule,
+    });
+    // Try health check — if python is not usable, fall through to mock
+    const health = await backend.health();
+    if (health.ready) return backend;
+  }
 
   return new MockBackend();
 }
