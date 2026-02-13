@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@mcp-tool-shop/voice-soundboard-core": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.12.0"
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0",
