@@ -154,7 +154,9 @@ Example:
     print(result.debug_info)
 """
 
-__version__ = "2.5.0-alpha.1"
+from importlib.metadata import version as _pkg_version
+
+__version__ = _pkg_version("voice-soundboard")
 API_VERSION = 2
 
 # Public API - backwards compatible with v1
