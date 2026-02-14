@@ -249,6 +249,12 @@ See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
 |---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Code plugin &mdash; slash commands, emotion-aware narration |
 
+## Support
+
+- **Questions / help:** [Discussions](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
+- **Bug reports:** [Issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
+- **Security:** [SECURITY.md](SECURITY.md)
+
 ## License
 
 [MIT](LICENSE)
