@@ -1,0 +1,48 @@
+# MCP Voice Soundboard
+
+> Text-to-speech MCP server for AI agents with 12 voices, emotion markup, and multi-speaker dialogue.
+
+## Purpose
+An MCP server (stdio transport) that gives AI agents speech synthesis capabilities. Supports inline emotion spans, SSML-lite prosody control, sound effects, and multi-speaker dialogue scripts. Ships with guardrails (rate limiting, concurrency, timeouts, secret redaction) and swappable TTS backends.
+
+## Quickstart
+```bash
+npx @mcptoolshop/voice-soundboard-mcp
+```
+MCP client config:
+```json
+{
+  "mcpServers": {
+    "voice-soundboard": {
+      "command": "npx",
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"]
+    }
+  }
+}
+```
+
+## Key MCP Tools
+- `voice_speak` -- synthesize speech (text, voice, speed, format, sfx)
+- `voice_dialogue` -- multi-speaker dialogue (script, cast map, concat)
+- `voice_status` -- engine health, available voices, backend info
+- `voice_interrupt` -- stop or rollback active synthesis
+- `voice_inner_monologue` -- ephemeral micro-utterances (requires `--ambient` flag)
+
+## Key Concepts
+- **12 voices**: af_aoede, af_jessica, af_sky, am_eric, am_fenrir, am_liam, am_onyx, bf_alice, bf_emma, bf_isabella, bm_george, bm_lewis
+- **5 presets**: narrator, announcer, whisper, storyteller, assistant
+- **Emotion spans**: `[happy]...[/happy]` (8 emotions: happy, sad, angry, fearful, surprised, disgusted, calm, excited)
+- **SFX tags**: `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]`
+- **SSML-lite**: `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
+
+## Constraints
+- Default backend is `mock` (no real audio); use `--backend=http --backend-url=<url>` for real TTS
+- Node.js 20+ and TypeScript 5.7
+- pnpm monorepo: `@mcptoolshop/voice-soundboard-core` (library) + `@mcptoolshop/voice-soundboard-mcp` (server)
+- Inner monologue requires explicit `--ambient` flag or `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`
+- Max concurrent synthesis controlled by `--max-concurrent` (default 1)
+
+## Links
+- Repo: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard
+- npm (server): https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp
+- npm (core): https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core
