@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: MCP Voice Soundboard
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: MCP Tool Shop
+    website: https://github.com/mcp-tool-shop-org
+repository-code: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard
+url: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard
+abstract: >-
+  Text-to-speech MCP server for AI agents. 12 voices, emotion
+  spans, SSML-lite markup, multi-speaker dialogue, SFX tags,
+  and built-in guardrails.
+keywords:
+  - text-to-speech
+  - mcp
+  - voice
+  - tts
+  - ai-agents
+  - ssml
+license: MIT
+version: 0.1.2
+date-released: '2026-02-14'
