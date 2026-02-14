@@ -1,6 +1,6 @@
 {
   "name": "@mcptoolshop/voice-soundboard-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for text-to-speech — 12 voices, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
   "type": "module",
   "main": "dist/index.js",

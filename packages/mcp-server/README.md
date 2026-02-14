@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcp-voice-soundboard/main/assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
 </p>
 
 <h3 align="center">Text-to-speech MCP server for AI agents.</h3>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?style=flat-square&label=CI" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/@mcp-tool-shop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcp-tool-shop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
   <img src="https://img.shields.io/badge/node-%E2%89%A520-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js 20+">
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
@@ -34,13 +34,13 @@
 ## Quick Start
 
 ```bash
-npx @mcp-tool-shop/voice-soundboard-mcp
+npx @mcptoolshop/voice-soundboard-mcp
 ```
 
 Or install globally:
 
 ```bash
-npm install -g @mcp-tool-shop/voice-soundboard-mcp
+npm install -g @mcptoolshop/voice-soundboard-mcp
 voice-soundboard-mcp
 ```
 
@@ -53,7 +53,7 @@ Add to your MCP client configuration (e.g. `claude_desktop_config.json`):
   "mcpServers": {
     "voice-soundboard": {
       "command": "npx",
-      "args": ["-y", "@mcp-tool-shop/voice-soundboard-mcp"]
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"]
     }
   }
 }
@@ -67,7 +67,7 @@ With options:
     "voice-soundboard": {
       "command": "npx",
       "args": [
-        "-y", "@mcp-tool-shop/voice-soundboard-mcp",
+        "-y", "@mcptoolshop/voice-soundboard-mcp",
         "--artifact=path",
         "--output-dir=/tmp/voice-output",
         "--timeout=30000",
@@ -183,8 +183,8 @@ This is a pnpm monorepo with two publishable packages:
 
 | Package | Description | npm |
 |---------|-------------|-----|
-| [`@mcp-tool-shop/voice-soundboard-core`](packages/core) | Backend-agnostic core library (validation, SSML, chunking, schemas) | [![npm](https://img.shields.io/npm/v/@mcp-tool-shop/voice-soundboard-core?style=flat-square)](https://www.npmjs.com/package/@mcp-tool-shop/voice-soundboard-core) |
-| [`@mcp-tool-shop/voice-soundboard-mcp`](packages/mcp-server) | MCP server with CLI, guardrails, and transport | [![npm](https://img.shields.io/npm/v/@mcp-tool-shop/voice-soundboard-mcp?style=flat-square)](https://www.npmjs.com/package/@mcp-tool-shop/voice-soundboard-mcp) |
+| [`@mcptoolshop/voice-soundboard-core`](packages/core) | Backend-agnostic core library (validation, SSML, chunking, schemas) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
+| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | MCP server with CLI, guardrails, and transport | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
 ## Development
 
@@ -199,7 +199,7 @@ pnpm build
 pnpm test
 
 # Lint
-pnpm --filter @mcp-tool-shop/voice-soundboard-core exec ruff check .  # Python legacy
+pnpm --filter @mcptoolshop/voice-soundboard-core exec ruff check .  # Python legacy
 pnpm exec ruff check voice_soundboard/ tests/ --ignore=E501             # Python legacy
 ```
 
@@ -208,7 +208,7 @@ pnpm exec ruff check voice_soundboard/ tests/ --ignore=E501             # Python
 ```
 mcp-voice-soundboard/
   packages/
-    core/               @mcp-tool-shop/voice-soundboard-core
+    core/               @mcptoolshop/voice-soundboard-core
       src/
         limits.ts         SHIP_LIMITS, text/chunk limits
         schemas.ts        VoiceRequest, VoiceResponse, error codes
@@ -221,7 +221,7 @@ mcp-voice-soundboard/
         sandbox.ts        Safe filenames, symlink checks
         ambient.ts        AmbientEmitter for inner monologue
         redact.ts         PII/secret redaction
-    mcp-server/         @mcp-tool-shop/voice-soundboard-mcp
+    mcp-server/         @mcptoolshop/voice-soundboard-mcp
       src/
         server.ts         MCP tool registration + guardrail wiring
         cli.ts            CLI entrypoint (stdio transport)
