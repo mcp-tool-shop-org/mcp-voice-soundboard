@@ -190,6 +190,9 @@ This is a pnpm monorepo with two publishable packages:
 
 ```bash
 # Install
+
+> Part of [MCP Tool Shop](https://mcptoolshop.com)
+
 pnpm install
 
 # Build
