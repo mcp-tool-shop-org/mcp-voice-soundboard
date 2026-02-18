@@ -1,7 +1,7 @@
 {
   "name": "@mcptoolshop/voice-soundboard-core",
-  "version": "0.1.2",
-  "description": "Backend-agnostic core library for MCP Voice Soundboard — validation, SSML-lite, chunking, emotion spans, SFX tags, and schemas.",
+  "version": "0.2.0",
+  "description": "Backend-agnostic core library for MCP Voice Soundboard — 48 voices, 9 languages, validation, SSML-lite, chunking, emotion spans, SFX tags, and schemas.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

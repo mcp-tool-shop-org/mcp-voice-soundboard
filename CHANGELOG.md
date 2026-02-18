@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-02-18
+
+### Overview
+
+**Multilingual expansion** — 48 voices across 9 languages.
+
+### Added
+
+- **48 voices** — expanded from 12 English-only to 48 across 9 languages
+- **9 languages** — English US, English UK, Japanese, Mandarin Chinese, Spanish, French, Hindi, Italian, Brazilian Portuguese
+- **`getVoicesByLanguage(language)`** — new helper in `@mcptoolshop/voice-soundboard-core` to filter voices by language code
+- Language is auto-inferred by the synthesis backend from the voice ID prefix — no caller changes required
+
+### Changed
+
+- `VoiceInfo.accent` field widened from `"american" | "british"` to `string` to accommodate new languages
+- `VoiceInfo.language` values now use BCP-47 style codes (`"en-us"`, `"en-gb"`, `"ja"`, `"zh"`, etc.) instead of `"en"`
+- Server version string updated to `0.2.0`
+- Package descriptions updated to reflect 48 voices and 9 languages
+
+---
+
 ## [0.1.0] - 2026-02-13
 
 ### Overview

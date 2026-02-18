@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  12 voices &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -23,7 +23,7 @@
 
 - **MCP native** &mdash; stdio transport, works with Claude Desktop, Cursor, and any MCP client
 - **5 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
-- **12 approved voices** &mdash; curated set with presets (`narrator`, `announcer`, `whisper`, `storyteller`, `assistant`)
+- **48 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
 - **Emotion spans** &mdash; 8 emotions via `[happy]...[/happy]` inline markup
 - **SSML-lite** &mdash; `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
 - **SFX tags** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` inline sound effects
@@ -129,20 +129,110 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## Voices
 
-| ID | Name | Accent | Gender |
-|----|------|--------|--------|
-| `af_aoede` | Aoede | American | Female |
-| `af_jessica` | Jessica | American | Female |
-| `af_sky` | Sky | American | Female |
-| `am_eric` | Eric | American | Male |
-| `am_fenrir` | Fenrir | American | Male |
-| `am_liam` | Liam | American | Male |
-| `am_onyx` | Onyx | American | Male |
-| `bf_alice` | Alice | British | Female |
-| `bf_emma` | Emma | British | Female |
-| `bf_isabella` | Isabella | British | Female |
-| `bm_george` | George | British | Male |
-| `bm_lewis` | Lewis | British | Male |
+48 voices across 9 languages. Language is auto-inferred from the voice ID prefix — no configuration required.
+
+| Prefix | Language |
+|--------|----------|
+| `af_` / `am_` | English (American) |
+| `bf_` / `bm_` | English (British) |
+| `jf_` / `jm_` | Japanese |
+| `zf_` / `zm_` | Mandarin Chinese |
+| `ef_` / `em_` | Spanish |
+| `ff_` | French |
+| `hf_` / `hm_` | Hindi |
+| `if_` / `im_` | Italian |
+| `pf_` / `pm_` | Brazilian Portuguese |
+
+### English — American
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `af_aoede` | Aoede | Female | Musical |
+| `af_bella` | Bella | Female | Warm |
+| `af_heart` | Heart | Female | Caring |
+| `af_jessica` | Jessica | Female | Professional |
+| `af_kore` | Kore | Female | Youthful |
+| `af_nicole` | Nicole | Female | Soft |
+| `af_sarah` | Sarah | Female | Clear |
+| `af_sky` | Sky | Female | Airy |
+| `am_eric` | Eric | Male | Confident |
+| `am_fenrir` | Fenrir | Male | Powerful |
+| `am_liam` | Liam | Male | Friendly |
+| `am_michael` | Michael | Male | Deep |
+| `am_onyx` | Onyx | Male | Smooth |
+| `am_puck` | Puck | Male | Playful |
+
+### English — British
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `bf_alice` | Alice | Female | Proper |
+| `bf_emma` | Emma | Female | Refined |
+| `bf_isabella` | Isabella | Female | Warm |
+| `bm_fable` | Fable | Male | Storytelling |
+| `bm_george` | George | Male | Authoritative |
+| `bm_lewis` | Lewis | Male | Friendly |
+
+### Japanese
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `jf_alpha` | Alpha | Female | Clear |
+| `jf_gongitsune` | Gongitsune | Female | Storytelling |
+| `jf_nezuko` | Nezuko | Female | Gentle |
+| `jf_tebukuro` | Tebukuro | Female | Warm |
+| `jm_kumo` | Kumo | Male | Calm |
+
+### Mandarin Chinese
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `zf_xiaobei` | Xiaobei | Female | Bright |
+| `zf_xiaoni` | Xiaoni | Female | Gentle |
+| `zf_xiaoxiao` | Xiaoxiao | Female | Clear |
+| `zf_xiaoyi` | Xiaoyi | Female | Warm |
+| `zm_yunjian` | Yunjian | Male | Authoritative |
+| `zm_yunxi` | Yunxi | Male | Friendly |
+| `zm_yunxia` | Yunxia | Male | Calm |
+| `zm_yunyang` | Yunyang | Male | Confident |
+
+### Spanish
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `ef_dora` | Dora | Female | Warm |
+| `em_alex` | Alex | Male | Confident |
+| `em_santa` | Santa | Male | Jolly |
+
+### French
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `ff_siwis` | Siwis | Female | Refined |
+
+### Hindi
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `hf_alpha` | Alpha | Female | Clear |
+| `hf_beta` | Beta | Female | Warm |
+| `hm_omega` | Omega | Male | Deep |
+| `hm_psi` | Psi | Male | Calm |
+
+### Italian
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `if_sara` | Sara | Female | Warm |
+| `im_nicola` | Nicola | Male | Confident |
+
+### Brazilian Portuguese
+
+| ID | Name | Gender | Style |
+|----|------|--------|-------|
+| `pf_dora` | Dora | Female | Warm |
+| `pm_alex` | Alex | Male | Confident |
+| `pm_santa` | Santa | Male | Jolly |
 
 ### Presets
 
