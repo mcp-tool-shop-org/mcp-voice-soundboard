@@ -33,7 +33,9 @@ interface PendingRequest {
 }
 
 const DEFAULT_TIMEOUT = 30_000;
-const BRIDGE_MODULE_DIR = resolve(import.meta.dirname, "..", "..", "backend-python");
+const BRIDGE_MODULE_DIR = import.meta.dirname
+  ? resolve(import.meta.dirname, "..", "..", "backend-python")
+  : resolve("backend-python");
 
 export class PythonBackend implements Backend {
   readonly type = "python" as const;

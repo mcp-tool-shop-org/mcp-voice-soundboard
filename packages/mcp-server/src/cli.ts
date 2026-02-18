@@ -1,10 +1,20 @@
 #!/usr/bin/env node
-/** CLI entrypoint — starts the MCP server over stdio. */
+/**
+ * CLI entrypoint — starts the MCP server over stdio or HTTP.
+ *
+ * Mode selection:
+ * - PORT env var set → HTTP mode (for Fly.io / remote deployment)
+ * - No PORT → STDIO mode (for local Claude Desktop / CLI usage)
+ */
 
+import { randomUUID } from "node:crypto";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { defaultOutputRoot, type ArtifactMode } from "@mcptoolshop/voice-soundboard-core";
-import { createServer } from "./server.js";
-import { readBackendConfig, selectBackend } from "./backend.js";
+import { createServer, type ServerOptions } from "./server.js";
+import { readBackendConfig, selectBackend, type Backend } from "./backend.js";
+
+const SERVER_NAME = "voice-soundboard-mcp";
 
 function parseCliFlags(argv: string[]): {
   artifactMode?: ArtifactMode;
@@ -51,24 +61,106 @@ function parseCliFlags(argv: string[]): {
   return { artifactMode, outputRoot, ambient, maxConcurrent, requestTimeoutMs, retentionMinutes };
 }
 
+function buildServerOptions(backend: Backend, flags: ReturnType<typeof parseCliFlags>): ServerOptions {
+  return {
+    backend,
+    defaultArtifactMode: flags.artifactMode,
+    outputRoot: flags.outputRoot ?? defaultOutputRoot(),
+    ambient: flags.ambient,
+    maxConcurrent: flags.maxConcurrent,
+    requestTimeoutMs: flags.requestTimeoutMs,
+    retentionMinutes: flags.retentionMinutes,
+  };
+}
+
+async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseCliFlags>, port: number): Promise<void> {
+  const { default: express } = await import("express");
+
+  const app = express();
+  app.use(express.json());
+
+  // Health check for Fly.io / load balancers
+  app.get("/health", (_req, res) => {
+    res.json({ status: "ok", server: SERVER_NAME, version: "0.1.2" });
+  });
+
+  // Session management
+  const sessions = new Map<string, StreamableHTTPServerTransport>();
+
+  app.post("/mcp", async (req, res) => {
+    const sessionId = req.headers["mcp-session-id"] as string | undefined;
+    let transport: StreamableHTTPServerTransport;
+
+    if (sessionId && sessions.has(sessionId)) {
+      transport = sessions.get(sessionId)!;
+    } else if (!sessionId) {
+      transport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: () => randomUUID(),
+        onsessioninitialized: (id) => {
+          sessions.set(id, transport);
+          console.error(`[${SERVER_NAME}] Session created: ${id}`);
+        },
+      });
+      transport.onclose = () => {
+        const sid = transport.sessionId;
+        if (sid) {
+          sessions.delete(sid);
+          console.error(`[${SERVER_NAME}] Session closed: ${sid}`);
+        }
+      };
+      const server = createServer(buildServerOptions(backend, flags));
+      await server.connect(transport);
+    } else {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+
+    await transport.handleRequest(req, res, req.body);
+  });
+
+  app.get("/mcp", async (req, res) => {
+    const sessionId = req.headers["mcp-session-id"] as string | undefined;
+    if (!sessionId || !sessions.has(sessionId)) {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+    await sessions.get(sessionId)!.handleRequest(req, res);
+  });
+
+  app.delete("/mcp", async (req, res) => {
+    const sessionId = req.headers["mcp-session-id"] as string | undefined;
+    if (!sessionId || !sessions.has(sessionId)) {
+      res.status(404).json({ error: "Session not found" });
+      return;
+    }
+    await sessions.get(sessionId)!.handleRequest(req, res);
+  });
+
+  app.listen(port, "0.0.0.0", () => {
+    console.error(`[${SERVER_NAME}] Transport: HTTP (Streamable)`);
+    console.error(`[${SERVER_NAME}] Listening on http://0.0.0.0:${port}/mcp`);
+    console.error(`[${SERVER_NAME}] Health check: http://0.0.0.0:${port}/health`);
+  });
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const backendConfig = readBackendConfig(argv);
-  const { artifactMode, outputRoot, ambient, maxConcurrent, requestTimeoutMs, retentionMinutes } = parseCliFlags(argv);
+  const flags = parseCliFlags(argv);
 
   const backend = await selectBackend(backendConfig);
-  const server = createServer({
-    backend,
-    defaultArtifactMode: artifactMode,
-    outputRoot: outputRoot ?? defaultOutputRoot(),
-    ambient,
-    maxConcurrent,
-    requestTimeoutMs,
-    retentionMinutes,
-  });
+  console.error(`[${SERVER_NAME}] Backend: ${backend.type} (ready: ${backend.ready})`);
 
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
+
+  if (port) {
+    await startHttpServer(backend, flags, port);
+  } else {
+    const server = createServer(buildServerOptions(backend, flags));
+    const transport = new StdioServerTransport();
+    console.error(`[${SERVER_NAME}] Transport: stdio`);
+    await server.connect(transport);
+  }
 }
 
 main().catch((error) => {

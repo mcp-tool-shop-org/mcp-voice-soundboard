@@ -13,3 +13,11 @@ export {
   readBackendConfig,
   selectBackend,
 } from "./backend.js";
+
+// Smithery sandbox export — allows tool scanning without real backend
+import { createServer } from "./server.js";
+import { MockBackend } from "./backend.js";
+
+export function createSandboxServer() {
+  return createServer({ backend: new MockBackend() });
+}

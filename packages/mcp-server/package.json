@@ -8,7 +8,10 @@
   "bin": {
     "voice-soundboard-mcp": "dist/cli.js"
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "license": "MIT",
   "author": "mcp-tool-shop <64996768+mcp-tool-shop@users.noreply.github.com>",
   "repository": {
@@ -45,11 +48,13 @@
   "dependencies": {
     "@mcptoolshop/voice-soundboard-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.12.0",
+    "express": "^5.2.1",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.0.0",
     "typescript": "^5.7.0",
-    "vitest": "^3.0.0",
-    "@types/node": "^22.0.0"
+    "vitest": "^3.0.0"
   }
 }

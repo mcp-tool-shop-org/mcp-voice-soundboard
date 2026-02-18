@@ -1,0 +1,58 @@
+# Dockerfile.mcp — MCP server (Node.js) for Fly.io deployment
+# Build from repo root: docker build -f Dockerfile.mcp .
+
+# ── Build stage ──────────────────────────────────────────────
+FROM node:20-slim AS build
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy workspace root manifests first (cache layer)
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
+COPY packages/core/package.json packages/core/
+COPY packages/mcp-server/package.json packages/mcp-server/
+
+# Install all deps (including devDependencies for build)
+RUN pnpm install --frozen-lockfile
+
+# Copy source and build
+COPY packages/core/ packages/core/
+COPY packages/mcp-server/ packages/mcp-server/
+RUN pnpm -r build
+
+# ── Production stage ─────────────────────────────────────────
+FROM node:20-slim
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy workspace root manifests
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/core/package.json packages/core/
+COPY packages/mcp-server/package.json packages/mcp-server/
+
+# Install production deps only
+RUN pnpm install --frozen-lockfile --prod
+
+# Copy built artifacts
+COPY --from=build /app/packages/core/dist packages/core/dist
+COPY --from=build /app/packages/mcp-server/dist packages/mcp-server/dist
+
+# Output directory for audio files
+RUN mkdir -p /workspace && chown node:node /workspace
+
+# Run as non-root
+USER node
+
+# Default env vars for deployed mode
+ENV PORT=8080
+ENV VOICE_SOUNDBOARD_BACKEND=mock
+ENV NODE_ENV=production
+
+EXPOSE 8080
+
+CMD ["node", "packages/mcp-server/dist/cli.js"]

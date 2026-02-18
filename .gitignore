@@ -71,3 +71,7 @@ models/
 node_modules/
 packages/*/dist/
 *.tsbuildinfo
+
+# Smithery build artifacts
+.smithery/
+packages/*/.smithery/
