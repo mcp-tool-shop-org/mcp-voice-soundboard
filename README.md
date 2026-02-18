@@ -280,9 +280,6 @@ This is a pnpm monorepo with two publishable packages:
 
 ```bash
 # Install
-
-> Part of [MCP Tool Shop](https://mcptoolshop.com)
-
 pnpm install
 
 # Build
@@ -290,11 +287,9 @@ pnpm build
 
 # Test (342 tests)
 pnpm test
-
-# Lint
-pnpm --filter @mcptoolshop/voice-soundboard-core exec ruff check .  # Python legacy
-pnpm exec ruff check voice_soundboard/ tests/ --ignore=E501             # Python legacy
 ```
+
+> Part of [MCP Tool Shop](https://mcp-tool-shop.github.io/)
 
 ### Project Structure
 
