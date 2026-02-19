@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "mcp-voice-soundboard-local",
+  "description": "Local marketplace for the MCP Voice Soundboard plugin",
+  "owner": {
+    "name": "mcp-tool-shop",
+    "email": "64996768+mcp-tool-shop@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "mcp-voice-soundboard",
+      "description": "Text-to-speech for Claude Code. 48 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
+      "version": "0.2.4",
+      "source": "./",
+      "author": {
+        "name": "mcp-tool-shop",
+        "email": "64996768+mcp-tool-shop@users.noreply.github.com"
+      },
+      "category": "productivity",
+      "license": "MIT"
+    }
+  ]
+}

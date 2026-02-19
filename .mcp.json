@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "voice-soundboard": {
+      "command": "npx",
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"],
+      "env": {}
+    }
+  }
+}

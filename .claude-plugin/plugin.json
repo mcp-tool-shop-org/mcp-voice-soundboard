@@ -1,0 +1,13 @@
+{
+  "name": "mcp-voice-soundboard",
+  "version": "0.2.4",
+  "description": "Text-to-speech for Claude Code. 48 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
+  "author": {
+    "name": "mcp-tool-shop",
+    "email": "64996768+mcp-tool-shop@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/mcp-tool-shop-org/mcp-voice-soundboard",
+  "repository": "https://github.com/mcp-tool-shop-org/mcp-voice-soundboard",
+  "license": "MIT",
+  "keywords": ["voice", "tts", "text-to-speech", "soundboard", "speech-synthesis", "dialogue", "ssml", "accessibility"]
+}
