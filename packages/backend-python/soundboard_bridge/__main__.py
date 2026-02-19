@@ -47,7 +47,7 @@ _engine = None
 _engine_error = None
 
 
-def _load_engine():
+def _load_engine(output_dir: str | None = None):
     """Lazy-load the voice soundboard engine."""
     global _engine, _engine_error
     if _engine is not None or _engine_error is not None:
@@ -55,7 +55,17 @@ def _load_engine():
 
     try:
         from voice_soundboard import VoiceEngine, Config
-        _engine = VoiceEngine(Config())
+
+        # Determine output directory: explicit arg > env var > default (cwd/output)
+        out = output_dir or os.environ.get("VOICE_SOUNDBOARD_OUTPUT_DIR")
+        kwargs = {}
+        if out:
+            out_path = Path(out)
+            out_path.mkdir(parents=True, exist_ok=True)
+            kwargs["output_dir"] = out_path
+            _log(f"Output dir: {out_path}")
+
+        _engine = VoiceEngine(Config(**kwargs))
         _log(f"Engine loaded: {type(_engine).__name__}")
     except Exception as e:
         _engine_error = str(e)
@@ -74,17 +84,18 @@ def handle_health(id: str, _msg: dict) -> None:
 
 
 def handle_synthesize(id: str, msg: dict) -> None:
-    _load_engine()
-    if _engine is None:
-        _err(id, "BACKEND_UNAVAILABLE", f"Engine not available: {_engine_error}")
-        return
-
     text = msg.get("text", "")
     voice = msg.get("voice", "bm_george")
     speed = msg.get("speed", 1.0)
     fmt = msg.get("format", "wav")
-    output_dir = msg.get("output_dir") or os.environ.get("TMPDIR", "/tmp")
+    output_dir = msg.get("output_dir")
     artifact_mode = msg.get("artifact_mode", "path")
+
+    # Pass output_dir to engine init (only effective on first load)
+    _load_engine(output_dir)
+    if _engine is None:
+        _err(id, "BACKEND_UNAVAILABLE", f"Engine not available: {_engine_error}")
+        return
 
     try:
         result = _engine.speak(text, voice=voice, speed=speed)
@@ -106,14 +117,24 @@ def handle_synthesize(id: str, msg: dict) -> None:
                 format=fmt,
             )
         else:
-            # Path mode
-            audio_path = str(getattr(result, "audio_path", ""))
-            if not audio_path:
+            # Path mode — move file to requested output_dir if it differs
+            audio_path = Path(str(getattr(result, "audio_path", "")))
+            if not audio_path or not audio_path.exists():
                 _err(id, "SYNTHESIS_FAILED", "Engine did not produce an audio path")
                 return
+
+            if output_dir:
+                import shutil
+                dest_dir = Path(output_dir)
+                dest_dir.mkdir(parents=True, exist_ok=True)
+                dest = dest_dir / audio_path.name
+                if audio_path.parent.resolve() != dest_dir.resolve():
+                    shutil.move(str(audio_path), str(dest))
+                    audio_path = dest
+
             _ok(
                 id,
-                audio_path=audio_path,
+                audio_path=str(audio_path),
                 duration_ms=getattr(result, "duration_ms", 0),
                 sample_rate=getattr(result, "sample_rate", 24000),
                 format=fmt,

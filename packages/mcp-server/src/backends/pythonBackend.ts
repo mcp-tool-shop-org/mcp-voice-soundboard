@@ -130,8 +130,13 @@ export class PythonBackend implements Backend {
       if (process.env.HOME) env.HOME = process.env.HOME;
       if (process.env.USERPROFILE) env.USERPROFILE = process.env.USERPROFILE;
       if (process.env.SYSTEMROOT) env.SYSTEMROOT = process.env.SYSTEMROOT;
+      // Windows: Python needs APPDATA to find user site-packages
+      if (process.env.APPDATA) env.APPDATA = process.env.APPDATA;
+      if (process.env.LOCALAPPDATA) env.LOCALAPPDATA = process.env.LOCALAPPDATA;
       // Pass through the TTS URL in case the python bridge needs it
       if (process.env.VOICE_SOUNDBOARD_TTS_URL) env.VOICE_SOUNDBOARD_TTS_URL = process.env.VOICE_SOUNDBOARD_TTS_URL;
+      // Pass output dir so Python writes artifacts to the configured location
+      if (process.env.VOICE_SOUNDBOARD_OUTPUT_DIR) env.VOICE_SOUNDBOARD_OUTPUT_DIR = process.env.VOICE_SOUNDBOARD_OUTPUT_DIR;
 
       this.proc = spawn(this.pythonCommand, ["-m", this.bridgeModule], {
         stdio: ["pipe", "pipe", "pipe"],

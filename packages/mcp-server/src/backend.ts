@@ -110,12 +110,16 @@ export async function selectBackend(config: BackendConfig): Promise<Backend> {
           token: config.ttsToken,
           timeout: config.httpTimeout,
         });
-      case "python":
+      case "python": {
         const { PythonBackend } = await import("./backends/pythonBackend.js");
-        return new PythonBackend({
+        const pyBackend = new PythonBackend({
           command: config.pythonCommand,
           module: config.pythonModule,
         });
+        // Eagerly run health check so _ready is set before first request
+        await pyBackend.health();
+        return pyBackend;
+      }
       case "none":
         return new NoneBackend();
     }
