@@ -1,12 +1,16 @@
 <p align="center">
+  <strong>English</strong> | <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português</a>
+</p>
+
+<p align="center">
   <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcp-voice-soundboard/main/assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
 </p>
 
 <h3 align="center">Text-to-speech MCP server for AI agents.</h3>
 
 <p align="center">
-  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?style=flat-square&label=CI" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
+  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?branch=main&style=flat-square&label=CI" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
   <img src="https://img.shields.io/badge/node-%E2%89%A520-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js 20+">
   <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
@@ -143,7 +147,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 | `if_` / `im_` | Italian |
 | `pf_` / `pm_` | Brazilian Portuguese |
 
-See the [full voice list](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard#voices) in the main README.
+See the [full voice list](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard#voices) for all 48 voices with names and styles.
 
 ### Presets
 
@@ -198,11 +202,9 @@ pnpm build
 
 # Test (342 tests)
 pnpm test
-
-# Lint
-pnpm --filter @mcptoolshop/voice-soundboard-core exec ruff check .  # Python legacy
-pnpm exec ruff check voice_soundboard/ tests/ --ignore=E501             # Python legacy
 ```
+
+> Part of [MCP Tool Shop](https://mcp-tool-shop.github.io/)
 
 ### Project Structure
 
@@ -249,6 +251,12 @@ See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
 | Project | Description |
 |---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Code plugin &mdash; slash commands, emotion-aware narration |
+
+## Support
+
+- **Questions / help:** [Discussions](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
+- **Bug reports:** [Issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
+- **Security:** [SECURITY.md](SECURITY.md)
 
 ## License
 
