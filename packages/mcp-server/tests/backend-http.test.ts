@@ -29,7 +29,7 @@ describe("HTTP backend — voice_status", () => {
 
     expect(result.backend.type).toBe("http");
     expect(result.backend.ready).toBe(true);
-    expect(result.voices).toHaveLength(12);
+    expect(result.voices).toHaveLength(46);
     expect(result.defaultVoice).toBe("bm_george");
   });
 });

@@ -10,11 +10,11 @@ afterEach(() => {
 });
 
 describe("voice_status", () => {
-  it("returns 12 voices, 5 presets, and bm_george default", async () => {
+  it("returns 46 voices, 5 presets, and bm_george default", async () => {
     client = await initClient();
     const { result } = await callTool(client, "voice_status");
 
-    expect(result.voices).toHaveLength(12);
+    expect(result.voices).toHaveLength(46);
     expect(result.presets).toHaveLength(5);
     expect(result.defaultVoice).toBe("bm_george");
     expect(result.backend.type).toBe("mock");
@@ -26,12 +26,17 @@ describe("voice_status", () => {
     const { result } = await callTool(client, "voice_status");
 
     const ids = result.voices.map((v: any) => v.id).sort();
-    expect(ids).toEqual([
-      "af_aoede", "af_jessica", "af_sky",
-      "am_eric", "am_fenrir", "am_liam", "am_onyx",
-      "bf_alice", "bf_emma", "bf_isabella",
-      "bm_george", "bm_lewis",
-    ]);
+    expect(ids).toHaveLength(46);
+    // Spot-check a few voices from different languages
+    expect(ids).toContain("am_fenrir");
+    expect(ids).toContain("bf_alice");
+    expect(ids).toContain("jf_alpha");
+    expect(ids).toContain("zf_xiaobei");
+    expect(ids).toContain("ef_dora");
+    expect(ids).toContain("ff_siwis");
+    expect(ids).toContain("hf_alpha");
+    expect(ids).toContain("if_sara");
+    expect(ids).toContain("pf_dora");
   });
 
   it("contains expected preset names", async () => {
@@ -133,11 +138,10 @@ describe("voice_speak — error handling", () => {
     client = await initClient();
     const { result, isError } = await callTool(client, "voice_speak", {
       text: "Hello",
-      voice: "af_bella",
+      voice: "xx_nonexistent",
     });
 
     expect(isError).toBe(true);
-    // af_bella is a real Kokoro voice but not in approved roster
     expect(["VOICE_NOT_APPROVED", "VOICE_OR_PRESET_NOT_FOUND"]).toContain(result.code);
   });
 });

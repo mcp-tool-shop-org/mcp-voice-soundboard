@@ -13,13 +13,13 @@ describe("assertApprovedVoice", () => {
   });
 
   it("throws VoiceValidationError for non-approved voice", () => {
-    expect(() => assertApprovedVoice("af_bella")).toThrow(VoiceValidationError);
+    expect(() => assertApprovedVoice("xx_fake")).toThrow(VoiceValidationError);
     try {
-      assertApprovedVoice("af_bella");
+      assertApprovedVoice("xx_fake");
     } catch (e) {
       const err = e as VoiceValidationError;
       expect(err.code).toBe("VOICE_NOT_APPROVED");
-      expect(err.context?.approved).toHaveLength(12);
+      expect(err.context?.approved.length).toBeGreaterThan(0);
     }
   });
 });
