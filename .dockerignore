@@ -12,7 +12,6 @@ tools/
 tests/
 output/
 models/
-voice_soundboard/
 __pycache__
 .venv
 .env
