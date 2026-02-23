@@ -6,6 +6,7 @@ packages/backend-python
 .gitignore
 .github
 *.md
+!README.md
 docs/
 assets/
 tools/
