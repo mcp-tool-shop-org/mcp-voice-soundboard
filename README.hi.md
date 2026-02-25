@@ -1,54 +1,51 @@
 <p align="center">
-  <a href="README.md">English</a> | <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <strong>हिन्दी</strong> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcp-voice-soundboard/main/assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
-</p>
-
-<h3 align="center">AI एजेंटों के लिए टेक्स्ट-टू-स्पीच MCP सर्वर।</h3>
-
-<p align="center">
-  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?branch=main&style=flat-square&label=CI" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
-  <img src="https://img.shields.io/badge/node-%E2%89%A520-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js 20+">
-  <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
+  <img src="assets/logo.png" alt="MCP Voice Soundboard" width="400">
 </p>
 
 <p align="center">
-  48 आवाज़ें &bull; 9 भाषाएँ &bull; 5 प्रीसेट &bull; 8 भावनाएँ &bull; SSML-lite &bull; SFX टैग &bull; बहु-वक्ता संवाद<br>
-  बदलने योग्य TTS बैकेंड। अंतर्निहित सुरक्षा। एक <code>npx</code> कमांड में चालू।
+  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp" alt="npm"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
+  <a href="https://mcp-tool-shop-org.github.io/mcp-voice-soundboard/"><img src="https://img.shields.io/badge/Landing_Page-live-blue" alt="Landing Page"></a>
+</p>
+
+<p align="center">
+  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
 ---
 
-## मुख्य विशेषताएँ
+## मुख्य विशेषताएं
 
-- **MCP नेटिव** &mdash; stdio ट्रांसपोर्ट, Claude Desktop, Cursor, और किसी भी MCP क्लाइंट के साथ काम करता है
-- **5 टूल** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
-- **48 स्वीकृत आवाज़ें, 9 भाषाएँ** &mdash; अंग्रेज़ी (अमेरिकी + ब्रिटिश), जापानी, मैंडरिन, स्पैनिश, फ्रेंच, हिन्दी, इतालवी, ब्राज़ीलियन पुर्तगाली। क्यूरेटेड प्रीसेट: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
-- **भावना स्पैन** &mdash; `[happy]...[/happy]` इनलाइन मार्कअप द्वारा 8 भावनाएँ
-- **SSML-lite** &mdash; पूर्ण SSML की जटिलता के बिना `<break>`, `<emphasis>`, `<prosody>`
-- **SFX टैग** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` इनलाइन ध्वनि प्रभाव
-- **बहु-वक्ता संवाद** &mdash; ऑटो-कास्ट और पॉज़ निर्देशों के साथ `Speaker: line` प्रारूप
-- **सुरक्षा गार्डरेल** &mdash; दर सीमितकरण, कंकरेंसी सेमाफोर, अनुरोध टाइमआउट, पथ ट्रैवर्सल सुरक्षा, सीक्रेट रिडैक्शन
-- **बदलने योग्य बैकेंड** &mdash; Mock (अंतर्निहित), HTTP प्रॉक्सी, Python ब्रिज, या अपना खुद का लाएँ
+- **MCP सपोर्ट:** stdio ट्रांसपोर्ट, क्लाउड डेस्कटॉप, कर्सर और किसी भी MCP क्लाइंट के साथ काम करता है।
+- **5 उपकरण:** `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
+- **48 स्वीकृत आवाजें, 9 भाषाएँ:** अंग्रेजी (अमेरिकी + ब्रिटिश), जापानी, मंदारिन, स्पेनिश, फ्रेंच, हिंदी, इतालवी, ब्राजीलियाई पुर्तगाली। तैयार किए गए विकल्प: `narrator` (कथावाचक), `announcer` (घोषक), `whisper` (फुसफुसाहट), `storyteller` (कहानीकार), `assistant` (सहायक)।
+- **भावनाएं:** `[खुश]...[/खुश]` जैसे इनलाइन मार्कअप का उपयोग करके भावनाओं को दर्शाया जा सकता है।
+- **SSML-lite:** `<break>`, `<emphasis>`, `<prosody>` जैसे SSML के कुछ ही तत्वों का उपयोग।
+- **SFX टैग:** `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` जैसे इनलाइन ध्वनि प्रभाव।
+- **बहु-वक्ता संवाद:** `वक्ता: पंक्ति` प्रारूप, जिसमें स्वचालित रूप से वक्ता का चयन और विराम शामिल है।
+- **सुरक्षा उपाय:** दर सीमा, समवर्ती नियंत्रण, अनुरोध समय सीमा, पथ ट्रैवर्सल सुरक्षा, गुप्त जानकारी का छिपाव।
+- **बदली जा सकने वाले बैकएंड:** मॉक (अंतर्निहित), HTTP प्रॉक्सी, पायथन ब्रिज, या अपना बैकएंड उपयोग करें।
 
-## त्वरित शुरुआत
+## शुरुआत
 
 ```bash
 npx @mcptoolshop/voice-soundboard-mcp
 ```
 
-या ग्लोबली इंस्टॉल करें:
+या इसे वैश्विक रूप से स्थापित करें:
 
 ```bash
 npm install -g @mcptoolshop/voice-soundboard-mcp
 voice-soundboard-mcp
 ```
 
-### Claude Desktop / MCP क्लाइंट कॉन्फ़िगरेशन
+### क्लाउड डेस्कटॉप / MCP क्लाइंट कॉन्फ़िगरेशन
 
 अपने MCP क्लाइंट कॉन्फ़िगरेशन में जोड़ें (जैसे `claude_desktop_config.json`):
 
@@ -82,40 +79,40 @@ voice-soundboard-mcp
 }
 ```
 
-## MCP टूल
+## MCP उपकरण
 
 ### `voice_speak`
 
-टेक्स्ट से स्पीच सिंथेसाइज़ करें।
+टेक्स्ट से भाषण उत्पन्न करें।
 
 ```
 text:         "Hello world!"
-voice?:       "am_fenrir"          # वॉइस ID या प्रीसेट नाम
+voice?:       "am_fenrir"          # Voice ID or preset name
 speed?:       1.0                  # 0.5 - 2.0
 format?:      "wav"                # wav | mp3 | ogg | raw
 artifactMode?: "path"             # path | base64
-sfx?:         true                # [ding], [chime] आदि सक्रिय करें
+sfx?:         true                # Enable [ding], [chime] etc.
 ```
 
 ### `voice_dialogue`
 
-बहु-वक्ता संवाद सिंथेसिस।
+बहु-वक्ता संवाद उत्पन्न करें।
 
 ```
 script:       "Alice: Hello!\nBob: Hey there!"
 cast?:        { "Alice": "af_sky", "Bob": "am_fenrir" }
 speed?:       1.0
-concat?:      true                 # एक फ़ाइल में संयोजित करें
-debug?:       true                 # cue_sheet शामिल करें
+concat?:      true                 # Combine into single file
+debug?:       true                 # Include cue_sheet
 ```
 
 ### `voice_status`
 
-इंजन स्वास्थ्य, उपलब्ध आवाज़ें, प्रीसेट, और बैकेंड जानकारी लौटाता है। कोई आर्गुमेंट नहीं।
+इंजन की स्थिति, उपलब्ध आवाजें, विकल्प और बैकएंड जानकारी प्रदर्शित करता है। कोई तर्क आवश्यक नहीं है।
 
 ### `voice_interrupt`
 
-सक्रिय सिंथेसिस को रोकें या रोलबैक करें।
+सक्रिय संश्लेषण को रोकें या वापस लें।
 
 ```
 streamId?:    "stream-123"
@@ -124,227 +121,227 @@ reason?:      "user_spoke"         # user_spoke | context_change | timeout | man
 
 ### `voice_inner_monologue`
 
-एम्बिएंट नैरेशन के लिए क्षणिक सूक्ष्म-उक्तियाँ। `--ambient` फ्लैग या `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1` आवश्यक है।
+वातावरण में वर्णन के लिए संक्षिप्त कथन। `--ambient` ध्वज या `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1` की आवश्यकता है।
 
 ```
-text:         "Interesting..."     # अधिकतम 500 अक्षर, स्वतः रिडैक्टेड
+text:         "Interesting..."     # Max 500 chars, auto-redacted
 category?:    "thinking"           # general | thinking | observation | debug
 ```
 
-## आवाज़ें
+## आवाजें
 
-9 भाषाओं में 48 आवाज़ें। भाषा वॉइस ID प्रीफ़िक्स से स्वतः पहचानी जाती है — कोई कॉन्फ़िगरेशन आवश्यक नहीं।
+9 भाषाओं में 48 आवाजें उपलब्ध हैं। भाषा का पता स्वचालित रूप से आवाज आईडी के उपसर्ग से लगाया जाता है - किसी कॉन्फ़िगरेशन की आवश्यकता नहीं है।
 
-| प्रीफ़िक्स | भाषा |
-|--------|----------|
-| `af_` / `am_` | अंग्रेज़ी (अमेरिकी) |
-| `bf_` / `bm_` | अंग्रेज़ी (ब्रिटिश) |
+| उपसर्ग | भाषा |
+| -------- | ---------- |
+| `af_` / `am_` | अंग्रेजी (अमेरिकी) |
+| `bf_` / `bm_` | अंग्रेजी (ब्रिटिश) |
 | `jf_` / `jm_` | जापानी |
-| `zf_` / `zm_` | मैंडरिन चीनी |
-| `ef_` / `em_` | स्पैनिश |
+| `zf_` / `zm_` | मंदारिन चीनी |
+| `ef_` / `em_` | स्पेनिश |
 | `ff_` | फ्रेंच |
-| `hf_` / `hm_` | हिन्दी |
+| `hf_` / `hm_` | Hindi |
 | `if_` / `im_` | इतालवी |
-| `pf_` / `pm_` | ब्राज़ीलियन पुर्तगाली |
+| `pf_` / `pm_` | ब्राजीलियाई पुर्तगाली |
 
-### अंग्रेज़ी — अमेरिकी
+### अंग्रेजी — अमेरिकी
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `af_aoede` | Aoede | महिला | संगीतमय |
-| `af_bella` | Bella | महिला | उष्ण |
-| `af_heart` | Heart | महिला | स्नेही |
-| `af_jessica` | Jessica | महिला | पेशेवर |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `af_aoede` | Aoede | महिला | संगीत |
+| `af_bella` | Bella | महिला | Warm |
+| `af_heart` | Heart | महिला | संवेदनशील |
+| `af_jessica` | जेसिका | महिला | पेशेवर |
 | `af_kore` | Kore | महिला | युवा |
-| `af_nicole` | Nicole | महिला | कोमल |
-| `af_sarah` | Sarah | महिला | स्पष्ट |
-| `af_sky` | Sky | महिला | हवाई |
-| `am_eric` | Eric | पुरुष | आत्मविश्वासी |
-| `am_fenrir` | Fenrir | पुरुष | शक्तिशाली |
-| `am_liam` | Liam | पुरुष | मित्रवत |
-| `am_michael` | Michael | पुरुष | गहरा |
-| `am_onyx` | Onyx | पुरुष | सहज |
-| `am_puck` | Puck | पुरुष | चंचल |
+| `af_nicole` | निकोल | महिला | Soft |
+| `af_sarah` | Sarah | महिला | Clear |
+| `af_sky` | Sky | महिला | Airy |
+| `am_eric` | Eric | Male | आत्मविश्वासी |
+| `am_fenrir` | फेनफ़िर | Male | शक्तिशाली |
+| `am_liam` | Liam | Male | दोस्ताना |
+| `am_michael` | माइकल | Male | Deep |
+| `am_onyx` | Onyx | Male | सुगम |
+| `am_puck` | Puck | Male | चंचल |
 
-### अंग्रेज़ी — ब्रिटिश
+### अंग्रेजी — ब्रिटिश
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `bf_alice` | Alice | महिला | परिष्कृत |
-| `bf_emma` | Emma | महिला | सुसंस्कृत |
-| `bf_isabella` | Isabella | महिला | उष्ण |
-| `bm_fable` | Fable | पुरुष | कथावाचक |
-| `bm_george` | George | पुरुष | प्रामाणिक |
-| `bm_lewis` | Lewis | पुरुष | मित्रवत |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `bf_alice` | Alice | महिला | शिष्ट |
+| `bf_emma` | Emma | महिला | परिष्कृत |
+| `bf_isabella` | इसabella | महिला | Warm |
+| `bm_fable` | Fable | Male | कहानी कहने वाला |
+| `bm_george` | जॉर्ज | Male | अधिकारपूर्ण |
+| `bm_lewis` | Lewis | Male | दोस्ताना |
 
 ### जापानी
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `jf_alpha` | Alpha | महिला | स्पष्ट |
-| `jf_gongitsune` | Gongitsune | महिला | कथावाचक |
-| `jf_nezuko` | Nezuko | महिला | सौम्य |
-| `jf_tebukuro` | Tebukuro | महिला | उष्ण |
-| `jm_kumo` | Kumo | पुरुष | शांत |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `jf_alpha` | Alpha | महिला | Clear |
+| `jf_gongitsune` | गोंगित्सुने | महिला | कहानी सुनाना |
+| `jf_nezuko` | नेज़ुको | महिला | शांत |
+| `jf_tebukuro` | तेबुकुरो | महिला | Warm |
+| `jm_kumo` | Kumo | Male | Calm |
 
-### मैंडरिन चीनी
+### मंदारिन चीनी
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `zf_xiaobei` | Xiaobei | महिला | उज्ज्वल |
-| `zf_xiaoni` | Xiaoni | महिला | सौम्य |
-| `zf_xiaoxiao` | Xiaoxiao | महिला | स्पष्ट |
-| `zf_xiaoyi` | Xiaoyi | महिला | उष्ण |
-| `zm_yunjian` | Yunjian | पुरुष | प्रामाणिक |
-| `zm_yunxi` | Yunxi | पुरुष | मित्रवत |
-| `zm_yunxia` | Yunxia | पुरुष | शांत |
-| `zm_yunyang` | Yunyang | पुरुष | आत्मविश्वासी |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `zf_xiaobei` | शियाओबेई | महिला | चमकदार |
+| `zf_xiaoni` | शियाओनी | महिला | शांत |
+| `zf_xiaoxiao` | शियाओक्सियाओ | महिला | Clear |
+| `zf_xiaoyi` | शियाओयी | महिला | Warm |
+| `zm_yunjian` | युनजियान | Male | अधिकारपूर्ण |
+| `zm_yunxi` | Yunxi | Male | दोस्ताना |
+| `zm_yunxia` | युनशिया | Male | Calm |
+| `zm_yunyang` | युनयांग | Male | आत्मविश्वासी |
 
-### स्पैनिश
+### स्पेनिश
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `ef_dora` | Dora | महिला | उष्ण |
-| `em_alex` | Alex | पुरुष | आत्मविश्वासी |
-| `em_santa` | Santa | पुरुष | प्रसन्न |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `ef_dora` | Dora | महिला | Warm |
+| `em_alex` | Alex | Male | आत्मविश्वासी |
+| `em_santa` | Santa | Male | Jolly |
 
 ### फ्रेंच
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `ff_siwis` | Siwis | महिला | सुसंस्कृत |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `ff_siwis` | Siwis | महिला | परिष्कृत |
 
-### हिन्दी
+### हिंदी
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `hf_alpha` | Alpha | महिला | स्पष्ट |
-| `hf_beta` | Beta | महिला | उष्ण |
-| `hm_omega` | Omega | पुरुष | गहरा |
-| `hm_psi` | Psi | पुरुष | शांत |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `hf_alpha` | Alpha | महिला | Clear |
+| `hf_beta` | Beta | महिला | Warm |
+| `hm_omega` | Omega | Male | Deep |
+| `hm_psi` | Psi | Male | Calm |
 
 ### इतालवी
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `if_sara` | Sara | महिला | उष्ण |
-| `im_nicola` | Nicola | पुरुष | आत्मविश्वासी |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `if_sara` | Sara | महिला | Warm |
+| `im_nicola` | निकोला | Male | आत्मविश्वासी |
 
-### ब्राज़ीलियन पुर्तगाली
+### ब्राजीलियाई पुर्तगाली
 
-| ID | नाम | लिंग | शैली |
-|----|------|--------|-------|
-| `pf_dora` | Dora | महिला | उष्ण |
-| `pm_alex` | Alex | पुरुष | आत्मविश्वासी |
-| `pm_santa` | Santa | पुरुष | प्रसन्न |
+| ID | Name | लिंग | Style |
+|----| ------ | -------- | ------- |
+| `pf_dora` | Dora | महिला | Warm |
+| `pm_alex` | Alex | Male | आत्मविश्वासी |
+| `pm_santa` | Santa | Male | Jolly |
 
-### प्रीसेट
+### पूर्व-निर्धारित सेटिंग्स
 
-| प्रीसेट | आवाज़ | गति | विवरण |
-|--------|-------|-------|-------------|
-| `narrator` | `bm_george` | 0.95 | शांत डॉक्यूमेंट्री शैली |
-| `announcer` | `am_onyx` | 1.05 | समाचार एंकर ऊर्जा |
-| `whisper` | `af_aoede` | 0.85 | मृदु, अंतरंग |
-| `storyteller` | `bf_emma` | 0.90 | गर्म सोने-की-कहानी अनुभव |
-| `assistant` | `af_jessica` | 1.0 | तटस्थ, सहायक |
+| पूर्व-निर्धारित सेटिंग | Voice | Speed | विवरण |
+| -------- | ------- | ------- | ------------- |
+| `narrator` | `bm_george` | 0.95 | शांत, वृत्तचित्र शैली |
+| `announcer` | `am_onyx` | 1.05 | समाचार प्रस्तुतकर्ता की शैली |
+| `whisper` | `af_aoede` | 0.85 | नरम, अंतरंग |
+| `storyteller` | `bf_emma` | 0.90 | गर्म, लोरी जैसी अनुभूति |
+| `assistant` | `af_jessica` | 1.0 | तटस्थ, मददगार |
 
-## भावना स्पैन
+## भावनाएं
 
-उच्चारण नियंत्रित करने के लिए टेक्स्ट को भावना टैग में रखें:
+उच्चारण को नियंत्रित करने के लिए भावनाओं के टैग में टेक्स्ट लिखें:
 
 ```
 [happy]Great news![/happy] But [sad]I have to go.[/sad]
 ```
 
-समर्थित: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`, `excited`
+समर्थित: `खुश`, `दुखी`, `गुस्सा`, `डर`, `आश्चर्य`, `घृणा`, `शांत`, `उत्साहित`
 
-## CLI फ्लैग
+## कमांड लाइन विकल्प
 
-| फ्लैग | डिफ़ॉल्ट | विवरण |
-|------|---------|-------------|
-| `--artifact=path\|base64` | `path` | ऑडियो डिलीवरी मोड |
-| `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | आउटपुट डायरेक्टरी |
-| `--backend=mock\|http` | `mock` | बैकेंड चयन |
-| `--backend-url=<url>` | &mdash; | HTTP बैकेंड URL |
-| `--ambient` | बंद | इनर-मोनोलॉग सिस्टम सक्रिय करें |
-| `--max-concurrent=<n>` | `1` | अधिकतम समवर्ती सिंथेसिस अनुरोध |
-| `--timeout=<ms>` | `20000` | प्रति-अनुरोध टाइमआउट |
-| `--retention-minutes=<n>` | `240` | स्वतः-सफ़ाई अवधि (अक्षम करने के लिए 0) |
+| Flag | डिफ़ॉल्ट | विवरण |
+| ------ | --------- | ------------- |
+| `--artifact=path\ | base64` | `path` | ऑडियो डिलीवरी मोड |
+| `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | आउटपुट निर्देशिका |
+| `--backend=mock\ |http` | `mock` | बैकएंड चयन |
+| `--backend-url=<url>` | &mdash; | HTTP बैकएंड यूआरएल |
+| `--ambient` | off | आंतरिक-संवाद प्रणाली सक्षम करें |
+| `--max-concurrent=<n>` | `1` | अधिकतम समवर्ती संश्लेषण अनुरोध |
+| `--timeout=<ms>` | `20000` | प्रति-अनुरोध समय सीमा |
+| `--retention-minutes=<n>` | `240` | स्वचालित सफाई अवधि (0 से अक्षम करें) |
 
 ## पैकेज
 
-यह दो प्रकाशनीय पैकेज वाला pnpm मोनोरेपो है:
+यह एक pnpm मोनोरेपो है जिसमें दो प्रकाशित करने योग्य पैकेज हैं:
 
 | पैकेज | विवरण | npm |
-|---------|-------------|-----|
-| [`@mcptoolshop/voice-soundboard-core`](packages/core) | बैकेंड-अज्ञेयवादी कोर लाइब्रेरी (वैलिडेशन, SSML, चंकिंग, स्कीमा) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
-| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI, गार्डरेल, और ट्रांसपोर्ट के साथ MCP सर्वर | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
+| --------- | ------------- |-----|
+| [`@mcptoolshop/voice-soundboard-core`](packages/core) | बैकएंड-अज्ञेय मुख्य लाइब्रेरी (सत्यापन, SSML, टुकड़ा करना, स्कीमा) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
+| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI, गार्डरेल और परिवहन के साथ MCP सर्वर | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
 ## विकास
 
 ```bash
-# इंस्टॉल करें
+# Install
 pnpm install
 
-# बिल्ड करें
+# Build
 pnpm build
 
-# टेस्ट करें (342 टेस्ट)
+# Test (342 tests)
 pnpm test
 ```
 
-> [MCP Tool Shop](https://mcp-tool-shop.github.io/) का हिस्सा
+> [MCP टूल शॉप](https://mcp-tool-shop.github.io/) का हिस्सा
 
-### प्रोजेक्ट संरचना
+### परियोजना संरचना
 
 ```
 mcp-voice-soundboard/
   packages/
     core/               @mcptoolshop/voice-soundboard-core
       src/
-        limits.ts         SHIP_LIMITS, टेक्स्ट/चंक सीमाएँ
-        schemas.ts        VoiceRequest, VoiceResponse, त्रुटि कोड
-        artifact.ts       resolveOutputDir, पथ सैंडबॉक्स
-        voices.ts         स्वीकृत वॉइस रजिस्ट्री + प्रीसेट
-        emotion.ts        भावना स्पैन पार्सर
-        ssml/             SSML-lite पार्सर + सीमाएँ
-        chunking/         टेक्स्ट चंकर
-        sfx/              SFX टैग पार्सर + रजिस्ट्री
-        sandbox.ts        सुरक्षित फ़ाइलनाम, सिमलिंक जाँच
-        ambient.ts        इनर मोनोलॉग के लिए AmbientEmitter
-        redact.ts         PII/सीक्रेट रिडैक्शन
+        limits.ts         SHIP_LIMITS, text/chunk limits
+        schemas.ts        VoiceRequest, VoiceResponse, error codes
+        artifact.ts       resolveOutputDir, path sandbox
+        voices.ts         Approved voice registry + presets
+        emotion.ts        Emotion span parser
+        ssml/             SSML-lite parser + limits
+        chunking/         Text chunker
+        sfx/              SFX tag parser + registry
+        sandbox.ts        Safe filenames, symlink checks
+        ambient.ts        AmbientEmitter for inner monologue
+        redact.ts         PII/secret redaction
     mcp-server/         @mcptoolshop/voice-soundboard-mcp
       src/
-        server.ts         MCP टूल पंजीकरण + गार्डरेल वायरिंग
-        cli.ts            CLI एंट्रीपॉइंट (stdio ट्रांसपोर्ट)
-        backend.ts        बैकेंड ऐब्सट्रैक्शन + mock/HTTP
+        server.ts         MCP tool registration + guardrail wiring
+        cli.ts            CLI entrypoint (stdio transport)
+        backend.ts        Backend abstraction + mock/HTTP
         concurrency.ts    SynthesisSemaphore
-        rateLimit.ts      ToolRateLimiter (स्लाइडिंग विंडो)
-        timeout.ts        withTimeout उपयोगिता
-        retention.ts      आउटपुट फ़ाइल सफ़ाई टाइमर
-        redact.ts         सर्वर-स्तरीय रिडैक्शन
-        validation.ts     सिंथेसिस परिणाम वैलिडेशन
-        tools/            व्यक्तिगत टूल हैंडलर
-  assets/               लोगो, ऑडियो इवेंट मैनिफेस्ट
-  docs/                 आर्किटेक्चर डॉक्स
+        rateLimit.ts      ToolRateLimiter (sliding window)
+        timeout.ts        withTimeout utility
+        retention.ts      Output file cleanup timer
+        redact.ts         Server-level redaction
+        validation.ts     Synthesis result validation
+        tools/            Individual tool handlers
+  assets/               Logo, audio event manifests
+  docs/                 Architecture docs
 ```
 
 ## सुरक्षा
 
 भेद्यता रिपोर्टिंग के लिए [SECURITY.md](SECURITY.md) देखें।
 
-पूर्ण खतरा सतह विश्लेषण के लिए [THREAT_MODEL.md](THREAT_MODEL.md) देखें।
+पूर्ण खतरे विश्लेषण के लिए [THREAT_MODEL.md](THREAT_MODEL.md) देखें।
 
 ## संबंधित
 
-| प्रोजेक्ट | विवरण |
-|---------|-------------|
-| [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Code प्लगइन &mdash; स्लैश कमांड, भावना-जागरूक नैरेशन |
+| परियोजना | विवरण |
+| --------- | ------------- |
+| [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | क्लाउड कोड प्लगइन &mdash; स्लैश कमांड, भावना-जागरूक कथन |
 
 ## सहायता
 
-- **प्रश्न / मदद:** [चर्चाएँ](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
-- **बग रिपोर्ट:** [इश्यूज़](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
+- **प्रश्न / सहायता:** [चर्चाएँ](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
+- **त्रुटि रिपोर्ट:** [समस्याएँ](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **सुरक्षा:** [SECURITY.md](SECURITY.md)
 
 ## लाइसेंस
@@ -354,5 +351,5 @@ mcp-voice-soundboard/
 ---
 
 <p align="center">
-  <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a> द्वारा निर्मित
+  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
 </p>

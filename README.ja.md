@@ -1,39 +1,36 @@
 <p align="center">
-  <a href="README.md">English</a> | <strong>日本語</strong> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcp-voice-soundboard/main/assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
-</p>
-
-<h3 align="center">AIエージェント向けテキスト読み上げMCPサーバー</h3>
-
-<p align="center">
-  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?branch=main&style=flat-square&label=CI" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
-  <img src="https://img.shields.io/badge/node-%E2%89%A520-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js 20+">
-  <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
+  <img src="assets/logo.png" alt="MCP Voice Soundboard" width="400">
 </p>
 
 <p align="center">
-  48種類の音声 &bull; 9言語 &bull; 5つのプリセット &bull; 8つの感情表現 &bull; SSML-lite &bull; 効果音タグ &bull; 複数話者の対話<br>
-  交換可能なTTSバックエンド。ガードレール内蔵。単一の<code>npx</code>コマンドで実行可能。
+  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp" alt="npm"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
+  <a href="https://mcp-tool-shop-org.github.io/mcp-voice-soundboard/"><img src="https://img.shields.io/badge/Landing_Page-live-blue" alt="Landing Page"></a>
+</p>
+
+<p align="center">
+  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
 ---
 
-## 主な特徴
+## Highlights
 
-- **MCPネイティブ** &mdash; stdioトランスポート対応。Claude Desktop、Cursor、その他すべてのMCPクライアントで動作
-- **5つのツール** &mdash; `voice_speak`、`voice_dialogue`、`voice_status`、`voice_interrupt`、`voice_inner_monologue`
-- **48種類の厳選音声、9言語対応** &mdash; 英語（アメリカ＋イギリス）、日本語、中国語（普通話）、スペイン語、フランス語、ヒンディー語、イタリア語、ブラジルポルトガル語。厳選プリセット：`narrator`、`announcer`、`whisper`、`storyteller`、`assistant`
-- **感情スパン** &mdash; `[happy]...[/happy]`のインラインマークアップで8種類の感情を表現
-- **SSML-lite** &mdash; 完全なSSMLの複雑さなしに`<break>`、`<emphasis>`、`<prosody>`を利用可能
-- **効果音タグ** &mdash; `[ding]`、`[chime]`、`[whoosh]`、`[tada]`、`[error]`、`[click]`のインライン効果音
-- **複数話者の対話** &mdash; `Speaker: line`形式で自動キャスティングとポーズ指示に対応
-- **ガードレール** &mdash; レート制限、同時実行セマフォ、リクエストタイムアウト、パストラバーサル保護、シークレット秘匿化
-- **交換可能なバックエンド** &mdash; Mock（組み込み）、HTTPプロキシ、Pythonブリッジ、または独自実装
+- **MCPネイティブ**：stdioトランスポートに対応し、Claude Desktop、Cursor、およびその他のMCPクライアントで使用可能
+- **5つのツール**：`voice_speak`、`voice_dialogue`、`voice_status`、`voice_interrupt`、`voice_inner_monologue`
+- **48種類の音声、9言語**：英語（アメリカ英語 + イギリス英語）、日本語、中国語（北京語）、スペイン語、フランス語、ヒンディー語、イタリア語、ブラジルポルトガル語。プリセット：`narrator`、`announcer`、`whisper`、`storyteller`、`assistant`
+- **感情表現**：`[happy]...[/happy]`というインラインマークアップで、8種類の感情を表現可能
+- **SSML-lite**：`<break>`、`<emphasis>`、`<prosody>`などのタグを、完全なSSMLの複雑さなしで使用可能
+- **効果音タグ**：`[ding]`、`[chime]`、`[whoosh]`、`[tada]`、`[error]`、`[click]`などのインライン効果音
+- **マルチスピーカー対話**：`Speaker: line`形式で、自動キャストと一時停止指示に対応
+- **セキュリティ機能**：レート制限、同時実行制御、リクエストタイムアウト、パス穿越防御、機密情報マスキング
+- **交換可能なバックエンド**：Mock（内蔵）、HTTPプロキシ、Pythonブリッジ、または独自のバックエンドを使用可能
 
 ## クイックスタート
 
@@ -41,7 +38,7 @@
 npx @mcptoolshop/voice-soundboard-mcp
 ```
 
-グローバルインストールの場合：
+または、グローバルにインストールします。
 
 ```bash
 npm install -g @mcptoolshop/voice-soundboard-mcp
@@ -50,7 +47,7 @@ voice-soundboard-mcp
 
 ### Claude Desktop / MCPクライアントの設定
 
-MCPクライアントの設定ファイル（例：`claude_desktop_config.json`）に以下を追加してください：
+MCPクライアントの設定ファイル（例：`claude_desktop_config.json`）に追加します。
 
 ```json
 {
@@ -63,7 +60,7 @@ MCPクライアントの設定ファイル（例：`claude_desktop_config.json`�
 }
 ```
 
-オプション付きの場合：
+オプションを設定できます。
 
 ```json
 {
@@ -90,32 +87,32 @@ MCPクライアントの設定ファイル（例：`claude_desktop_config.json`�
 
 ```
 text:         "Hello world!"
-voice?:       "am_fenrir"          # 音声IDまたはプリセット名
+voice?:       "am_fenrir"          # Voice ID or preset name
 speed?:       1.0                  # 0.5 - 2.0
 format?:      "wav"                # wav | mp3 | ogg | raw
 artifactMode?: "path"             # path | base64
-sfx?:         true                # [ding]、[chime]等を有効化
+sfx?:         true                # Enable [ding], [chime] etc.
 ```
 
 ### `voice_dialogue`
 
-複数話者の対話を合成します。
+マルチスピーカー対話の音声合成を行います。
 
 ```
 script:       "Alice: Hello!\nBob: Hey there!"
 cast?:        { "Alice": "af_sky", "Bob": "am_fenrir" }
 speed?:       1.0
-concat?:      true                 # 単一ファイルに結合
-debug?:       true                 # cue_sheetを含める
+concat?:      true                 # Combine into single file
+debug?:       true                 # Include cue_sheet
 ```
 
 ### `voice_status`
 
-エンジンの状態、利用可能な音声、プリセット、バックエンド情報を返します。引数なし。
+エンジン状態、利用可能な音声、プリセット、およびバックエンド情報を返します。引数は不要です。
 
 ### `voice_interrupt`
 
-実行中の合成を停止またはロールバックします。
+音声合成を停止またはロールバックします。
 
 ```
 streamId?:    "stream-123"
@@ -124,228 +121,228 @@ reason?:      "user_spoke"         # user_spoke | context_change | timeout | man
 
 ### `voice_inner_monologue`
 
-アンビエントナレーション用の一時的なマイクロ発話。`--ambient`フラグまたは`VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`が必要です。
+環境音として再生される短い音声。`--ambient`フラグまたは`VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`が必要です。
 
 ```
-text:         "Interesting..."     # 最大500文字、自動秘匿化
+text:         "Interesting..."     # Max 500 chars, auto-redacted
 category?:    "thinking"           # general | thinking | observation | debug
 ```
 
 ## 音声
 
-9言語にわたる48種類の音声。音声IDのプレフィックスから言語が自動推定されるため、設定は不要です。
+9言語、合計48種類の音声があります。言語は音声IDのプレフィックスから自動的に判別されます。設定は不要です。
 
 | プレフィックス | 言語 |
-|--------|----------|
+| -------- | ---------- |
 | `af_` / `am_` | 英語（アメリカ） |
 | `bf_` / `bm_` | 英語（イギリス） |
 | `jf_` / `jm_` | 日本語 |
-| `zf_` / `zm_` | 中国語（普通話） |
+| `zf_` / `zm_` | 中国語（北京語） |
 | `ef_` / `em_` | スペイン語 |
 | `ff_` | フランス語 |
-| `hf_` / `hm_` | ヒンディー語 |
+| `hf_` / `hm_` | Hindi |
 | `if_` / `im_` | イタリア語 |
 | `pf_` / `pm_` | ブラジルポルトガル語 |
 
 ### 英語 — アメリカ
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `af_aoede` | Aoede | 女性 | 音楽的 |
-| `af_bella` | Bella | 女性 | 温かみのある |
-| `af_heart` | Heart | 女性 | 思いやりのある |
-| `af_jessica` | Jessica | 女性 | プロフェッショナル |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `af_aoede` | Aoede | 女性 | ミュージカル |
+| `af_bella` | Bella | 女性 | Warm |
+| `af_heart` | Heart | 女性 | 優しい |
+| `af_jessica` | ジェシカ | 女性 | プロフェッショナル |
 | `af_kore` | Kore | 女性 | 若々しい |
-| `af_nicole` | Nicole | 女性 | 柔らかい |
-| `af_sarah` | Sarah | 女性 | 明瞭 |
-| `af_sky` | Sky | 女性 | 軽やか |
-| `am_eric` | Eric | 男性 | 自信のある |
-| `am_fenrir` | Fenrir | 男性 | 力強い |
-| `am_liam` | Liam | 男性 | 親しみやすい |
-| `am_michael` | Michael | 男性 | 深みのある |
-| `am_onyx` | Onyx | 男性 | なめらか |
-| `am_puck` | Puck | 男性 | 遊び心のある |
+| `af_nicole` | ニコル | 女性 | Soft |
+| `af_sarah` | Sarah | 女性 | Clear |
+| `af_sky` | Sky | 女性 | Airy |
+| `am_eric` | Eric | Male | 自信のある |
+| `am_fenrir` | フェンリル | Male | 力強い |
+| `am_liam` | Liam | Male | フレンドリー |
+| `am_michael` | マイケル | Male | Deep |
+| `am_onyx` | Onyx | Male | 滑らかな |
+| `am_puck` | Puck | Male | 遊び心のある |
 
 ### 英語 — イギリス
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `bf_alice` | Alice | 女性 | 上品 |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `bf_alice` | Alice | 女性 | 上品な |
 | `bf_emma` | Emma | 女性 | 洗練された |
-| `bf_isabella` | Isabella | 女性 | 温かみのある |
-| `bm_fable` | Fable | 男性 | 物語調 |
-| `bm_george` | George | 男性 | 威厳のある |
-| `bm_lewis` | Lewis | 男性 | 親しみやすい |
+| `bf_isabella` | イザベラ | 女性 | Warm |
+| `bm_fable` | Fable | Male | 物語 |
+| `bm_george` | ジョージ | Male | 権威のある |
+| `bm_lewis` | Lewis | Male | フレンドリー |
 
 ### 日本語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `jf_alpha` | Alpha | 女性 | 明瞭 |
-| `jf_gongitsune` | Gongitsune | 女性 | 物語調 |
-| `jf_nezuko` | Nezuko | 女性 | 穏やか |
-| `jf_tebukuro` | Tebukuro | 女性 | 温かみのある |
-| `jm_kumo` | Kumo | 男性 | 落ち着いた |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `jf_alpha` | Alpha | 女性 | Clear |
+| `jf_gongitsune` | Gongitsune | 女性 | 物語 |
+| `jf_nezuko` | 禰豆子 | 女性 | 優しい |
+| `jf_tebukuro` | Tebukuro | 女性 | Warm |
+| `jm_kumo` | Kumo | Male | Calm |
 
 ### 中国語（普通話）
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
 | `zf_xiaobei` | Xiaobei | 女性 | 明るい |
-| `zf_xiaoni` | Xiaoni | 女性 | 穏やか |
-| `zf_xiaoxiao` | Xiaoxiao | 女性 | 明瞭 |
-| `zf_xiaoyi` | Xiaoyi | 女性 | 温かみのある |
-| `zm_yunjian` | Yunjian | 男性 | 威厳のある |
-| `zm_yunxi` | Yunxi | 男性 | 親しみやすい |
-| `zm_yunxia` | Yunxia | 男性 | 落ち着いた |
-| `zm_yunyang` | Yunyang | 男性 | 自信のある |
+| `zf_xiaoni` | Xiaoni | 女性 | 優しい |
+| `zf_xiaoxiao` | Xiaoxiao | 女性 | Clear |
+| `zf_xiaoyi` | Xiaoyi | 女性 | Warm |
+| `zm_yunjian` | Yunjian | Male | 権威がある |
+| `zm_yunxi` | Yunxi | Male | フレンドリー |
+| `zm_yunxia` | Yunxia | Male | Calm |
+| `zm_yunyang` | Yunyang | Male | 自信がある |
 
 ### スペイン語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `ef_dora` | Dora | 女性 | 温かみのある |
-| `em_alex` | Alex | 男性 | 自信のある |
-| `em_santa` | Santa | 男性 | 陽気 |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `ef_dora` | Dora | 女性 | Warm |
+| `em_alex` | Alex | Male | 自信がある |
+| `em_santa` | Santa | Male | Jolly |
 
 ### フランス語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
 | `ff_siwis` | Siwis | 女性 | 洗練された |
 
 ### ヒンディー語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `hf_alpha` | Alpha | 女性 | 明瞭 |
-| `hf_beta` | Beta | 女性 | 温かみのある |
-| `hm_omega` | Omega | 男性 | 深みのある |
-| `hm_psi` | Psi | 男性 | 落ち着いた |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `hf_alpha` | Alpha | 女性 | Clear |
+| `hf_beta` | Beta | 女性 | Warm |
+| `hm_omega` | Omega | Male | Deep |
+| `hm_psi` | Psi | Male | Calm |
 
 ### イタリア語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `if_sara` | Sara | 女性 | 温かみのある |
-| `im_nicola` | Nicola | 男性 | 自信のある |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `if_sara` | Sara | 女性 | Warm |
+| `im_nicola` | Nicola | Male | 自信がある |
 
 ### ブラジルポルトガル語
 
-| ID | 名前 | 性別 | スタイル |
-|----|------|--------|-------|
-| `pf_dora` | Dora | 女性 | 温かみのある |
-| `pm_alex` | Alex | 男性 | 自信のある |
-| `pm_santa` | Santa | 男性 | 陽気 |
+| ID | Name | 性別 | Style |
+|----| ------ | -------- | ------- |
+| `pf_dora` | Dora | 女性 | Warm |
+| `pm_alex` | Alex | Male | 自信がある |
+| `pm_santa` | Santa | Male | Jolly |
 
 ### プリセット
 
-| プリセット | 音声 | 速度 | 説明 |
-|--------|-------|-------|-------------|
-| `narrator` | `bm_george` | 0.95 | 落ち着いたドキュメンタリー調 |
-| `announcer` | `am_onyx` | 1.05 | ニュースキャスター風 |
-| `whisper` | `af_aoede` | 0.85 | 柔らかく親密な語り |
-| `storyteller` | `bf_emma` | 0.90 | 温かい読み聞かせ風 |
-| `assistant` | `af_jessica` | 1.0 | ニュートラルで丁寧 |
+| プリセット | Voice | Speed | 説明 |
+| -------- | ------- | ------- | ------------- |
+| `narrator` | `bm_george` | 0.95 | 落ち着いたドキュメンタリー風 |
+| `announcer` | `am_onyx` | 1.05 | ニュースキャスターのような雰囲気 |
+| `whisper` | `af_aoede` | 0.85 | 柔らかく、親密 |
+| `storyteller` | `bf_emma` | 0.90 | 温かいおとぎ話のような雰囲気 |
+| `assistant` | `af_jessica` | 1.0 | 中立的で、親切 |
 
-## 感情スパン
+## 感情の範囲
 
-テキストを感情タグで囲むことで韻律を制御できます：
+発話の抑揚を制御するために、感情タグでテキストを囲みます。
 
 ```
-[happy]嬉しいお知らせです！[/happy] でも[sad]お別れしなければなりません。[/sad]
+[happy]Great news![/happy] But [sad]I have to go.[/sad]
 ```
 
-対応する感情：`happy`、`sad`、`angry`、`fearful`、`surprised`、`disgusted`、`calm`、`excited`
+対応：`happy`、`sad`、`angry`、`fearful`、`surprised`、`disgusted`、`calm`、`excited`
 
 ## CLIフラグ
 
-| フラグ | デフォルト | 説明 |
-|------|---------|-------------|
-| `--artifact=path\|base64` | `path` | 音声の出力モード |
+| Flag | デフォルト | 説明 |
+| ------ | --------- | ------------- |
+| `--artifact=path\ | base64` | `path` | 音声配信モード |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | 出力ディレクトリ |
-| `--backend=mock\|http` | `mock` | バックエンドの選択 |
-| `--backend-url=<url>` | &mdash; | HTTPバックエンドのURL |
-| `--ambient` | 無効 | 内部モノローグ機能を有効化 |
+| `--backend=mock\ |http` | `mock` | バックエンドの選択 |
+| `--backend-url=<url>` | &mdash; | HTTPバックエンドURL |
+| `--ambient` | off | 内部モノローグシステムを有効にする |
 | `--max-concurrent=<n>` | `1` | 最大同時合成リクエスト数 |
 | `--timeout=<ms>` | `20000` | リクエストごとのタイムアウト |
-| `--retention-minutes=<n>` | `240` | 自動クリーンアップまでの時間（0で無効） |
+| `--retention-minutes=<n>` | `240` | 自動クリーンアップ期間（0で無効） |
 
 ## パッケージ
 
-本プロジェクトは2つの公開パッケージを含むpnpmモノレポです：
+これは、公開可能なパッケージが2つあるpnpmモノレポです。
 
 | パッケージ | 説明 | npm |
-|---------|-------------|-----|
-| [`@mcptoolshop/voice-soundboard-core`](packages/core) | バックエンド非依存のコアライブラリ（バリデーション、SSML、チャンキング、スキーマ） | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
-| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI、ガードレール、トランスポートを備えたMCPサーバー | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
+| --------- | ------------- |-----|
+| [`@mcptoolshop/voice-soundboard-core`](packages/core) | 検証、SSML、チャンキング、スキーマを含む、バックエンドに依存しないコアライブラリ | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
+| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI、ガードレール、トランスポートを備えたMCPサーバー | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
 ## 開発
 
 ```bash
-# インストール
+# Install
 pnpm install
 
-# ビルド
+# Build
 pnpm build
 
-# テスト（342件）
+# Test (342 tests)
 pnpm test
 ```
 
-> [MCP Tool Shop](https://mcp-tool-shop.github.io/) の一部です
+> [MCP Tool Shop](https://mcp-tool-shop.github.io/)の一部
 
-### プロジェクト構成
+### プロジェクト構造
 
 ```
 mcp-voice-soundboard/
   packages/
     core/               @mcptoolshop/voice-soundboard-core
       src/
-        limits.ts         SHIP_LIMITS、テキスト/チャンクの制限値
-        schemas.ts        VoiceRequest、VoiceResponse、エラーコード
-        artifact.ts       resolveOutputDir、パスサンドボックス
-        voices.ts         承認済み音声レジストリ + プリセット
-        emotion.ts        感情スパンパーサー
-        ssml/             SSML-liteパーサー + 制限
-        chunking/         テキストチャンカー
-        sfx/              効果音タグパーサー + レジストリ
-        sandbox.ts        安全なファイル名、シンボリックリンク検査
-        ambient.ts        内部モノローグ用AmbientEmitter
-        redact.ts         PII/シークレット秘匿化
+        limits.ts         SHIP_LIMITS, text/chunk limits
+        schemas.ts        VoiceRequest, VoiceResponse, error codes
+        artifact.ts       resolveOutputDir, path sandbox
+        voices.ts         Approved voice registry + presets
+        emotion.ts        Emotion span parser
+        ssml/             SSML-lite parser + limits
+        chunking/         Text chunker
+        sfx/              SFX tag parser + registry
+        sandbox.ts        Safe filenames, symlink checks
+        ambient.ts        AmbientEmitter for inner monologue
+        redact.ts         PII/secret redaction
     mcp-server/         @mcptoolshop/voice-soundboard-mcp
       src/
-        server.ts         MCPツール登録 + ガードレール接続
-        cli.ts            CLIエントリーポイント（stdioトランスポート）
-        backend.ts        バックエンド抽象化 + mock/HTTP
+        server.ts         MCP tool registration + guardrail wiring
+        cli.ts            CLI entrypoint (stdio transport)
+        backend.ts        Backend abstraction + mock/HTTP
         concurrency.ts    SynthesisSemaphore
-        rateLimit.ts      ToolRateLimiter（スライディングウィンドウ）
-        timeout.ts        withTimeoutユーティリティ
-        retention.ts      出力ファイルクリーンアップタイマー
-        redact.ts         サーバーレベルの秘匿化
-        validation.ts     合成結果のバリデーション
-        tools/            各ツールのハンドラー
-  assets/               ロゴ、オーディオイベントマニフェスト
-  docs/                 アーキテクチャドキュメント
+        rateLimit.ts      ToolRateLimiter (sliding window)
+        timeout.ts        withTimeout utility
+        retention.ts      Output file cleanup timer
+        redact.ts         Server-level redaction
+        validation.ts     Synthesis result validation
+        tools/            Individual tool handlers
+  assets/               Logo, audio event manifests
+  docs/                 Architecture docs
 ```
 
 ## セキュリティ
 
-脆弱性の報告については [SECURITY.md](SECURITY.md) をご覧ください。
+脆弱性報告については、[SECURITY.md](SECURITY.md)を参照してください。
 
-脅威モデルの詳細な分析については [THREAT_MODEL.md](THREAT_MODEL.md) をご覧ください。
+完全な脅威分析については、[THREAT_MODEL.md](THREAT_MODEL.md)を参照してください。
 
-## 関連プロジェクト
+## 関連
 
 | プロジェクト | 説明 |
-|---------|-------------|
-| [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Codeプラグイン &mdash; スラッシュコマンド、感情対応ナレーション |
+| --------- | ------------- |
+| [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Codeプラグイン &mdash; スラッシュコマンド、感情を認識したナレーション |
 
 ## サポート
 
-- **質問・ヘルプ：** [Discussions](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
-- **バグ報告：** [Issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
-- **セキュリティ：** [SECURITY.md](SECURITY.md)
+- **質問 / ヘルプ:** [ディスカッション](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
+- **バグ報告:** [イシュー](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
+- **セキュリティ:** [SECURITY.md](SECURITY.md)
 
 ## ライセンス
 
@@ -354,5 +351,5 @@ mcp-voice-soundboard/
 ---
 
 <p align="center">
-  <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a> が開発
+  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
 </p>

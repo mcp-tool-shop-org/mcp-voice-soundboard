@@ -75,3 +75,8 @@ packages/*/dist/
 # Smithery build artifacts
 .smithery/
 packages/*/.smithery/
+
+# Site
+site/.astro/
+site/node_modules/
+site/dist/
