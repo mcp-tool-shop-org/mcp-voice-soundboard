@@ -1,5 +1,7 @@
 /** Per-tool rate limiter using sliding window. */
 
+import { SoundboardError } from "@mcptoolshop/voice-soundboard-core";
+
 export interface RateLimitConfig {
   /** Maximum calls allowed within the window. Default: 30. */
   readonly maxCalls: number;
@@ -51,10 +53,9 @@ export class ToolRateLimiter {
   }
 }
 
-export class RateLimitError extends Error {
-  readonly code = "RATE_LIMITED" as const;
+export class RateLimitError extends SoundboardError {
   constructor(toolName: string) {
-    super(`Rate limit exceeded for tool: ${toolName}`);
+    super("RATE_LIMITED", `Rate limit exceeded for tool: ${toolName}`, "Wait 60 seconds before retrying", { retryable: true });
     this.name = "RateLimitError";
   }
 }

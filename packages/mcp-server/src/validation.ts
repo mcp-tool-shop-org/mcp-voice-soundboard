@@ -1,6 +1,7 @@
 /** Backend response validation — sanity-check synthesis results. */
 
 import { stat } from "node:fs/promises";
+import { SoundboardError } from "@mcptoolshop/voice-soundboard-core";
 import type { SynthesisResult } from "./backend.js";
 
 /** Maximum allowed audio file size (50 MB). */
@@ -12,10 +13,9 @@ const MAX_DURATION_MS = 300_000;
 /** WAV RIFF magic bytes. */
 const WAV_MAGIC = Buffer.from("RIFF");
 
-export class ValidationError extends Error {
-  readonly code = "VALIDATION_FAILED" as const;
+export class ValidationError extends SoundboardError {
   constructor(message: string) {
-    super(message);
+    super("VALIDATION_FAILED", message, "Check backend output format and size limits");
     this.name = "ValidationError";
   }
 }

@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import type { Backend, BackendHealth, SynthesisResult } from "../backend.js";
-import type { SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
+import { SoundboardError, type SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
 
 export interface HttpBackendConfig {
   url: string;
@@ -16,15 +16,24 @@ export interface HttpBackendConfig {
   maxResponseSize?: number;
 }
 
+const BACKEND_HINTS: Record<string, string> = {
+  BACKEND_TIMEOUT: "Increase timeout or check backend health",
+  BACKEND_BAD_RESPONSE: "Check backend logs for errors",
+  BACKEND_UNREACHABLE: "Verify backend URL and ensure the service is running",
+};
+
 /** Error thrown by the HTTP backend with a stable code. */
-export class HttpBackendError extends Error {
+export class HttpBackendError extends SoundboardError {
+  readonly statusCode?: number;
+
   constructor(
     message: string,
-    public readonly code: "BACKEND_TIMEOUT" | "BACKEND_BAD_RESPONSE" | "BACKEND_UNREACHABLE",
-    public readonly statusCode?: number,
+    code: "BACKEND_TIMEOUT" | "BACKEND_BAD_RESPONSE" | "BACKEND_UNREACHABLE",
+    statusCode?: number,
   ) {
-    super(message);
+    super(code, message, BACKEND_HINTS[code] ?? "Check backend configuration", { retryable: code === "BACKEND_TIMEOUT" });
     this.name = "HttpBackendError";
+    this.statusCode = statusCode;
   }
 }
 

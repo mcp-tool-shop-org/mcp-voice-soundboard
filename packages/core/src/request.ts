@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { resolveVoiceOrPreset, type ResolvedVoice } from "./validate.js";
 import { validateText, validateSpeed } from "./limits.js";
 import { buildArtifactConfig, type ArtifactConfig, type OutputFormat } from "./artifact.js";
+import { SoundboardError } from "./errors.js";
 import type { ArtifactMode, VoiceErrorResponse, VoiceErrorCode } from "./schemas.js";
 
 export interface SynthesisRequest {
@@ -52,7 +53,35 @@ export function errorResponse(
     error: true,
     code,
     message,
+    hint: "Check voice_status for engine health",
+    retryable: false,
     traceId: traceId ?? randomUUID(),
     ...(context ? { context } : {}),
   };
+}
+
+/**
+ * Convert a caught error into a VoiceErrorResponse.
+ * Extracts hint + retryable from SoundboardError subclasses.
+ */
+export function fromError(
+  err: unknown,
+  traceId?: string,
+): VoiceErrorResponse {
+  if (err instanceof SoundboardError) {
+    return {
+      error: true,
+      code: err.code,
+      message: err.message,
+      hint: err.hint,
+      retryable: err.retryable,
+      traceId: traceId ?? randomUUID(),
+      ...("context" in err && err.context ? { context: err.context as Record<string, unknown> } : {}),
+    };
+  }
+  return errorResponse(
+    "INTERNAL_ERROR",
+    err instanceof Error ? err.message : String(err),
+    traceId,
+  );
 }

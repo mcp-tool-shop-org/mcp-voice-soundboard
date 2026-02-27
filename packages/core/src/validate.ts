@@ -2,15 +2,19 @@
 
 import { APPROVED_VOICE_IDS, DEFAULT_VOICE, getVoice, type VoiceInfo } from "./voices.js";
 import { getPreset, type PresetConfig } from "./presets.js";
+import { SoundboardError } from "./errors.js";
 
-export class VoiceValidationError extends Error {
+export class VoiceValidationError extends SoundboardError {
+  readonly context?: Record<string, unknown>;
+
   constructor(
     message: string,
-    public readonly code: string,
-    public readonly context?: Record<string, unknown>,
+    code: string,
+    context?: Record<string, unknown>,
   ) {
-    super(message);
+    super(code, message, "Check available voices with voice_status");
     this.name = "VoiceValidationError";
+    this.context = context;
   }
 }
 

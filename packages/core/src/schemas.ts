@@ -59,6 +59,8 @@ export interface VoiceErrorResponse {
   readonly error: true;
   readonly code: string;
   readonly message: string;
+  readonly hint: string;
+  readonly retryable: boolean;
   readonly traceId: string;
   readonly context?: Record<string, unknown>;
 }

@@ -3,9 +3,7 @@
 import {
   buildSynthesisRequest,
   errorResponse,
-  VoiceValidationError,
-  LimitError,
-  OutputDirError,
+  fromError,
   defaultOutputRoot,
   resolveOutputDir,
   hasEmotionTags,
@@ -17,8 +15,6 @@ import {
   type EmotionSynthesisContext,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
-import { HttpBackendError } from "../backends/httpBackend.js";
-import { PythonBackendError } from "../backends/pythonBackend.js";
 
 export interface SpeakArgs {
   text: string;
@@ -51,10 +47,7 @@ export async function handleSpeak(
     try {
       resolvedOutputDir = await resolveOutputDir(args.outputDir, root);
     } catch (e) {
-      if (e instanceof OutputDirError) {
-        return errorResponse(e.code as any, e.message);
-      }
-      return errorResponse("OUTPUT_DIR_INVALID", String(e));
+      return fromError(e);
     }
   }
 
@@ -74,13 +67,7 @@ export async function handleSpeak(
       outputDir: resolvedOutputDir,
     });
   } catch (e) {
-    if (e instanceof VoiceValidationError) {
-      return errorResponse(e.code as any, e.message, undefined, e.context);
-    }
-    if (e instanceof LimitError) {
-      return errorResponse(e.code as any, e.message, undefined, e.context);
-    }
-    return errorResponse("INTERNAL_ERROR", String(e));
+    return fromError(e);
   }
 
   if (!backend.ready) {
@@ -102,13 +89,7 @@ export async function handleSpeak(
       format: result.format,
     };
   } catch (e) {
-    if (e instanceof HttpBackendError) {
-      return errorResponse(e.code as any, e.message, request.traceId);
-    }
-    if (e instanceof PythonBackendError) {
-      return errorResponse(e.code as any, e.message, request.traceId);
-    }
-    return errorResponse("SYNTHESIS_FAILED", String(e), request.traceId);
+    return fromError(e, request.traceId);
   }
 }
 
@@ -163,12 +144,6 @@ async function handleEmotionSpeak(
       format: firstChunk?.format ?? "wav",
     };
   } catch (e) {
-    if (e instanceof HttpBackendError) {
-      return errorResponse(e.code as any, e.message);
-    }
-    if (e instanceof PythonBackendError) {
-      return errorResponse(e.code as any, e.message);
-    }
-    return errorResponse("SYNTHESIS_FAILED", String(e));
+    return fromError(e);
   }
 }

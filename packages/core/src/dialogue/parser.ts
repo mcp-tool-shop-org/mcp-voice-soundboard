@@ -17,6 +17,7 @@
 import { VOICES, APPROVED_VOICE_IDS, type VoiceInfo } from "../voices.js";
 import { getPreset } from "../presets.js";
 import { resolveVoiceOrPreset } from "../validate.js";
+import { SoundboardError } from "../errors.js";
 import type {
   CueSheet,
   DialogueCue,
@@ -28,12 +29,9 @@ import type {
 
 // ── Public API ──
 
-export class DialogueParseError extends Error {
-  constructor(
-    message: string,
-    public readonly code: string = "DIALOGUE_PARSE_FAILED",
-  ) {
-    super(message);
+export class DialogueParseError extends SoundboardError {
+  constructor(message: string, code: string = "DIALOGUE_PARSE_FAILED") {
+    super(code, message, "Check dialogue script syntax: 'Speaker: text' per line");
     this.name = "DialogueParseError";
   }
 }

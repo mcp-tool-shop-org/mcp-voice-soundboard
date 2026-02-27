@@ -5,6 +5,7 @@ import { resolve, relative, isAbsolute } from "node:path";
 import { mkdir, access, constants } from "node:fs/promises";
 import type { ArtifactMode } from "./schemas.js";
 import { isSymlink } from "./sandbox.js";
+import { SoundboardError } from "./errors.js";
 
 export { type ArtifactMode };
 
@@ -39,12 +40,9 @@ export function buildArtifactConfig(opts?: {
 
 // ── Output dir sandboxing ──
 
-export class OutputDirError extends Error {
-  constructor(
-    message: string,
-    public readonly code: string = "OUTPUT_DIR_INVALID",
-  ) {
-    super(message);
+export class OutputDirError extends SoundboardError {
+  constructor(message: string, code: string = "OUTPUT_DIR_INVALID") {
+    super(code, message, "Check output directory path and permissions");
     this.name = "OutputDirError";
   }
 }

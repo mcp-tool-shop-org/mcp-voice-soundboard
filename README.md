@@ -286,8 +286,11 @@ pnpm install
 # Build
 pnpm build
 
-# Test (342 tests)
+# Test (344 tests)
 pnpm test
+
+# Build + test in one step
+pnpm verify
 ```
 
 > Part of [MCP Tool Shop](https://mcp-tool-shop.github.io/)
@@ -325,6 +328,10 @@ mcp-voice-soundboard/
   assets/               Logo, audio event manifests
   docs/                 Architecture docs
 ```
+
+## Privacy
+
+**No telemetry.** This tool collects no usage data, sends no analytics, and makes no network requests except to the TTS backend you configure. All processing is local.
 
 ## Security
 

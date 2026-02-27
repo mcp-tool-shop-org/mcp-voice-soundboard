@@ -4,7 +4,7 @@ import { spawn, type ChildProcess } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import type { Backend, BackendHealth, SynthesisResult } from "../backend.js";
-import type { SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
+import { SoundboardError, type SynthesisRequest } from "@mcptoolshop/voice-soundboard-core";
 
 export interface PythonBackendConfig {
   /** Python executable (default: "python"). */
@@ -15,13 +15,20 @@ export interface PythonBackendConfig {
   timeout?: number;
 }
 
+const PYTHON_HINTS: Record<string, string> = {
+  BACKEND_TIMEOUT: "Increase timeout or check Python process health",
+  BACKEND_UNREACHABLE: "Verify Python is installed and the bridge module is available",
+  BACKEND_BAD_RESPONSE: "Check Python bridge output format",
+  SYNTHESIS_FAILED: "Check Python bridge logs for synthesis errors",
+};
+
 /** Error from the Python backend with a stable code. */
-export class PythonBackendError extends Error {
+export class PythonBackendError extends SoundboardError {
   constructor(
     message: string,
-    public readonly code: "BACKEND_TIMEOUT" | "BACKEND_UNREACHABLE" | "BACKEND_BAD_RESPONSE" | "SYNTHESIS_FAILED",
+    code: "BACKEND_TIMEOUT" | "BACKEND_UNREACHABLE" | "BACKEND_BAD_RESPONSE" | "SYNTHESIS_FAILED",
   ) {
-    super(message);
+    super(code, message, PYTHON_HINTS[code] ?? "Check backend configuration", { retryable: code === "BACKEND_TIMEOUT" });
     this.name = "PythonBackendError";
   }
 }

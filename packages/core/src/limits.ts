@@ -35,14 +35,19 @@ export const SHIP_LIMITS = {
   healthTimeoutMs: 2_000,
 } as const;
 
-export class LimitError extends Error {
+import { SoundboardError } from "./errors.js";
+
+export class LimitError extends SoundboardError {
+  readonly context?: Record<string, unknown>;
+
   constructor(
     message: string,
-    public readonly code: string,
-    public readonly context?: Record<string, unknown>,
+    code: string,
+    context?: Record<string, unknown>,
   ) {
-    super(message);
+    super(code, message, "Reduce input size or adjust parameters");
     this.name = "LimitError";
+    this.context = context;
   }
 }
 

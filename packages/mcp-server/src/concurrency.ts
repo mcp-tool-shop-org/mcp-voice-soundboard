@@ -1,5 +1,7 @@
 /** Synthesis concurrency semaphore — limits parallel synthesis requests. */
 
+import { SoundboardError } from "@mcptoolshop/voice-soundboard-core";
+
 export class SynthesisSemaphore {
   private running = 0;
   private queue: Array<() => void> = [];
@@ -42,10 +44,9 @@ export class SynthesisSemaphore {
   }
 }
 
-export class BusyError extends Error {
-  readonly code = "BUSY" as const;
+export class BusyError extends SoundboardError {
   constructor() {
-    super("Server is busy — concurrent synthesis limit reached");
+    super("BUSY", "Server is busy — concurrent synthesis limit reached", "Wait a moment and retry", { retryable: true });
     this.name = "BusyError";
   }
 }

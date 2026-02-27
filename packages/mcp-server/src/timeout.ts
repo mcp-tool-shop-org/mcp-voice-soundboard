@@ -1,9 +1,10 @@
 /** Request timeout utility. */
 
-export class TimeoutError extends Error {
-  readonly code = "REQUEST_TIMEOUT" as const;
+import { SoundboardError } from "@mcptoolshop/voice-soundboard-core";
+
+export class TimeoutError extends SoundboardError {
   constructor(ms: number) {
-    super(`Request timed out after ${ms}ms`);
+    super("REQUEST_TIMEOUT", `Request timed out after ${ms}ms`, "Try shorter text or check backend health", { retryable: true });
     this.name = "TimeoutError";
   }
 }

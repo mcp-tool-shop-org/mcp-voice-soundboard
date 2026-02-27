@@ -2,6 +2,11 @@
 // Backend-agnostic voice soundboard core library
 
 export {
+  SoundboardError,
+  wrapError,
+} from "./errors.js";
+
+export {
   type VoiceInfo,
   DEFAULT_VOICE,
   VOICES,
@@ -59,6 +64,7 @@ export {
   type SpeakInput,
   buildSynthesisRequest,
   errorResponse,
+  fromError,
 } from "./request.js";
 
 export {

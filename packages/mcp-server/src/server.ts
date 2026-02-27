@@ -4,6 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import {
   AmbientEmitter,
+  SoundboardError,
   SHIP_LIMITS,
   type ArtifactMode,
 } from "@mcptoolshop/voice-soundboard-core";
@@ -36,26 +37,25 @@ export interface ServerOptions {
   retentionMinutes?: number;
 }
 
-/** Format a guardrail/validation error for MCP response with redaction. */
-function safeErrorResponse(error: unknown): {
+/**
+ * Convert any error into an MCP tool error response.
+ * Extracts hint + retryable from SoundboardError subclasses.
+ * Never exposes stack traces. Redacts secrets.
+ */
+function toToolError(error: unknown): {
   content: Array<{ type: "text"; text: string }>;
   isError: true;
 } {
   let code = "INTERNAL_ERROR";
   let message = "Unknown error";
+  let hint = "Check voice_status for engine health";
+  let retryable = false;
 
-  if (error instanceof BusyError) {
+  if (error instanceof SoundboardError) {
     code = error.code;
     message = error.message;
-  } else if (error instanceof RateLimitError) {
-    code = error.code;
-    message = error.message;
-  } else if (error instanceof TimeoutError) {
-    code = error.code;
-    message = error.message;
-  } else if (error instanceof ValidationError) {
-    code = error.code;
-    message = error.message;
+    hint = error.hint;
+    retryable = error.retryable;
   } else if (error instanceof Error) {
     message = error.message;
   }
@@ -66,11 +66,14 @@ function safeErrorResponse(error: unknown): {
   return {
     content: [{
       type: "text",
-      text: JSON.stringify({ error: true, code, message }, null, 2),
+      text: JSON.stringify({ error: true, code, message, hint, retryable }, null, 2),
     }],
     isError: true,
   };
 }
+
+/** @deprecated Use toToolError instead. Kept for backward compatibility. */
+const safeErrorResponse = toToolError;
 
 export function createServer(options: ServerOptions): McpServer {
   const {
@@ -100,7 +103,7 @@ export function createServer(options: ServerOptions): McpServer {
   const server = new McpServer(
     {
       name: "voice-soundboard",
-      version: "0.2.1",
+      version: "0.3.0",
     },
     {
       capabilities: { tools: {} },

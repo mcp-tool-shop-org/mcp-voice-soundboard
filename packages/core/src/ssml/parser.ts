@@ -21,15 +21,13 @@ import type {
   SsmlWarning,
 } from "./types.js";
 import { SSML_LIMITS } from "./limits.js";
+import { SoundboardError } from "../errors.js";
 
 // ── Public API ──
 
-export class SsmlParseError extends Error {
-  constructor(
-    message: string,
-    public readonly code: string = "SSML_PARSE_FAILED",
-  ) {
-    super(message);
+export class SsmlParseError extends SoundboardError {
+  constructor(message: string, code: string = "SSML_PARSE_FAILED") {
+    super(code, message, "Check SSML syntax — use plain text if unsure");
     this.name = "SsmlParseError";
   }
 }

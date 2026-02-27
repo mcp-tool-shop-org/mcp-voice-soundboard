@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-02-27
+
+### Added
+
+- **Structured error contract** — all errors now carry `hint` (actionable guidance) and `retryable` (safe to retry?) fields
+- `SoundboardError` base class in core — extends `Error` with `code`, `hint`, `retryable`, `cause`
+- `fromError()` helper — converts any caught error into a `VoiceErrorResponse`, extracting hint + retryable from `SoundboardError` subclasses
+- `toToolError()` pattern in MCP server — converts errors into MCP tool error responses with structured fields, never exposes stack traces
+- `wrapError()` utility — wraps unknown thrown values into `SoundboardError`
+
+### Changed
+
+- All 11 error classes across core and server now extend `SoundboardError`
+- `VoiceErrorResponse` schema now includes `hint: string` and `retryable: boolean`
+- `voiceSpeak` and `voiceDialogue` handlers migrated from manual `instanceof` chains to `fromError()`
+- Golden-contract tests now verify `hint` and `retryable` fields in error responses
+- MCP server version string aligned with package version
+
+### Fixed
+
+- MCP handshake version was stuck at `0.2.1` while package was at `0.2.4` — now both `0.3.0`
+- Error responses from `BusyError`, `RateLimitError`, `TimeoutError` now correctly report `retryable: true`
+
 ## [0.2.1] - 2026-02-18
 
 ### Fixed

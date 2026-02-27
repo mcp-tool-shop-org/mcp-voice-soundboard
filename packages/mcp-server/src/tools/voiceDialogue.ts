@@ -2,14 +2,11 @@
 
 import {
   parseDialogue,
-  DialogueParseError,
   errorResponse,
+  fromError,
   buildSynthesisRequest,
-  VoiceValidationError,
-  LimitError,
   defaultOutputRoot,
   resolveOutputDir,
-  OutputDirError,
   hasEmotionTags,
   runEmotionPlan,
   type ArtifactMode,
@@ -17,8 +14,6 @@ import {
   type EmotionSynthesisContext,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend, SynthesisResult } from "../backend.js";
-import { HttpBackendError } from "../backends/httpBackend.js";
-import { PythonBackendError } from "../backends/pythonBackend.js";
 
 export interface DialogueArgs {
   script: string;
@@ -71,10 +66,7 @@ export async function handleDialogue(
       cast: args.cast as CastMap,
     });
   } catch (e) {
-    if (e instanceof DialogueParseError) {
-      return errorResponse(e.code as any, e.message);
-    }
-    return errorResponse("INTERNAL_ERROR", String(e));
+    return fromError(e);
   }
 
   // Resolve artifact mode
@@ -89,10 +81,7 @@ export async function handleDialogue(
     try {
       resolvedOutputDir = await resolveOutputDir(args.outputDir, root);
     } catch (e) {
-      if (e instanceof OutputDirError) {
-        return errorResponse(e.code as any, e.message);
-      }
-      return errorResponse("OUTPUT_DIR_INVALID", String(e));
+      return fromError(e);
     }
   }
 
@@ -145,10 +134,7 @@ export async function handleDialogue(
         });
         totalDurationMs += emotionResult.totalDurationMs;
       } catch (e) {
-        if (e instanceof HttpBackendError || e instanceof PythonBackendError) {
-          return errorResponse((e as any).code, e.message);
-        }
-        return errorResponse("SYNTHESIS_FAILED", String(e));
+        return fromError(e);
       }
       continue;
     }
@@ -164,23 +150,14 @@ export async function handleDialogue(
         outputDir: resolvedOutputDir,
       });
     } catch (e) {
-      if (e instanceof VoiceValidationError || e instanceof LimitError) {
-        return errorResponse(e.code as any, e.message, undefined, (e as any).context);
-      }
-      return errorResponse("INTERNAL_ERROR", String(e));
+      return fromError(e);
     }
 
     let result: SynthesisResult;
     try {
       result = await backend.synthesize(request);
     } catch (e) {
-      if (e instanceof HttpBackendError) {
-        return errorResponse(e.code as any, e.message, request.traceId);
-      }
-      if (e instanceof PythonBackendError) {
-        return errorResponse(e.code as any, e.message, request.traceId);
-      }
-      return errorResponse("SYNTHESIS_FAILED", String(e), request.traceId);
+      return fromError(e, request.traceId);
     }
 
     artifacts.push({

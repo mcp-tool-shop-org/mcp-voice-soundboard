@@ -93,7 +93,7 @@ describe("golden: voice_speak schema (base64 mode)", () => {
 });
 
 describe("golden: error schema", () => {
-  it("error responses have stable keys", async () => {
+  it("error responses have stable keys including hint and retryable", async () => {
     client = await initClient();
     const { result, isError } = await callTool(client, "voice_speak", {
       text: "",
@@ -103,24 +103,29 @@ describe("golden: error schema", () => {
     expect(result).toHaveProperty("error", true);
     expect(result).toHaveProperty("code");
     expect(result).toHaveProperty("message");
-    expect(result).toHaveProperty("traceId");
+    expect(result).toHaveProperty("hint");
+    expect(result).toHaveProperty("retryable");
     expect(typeof result.code).toBe("string");
     expect(typeof result.message).toBe("string");
+    expect(typeof result.hint).toBe("string");
+    expect(typeof result.retryable).toBe("boolean");
   });
 
   const errorCases = [
-    { name: "TEXT_EMPTY", args: { text: "   " } },
-    { name: "TEXT_TOO_LONG", args: { text: "x".repeat(20_000) } },
-    { name: "VOICE_OR_PRESET_NOT_FOUND", args: { text: "Hi", voice: "nonexistent" } },
+    { name: "TEXT_EMPTY", args: { text: "   " }, retryable: false },
+    { name: "TEXT_TOO_LONG", args: { text: "x".repeat(20_000) }, retryable: false },
+    { name: "VOICE_OR_PRESET_NOT_FOUND", args: { text: "Hi", voice: "nonexistent" }, retryable: false },
   ];
 
-  for (const { name, args } of errorCases) {
+  for (const { name, args, retryable } of errorCases) {
     it(`stable error code: ${name}`, async () => {
       client = await initClient();
       const { result, isError } = await callTool(client, "voice_speak", args);
 
       expect(isError).toBe(true);
       expect(result.code).toBe(name);
+      expect(result.retryable).toBe(retryable);
+      expect(result.hint).toBeTruthy();
     });
   }
 });
