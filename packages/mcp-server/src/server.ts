@@ -103,7 +103,7 @@ export function createServer(options: ServerOptions): McpServer {
   const server = new McpServer(
     {
       name: "voice-soundboard",
-      version: "1.0.0",
+      version: "1.0.1",
     },
     {
       capabilities: { tools: {} },
