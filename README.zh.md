@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.md">English</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -133,112 +133,112 @@ category?:    "thinking"           # general | thinking | observation | debug
 提供 48 种语音，涵盖 9 种语言。 语音的语言将自动从语音 ID 前缀推断，无需任何配置。
 
 | 前缀 | 语言 |
-| -------- | ---------- |
+|--------|----------|
 | `af_` / `am_` | 美式英语 |
 | `bf_` / `bm_` | 英式英语 |
 | `jf_` / `jm_` | 日语 |
 | `zf_` / `zm_` | 普通话 |
 | `ef_` / `em_` | 西班牙语 |
 | `ff_` | 法语 |
-| `hf_` / `hm_` | Hindi |
+| `hf_` / `hm_` | 印地语 |
 | `if_` / `im_` | 意大利语 |
 | `pf_` / `pm_` | 巴西葡萄牙语 |
 
 ### 美式英语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
 | `af_aoede` | Aoede | 女性 | 音乐 |
-| `af_bella` | Bella | 女性 | Warm |
-| `af_heart` | Heart | 女性 | 关怀 |
+| `af_bella` | Bella | 女性 | 温暖 |
+| `af_heart` | 内心 | 女性 | 关怀 |
 | `af_jessica` | Jessica | 女性 | 专业 |
 | `af_kore` | Kore | 女性 | 年轻 |
-| `af_nicole` | Nicole | 女性 | Soft |
-| `af_sarah` | Sarah | 女性 | Clear |
-| `af_sky` | Sky | 女性 | Airy |
-| `am_eric` | Eric | Male | 自信 |
-| `am_fenrir` | Fenrir | Male | 强大 |
-| `am_liam` | Liam | Male | 友好 |
-| `am_michael` | Michael | Male | Deep |
-| `am_onyx` | Onyx | Male | 流畅 |
-| `am_puck` | Puck | Male | 活泼 |
+| `af_nicole` | Nicole | 女性 | 柔和 |
+| `af_sarah` | Sarah | 女性 | 清晰 |
+| `af_sky` | 天空 | 女性 | 轻盈 |
+| `am_eric` | Eric | 男性 | 自信 |
+| `am_fenrir` | Fenrir | 男性 | 强大 |
+| `am_liam` | Liam | 男性 | 友善 |
+| `am_michael` | Michael | 男性 | 深沉 |
+| `am_onyx` | Onyx | 男性 | 流畅 |
+| `am_puck` | Puck | 男性 | 活泼 |
 
 ### 英式英语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
 | `bf_alice` | Alice | 女性 | 正式 |
 | `bf_emma` | Emma | 女性 | 优雅 |
-| `bf_isabella` | Isabella | 女性 | Warm |
-| `bm_fable` | Fable | Male | 故事讲述 |
-| `bm_george` | George | Male | 权威 |
-| `bm_lewis` | Lewis | Male | 友好 |
+| `bf_isabella` | Isabella | 女性 | 温暖 |
+| `bm_fable` | 童话 | 男性 | 讲故事 |
+| `bm_george` | George | 男性 | 权威 |
+| `bm_lewis` | Lewis | 男性 | 友善 |
 
 ### 日语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
-| `jf_alpha` | Alpha | 女性 | Clear |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
+| `jf_alpha` | Alpha | 女性 | 清晰 |
 | `jf_gongitsune` | Gongitsune | 女性 | 讲故事 |
 | `jf_nezuko` | 禰豆子 | 女性 | 温柔 |
-| `jf_tebukuro` | Tebukuro | 女性 | Warm |
-| `jm_kumo` | Kumo | Male | Calm |
+| `jf_tebukuro` | Tebukuro | 女性 | 温暖 |
+| `jm_kumo` | Kumo | 男性 | 平静 |
 
 ### 普通话
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
 | `zf_xiaobei` | Xiaobei | 女性 | 开朗 |
 | `zf_xiaoni` | Xiaoni | 女性 | 温柔 |
-| `zf_xiaoxiao` | Xiaoxiao | 女性 | Clear |
-| `zf_xiaoyi` | Xiaoyi | 女性 | Warm |
-| `zm_yunjian` | Yunjian | Male | 权威 |
-| `zm_yunxi` | Yunxi | Male | 友善 |
-| `zm_yunxia` | Yunxia | Male | Calm |
-| `zm_yunyang` | Yunyang | Male | 自信 |
+| `zf_xiaoxiao` | Xiaoxiao | 女性 | 清晰 |
+| `zf_xiaoyi` | Xiaoyi | 女性 | 温暖 |
+| `zm_yunjian` | Yunjian | 男性 | 权威 |
+| `zm_yunxi` | Yunxi | 男性 | 友善 |
+| `zm_yunxia` | Yunxia | 男性 | 平静 |
+| `zm_yunyang` | Yunyang | 男性 | 自信 |
 
 ### 西班牙语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
-| `ef_dora` | Dora | 女性 | Warm |
-| `em_alex` | Alex | Male | 自信 |
-| `em_santa` | Santa | Male | Jolly |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
+| `ef_dora` | Dora | 女性 | 温暖 |
+| `em_alex` | Alex | 男性 | 自信 |
+| `em_santa` | 圣诞老人 | 男性 | 快乐 |
 
 ### 法语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
 | `ff_siwis` | Siwis | 女性 | 优雅 |
 
 ### 印地语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
-| `hf_alpha` | Alpha | 女性 | Clear |
-| `hf_beta` | Beta | 女性 | Warm |
-| `hm_omega` | Omega | Male | Deep |
-| `hm_psi` | Psi | Male | Calm |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
+| `hf_alpha` | Alpha | 女性 | 清晰 |
+| `hf_beta` | Beta | 女性 | 温暖 |
+| `hm_omega` | Omega | 男性 | 深沉 |
+| `hm_psi` | Psi | 男性 | 平静 |
 
 ### 意大利语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
-| `if_sara` | Sara | 女性 | Warm |
-| `im_nicola` | Nicola | Male | 自信 |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
+| `if_sara` | Sara | 女性 | 温暖 |
+| `im_nicola` | Nicola | 男性 | 自信 |
 
 ### 巴西葡萄牙语
 
-| ID | Name | 性别 | Style |
-|----| ------ | -------- | ------- |
-| `pf_dora` | Dora | 女性 | Warm |
-| `pm_alex` | Alex | Male | 自信 |
-| `pm_santa` | Santa | Male | Jolly |
+| ID | 名称 | 性别 | 风格 |
+|----|------|--------|-------|
+| `pf_dora` | Dora | 女性 | 温暖 |
+| `pm_alex` | Alex | 男性 | 自信 |
+| `pm_santa` | 圣诞老人 | 男性 | 快乐 |
 
 ### 预设
 
-| 预设 | Voice | Speed | 描述 |
-| -------- | ------- | ------- | ------------- |
+| 预设 | 声音 | 速度 | 描述 |
+|--------|-------|-------|-------------|
 | `narrator` | `bm_george` | 0.95 | 平静的纪录片风格 |
 | `announcer` | `am_onyx` | 1.05 | 新闻主播的语调 |
 | `whisper` | `af_aoede` | 0.85 | 柔和、亲密 |
@@ -257,13 +257,13 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## 命令行标志
 
-| Flag | 默认值 | 描述 |
-| ------ | --------- | ------------- |
+| 旗帜 | 默认值 | 描述 |
+|------|---------|-------------|
 | `--artifact=path\ | base64` | `path` | 音频传输模式 |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | 输出目录 |
-| `--backend=mock\ |http` | `mock` | 后端选择 |
+| `--backend=mock\ | http | `mock` | 后端选择 |
 | `--backend-url=<url>` | &mdash; | HTTP后端URL |
-| `--ambient` | off | 启用内部独白系统 |
+| `--ambient` | 关闭 | 启用内部独白系统 |
 | `--max-concurrent=<n>` | `1` | 最大并发合成请求数 |
 | `--timeout=<ms>` | `20000` | 每个请求的超时时间 |
 | `--retention-minutes=<n>` | `240` | 自动清理时长（0 表示禁用） |
@@ -273,7 +273,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 这是一个 pnpm monorepo，包含两个可发布的包：
 
 | 包 | 描述 | npm |
-| --------- | ------------- |-----|
+|---------|-------------|-----|
 | [`@mcptoolshop/voice-soundboard-core`](packages/core) | 不依赖特定后端的核心库（验证、SSML、分块、模式） | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
 | [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | 带有 CLI、安全机制和传输的 MCP 服务器 | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
@@ -286,8 +286,11 @@ pnpm install
 # Build
 pnpm build
 
-# Test (342 tests)
+# Test (344 tests)
 pnpm test
+
+# Build + test in one step
+pnpm verify
 ```
 
 > 它是 [MCP Tool Shop](https://mcp-tool-shop.github.io/) 的一部分
@@ -326,6 +329,10 @@ mcp-voice-soundboard/
   docs/                 Architecture docs
 ```
 
+## 隐私
+
+**无数据收集。** 此工具不收集任何使用数据，不发送任何分析数据，也不进行任何网络请求，除非是连接到您配置的TTS后端。所有处理都在本地进行。
+
 ## 安全
 
 请参阅 [SECURITY.md](SECURITY.md) 以报告漏洞。
@@ -335,7 +342,7 @@ mcp-voice-soundboard/
 ## 相关
 
 | 项目 | 描述 |
-| --------- | ------------- |
+|---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude 代码插件 &mdash;  slash 命令，具有情感意识的叙述 |
 
 ## 支持
@@ -344,6 +351,17 @@ mcp-voice-soundboard/
 - **错误报告：** [问题](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **安全：** [SECURITY.md](SECURITY.md)
 
+## 评估表
+
+| 类别 | 分数 | 备注 |
+|----------|-------|-------|
+| A. 安全性 | 10/10 | SECURITY.md, THREAT_MODEL.md, 匿名化处理，无数据收集 |
+| B. 错误处理 | 8/10 | 结构化错误信息（代码/提示/可重试），toToolError模式 |
+| C. 操作文档 | 9/10 | README, CHANGELOG, HANDBOOK, 工具文档 |
+| D. 发布流程 | 9/10 | CI，验证脚本，dependabot，lockfile |
+| E. 身份标识 | 10/10 | Logo，翻译，着陆页，元数据 |
+| **Total** | **46/50** | |
+
 ## 许可证
 
 [MIT](LICENSE)
@@ -351,5 +369,5 @@ mcp-voice-soundboard/
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

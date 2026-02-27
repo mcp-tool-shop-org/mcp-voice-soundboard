@@ -2,11 +2,11 @@ import type { SiteConfig } from '@mcptoolshop/site-theme';
 
 export const config: SiteConfig = {
   title: 'MCP Voice Soundboard',
-  description: 'Text-to-speech MCP server for AI agents — 48 voices, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, guardrails.',
-  logoBadge: 'VS',
+  description: 'Text-to-speech MCP server — 48 voices, 9 languages, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.',
+  logoBadge: 'v1',
   brandName: 'MCP Voice Soundboard',
   repoUrl: 'https://github.com/mcp-tool-shop-org/mcp-voice-soundboard',
-  footerText: 'MIT Licensed — built by <a href="https://github.com/mcp-tool-shop-org" style="color:var(--color-muted);text-decoration:underline">mcp-tool-shop-org</a>',
+  footerText: 'MIT Licensed — built by <a href="https://mcp-tool-shop.github.io/" style="color:var(--color-muted);text-decoration:underline">MCP Tool Shop</a>',
 
   hero: {
     badge: 'TypeScript · Node.js · MCP',
@@ -107,6 +107,20 @@ export const config: SiteConfig = {
           title: 'Swappable backends',
           desc: 'Mock backend ships built-in — zero setup. HTTP proxy and Python bridge for production. Plug in Kokoro, Coqui, ElevenLabs, or any TTS engine.',
         },
+      ],
+    },
+    {
+      kind: 'data-table',
+      id: 'quality',
+      title: 'Ship Gate scorecard',
+      subtitle: 'v1.0.0 — audited against our product quality standard.',
+      columns: ['Category', 'Score', 'Highlights'],
+      rows: [
+        ['Security', '10/10', 'SECURITY.md, threat model, redaction, no telemetry'],
+        ['Error handling', '8/10', 'Structured errors (code/hint/retryable), toToolError pattern'],
+        ['Operator docs', '9/10', 'README, CHANGELOG, HANDBOOK, Zod-documented tools'],
+        ['Shipping hygiene', '9/10', 'CI, verify script, dependabot, lockfile, 344 tests'],
+        ['Identity', '10/10', 'Logo, 8 translations, landing page, repo metadata'],
       ],
     },
   ],

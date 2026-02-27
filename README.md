@@ -351,6 +351,17 @@ See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
 - **Bug reports:** [Issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **Security:** [SECURITY.md](SECURITY.md)
 
+## Scorecard
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| A. Security | 10/10 | SECURITY.md, THREAT_MODEL.md, redaction, no telemetry |
+| B. Error Handling | 8/10 | Structured error contract (code/hint/retryable), toToolError pattern |
+| C. Operator Docs | 9/10 | README, CHANGELOG, HANDBOOK, tool docs |
+| D. Shipping Hygiene | 9/10 | CI, verify script, dependabot, lockfile |
+| E. Identity | 10/10 | Logo, translations, landing page, metadata |
+| **Total** | **46/50** | |
+
 ## License
 
 [MIT](LICENSE)
@@ -358,5 +369,5 @@ See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

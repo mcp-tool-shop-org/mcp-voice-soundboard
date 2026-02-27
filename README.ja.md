@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.md">English</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -133,21 +133,21 @@ category?:    "thinking"           # general | thinking | observation | debug
 9言語、合計48種類の音声があります。言語は音声IDのプレフィックスから自動的に判別されます。設定は不要です。
 
 | プレフィックス | 言語 |
-| -------- | ---------- |
+|--------|----------|
 | `af_` / `am_` | 英語（アメリカ） |
 | `bf_` / `bm_` | 英語（イギリス） |
 | `jf_` / `jm_` | 日本語 |
-| `zf_` / `zm_` | 中国語（北京語） |
+| `zf_` / `zm_` | 中国語（普通話） |
 | `ef_` / `em_` | スペイン語 |
 | `ff_` | フランス語 |
-| `hf_` / `hm_` | Hindi |
+| `hf_` / `hm_` | ヒンディー語 |
 | `if_` / `im_` | イタリア語 |
 | `pf_` / `pm_` | ブラジルポルトガル語 |
 
 ### 英語 — アメリカ
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `af_aoede` | Aoede | 女性 | ミュージカル |
 | `af_bella` | Bella | 女性 | Warm |
 | `af_heart` | Heart | 女性 | 優しい |
@@ -156,89 +156,89 @@ category?:    "thinking"           # general | thinking | observation | debug
 | `af_nicole` | ニコル | 女性 | Soft |
 | `af_sarah` | Sarah | 女性 | Clear |
 | `af_sky` | Sky | 女性 | Airy |
-| `am_eric` | Eric | Male | 自信のある |
-| `am_fenrir` | フェンリル | Male | 力強い |
-| `am_liam` | Liam | Male | フレンドリー |
-| `am_michael` | マイケル | Male | Deep |
-| `am_onyx` | Onyx | Male | 滑らかな |
-| `am_puck` | Puck | Male | 遊び心のある |
+| `am_eric` | Eric | 男性 | 自信がある |
+| `am_fenrir` | フェンリル | 男性 | 力強い |
+| `am_liam` | Liam | 男性 | フレンドリー |
+| `am_michael` | マイケル | 男性 | Deep |
+| `am_onyx` | Onyx | 男性 | 滑らかな |
+| `am_puck` | Puck | 男性 | 遊び心のある |
 
 ### 英語 — イギリス
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `bf_alice` | Alice | 女性 | 上品な |
 | `bf_emma` | Emma | 女性 | 洗練された |
 | `bf_isabella` | イザベラ | 女性 | Warm |
-| `bm_fable` | Fable | Male | 物語 |
-| `bm_george` | ジョージ | Male | 権威のある |
-| `bm_lewis` | Lewis | Male | フレンドリー |
+| `bm_fable` | Fable | 男性 | 物語 |
+| `bm_george` | ジョージ | 男性 | 権威がある |
+| `bm_lewis` | Lewis | 男性 | フレンドリー |
 
 ### 日本語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `jf_alpha` | Alpha | 女性 | Clear |
 | `jf_gongitsune` | Gongitsune | 女性 | 物語 |
 | `jf_nezuko` | 禰豆子 | 女性 | 優しい |
 | `jf_tebukuro` | Tebukuro | 女性 | Warm |
-| `jm_kumo` | Kumo | Male | Calm |
+| `jm_kumo` | Kumo | 男性 | Calm |
 
 ### 中国語（普通話）
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `zf_xiaobei` | Xiaobei | 女性 | 明るい |
 | `zf_xiaoni` | Xiaoni | 女性 | 優しい |
 | `zf_xiaoxiao` | Xiaoxiao | 女性 | Clear |
 | `zf_xiaoyi` | Xiaoyi | 女性 | Warm |
-| `zm_yunjian` | Yunjian | Male | 権威がある |
-| `zm_yunxi` | Yunxi | Male | フレンドリー |
-| `zm_yunxia` | Yunxia | Male | Calm |
-| `zm_yunyang` | Yunyang | Male | 自信がある |
+| `zm_yunjian` | Yunjian | 男性 | 権威がある |
+| `zm_yunxi` | Yunxi | 男性 | フレンドリー |
+| `zm_yunxia` | Yunxia | 男性 | Calm |
+| `zm_yunyang` | Yunyang | 男性 | 自信がある |
 
 ### スペイン語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `ef_dora` | Dora | 女性 | Warm |
-| `em_alex` | Alex | Male | 自信がある |
-| `em_santa` | Santa | Male | Jolly |
+| `em_alex` | Alex | 男性 | 自信がある |
+| `em_santa` | Santa | 男性 | Jolly |
 
 ### フランス語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `ff_siwis` | Siwis | 女性 | 洗練された |
 
 ### ヒンディー語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `hf_alpha` | Alpha | 女性 | Clear |
 | `hf_beta` | Beta | 女性 | Warm |
-| `hm_omega` | Omega | Male | Deep |
-| `hm_psi` | Psi | Male | Calm |
+| `hm_omega` | Omega | 男性 | Deep |
+| `hm_psi` | Psi | 男性 | Calm |
 
 ### イタリア語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `if_sara` | Sara | 女性 | Warm |
-| `im_nicola` | Nicola | Male | 自信がある |
+| `im_nicola` | Nicola | 男性 | 自信がある |
 
 ### ブラジルポルトガル語
 
-| ID | Name | 性別 | Style |
-|----| ------ | -------- | ------- |
+| ID | 名前 | 性別 | スタイル |
+|----|------|--------|-------|
 | `pf_dora` | Dora | 女性 | Warm |
-| `pm_alex` | Alex | Male | 自信がある |
-| `pm_santa` | Santa | Male | Jolly |
+| `pm_alex` | Alex | 男性 | 自信がある |
+| `pm_santa` | Santa | 男性 | Jolly |
 
 ### プリセット
 
 | プリセット | Voice | Speed | 説明 |
-| -------- | ------- | ------- | ------------- |
+|--------|-------|-------|-------------|
 | `narrator` | `bm_george` | 0.95 | 落ち着いたドキュメンタリー風 |
 | `announcer` | `am_onyx` | 1.05 | ニュースキャスターのような雰囲気 |
 | `whisper` | `af_aoede` | 0.85 | 柔らかく、親密 |
@@ -258,12 +258,12 @@ category?:    "thinking"           # general | thinking | observation | debug
 ## CLIフラグ
 
 | Flag | デフォルト | 説明 |
-| ------ | --------- | ------------- |
+|------|---------|-------------|
 | `--artifact=path\ | base64` | `path` | 音声配信モード |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | 出力ディレクトリ |
-| `--backend=mock\ |http` | `mock` | バックエンドの選択 |
+| `--backend=mock\ | http | `mock` | バックエンドの選択 |
 | `--backend-url=<url>` | &mdash; | HTTPバックエンドURL |
-| `--ambient` | off | 内部モノローグシステムを有効にする |
+| `--ambient` | オフ | 内部モノローグシステムを有効にする |
 | `--max-concurrent=<n>` | `1` | 最大同時合成リクエスト数 |
 | `--timeout=<ms>` | `20000` | リクエストごとのタイムアウト |
 | `--retention-minutes=<n>` | `240` | 自動クリーンアップ期間（0で無効） |
@@ -273,7 +273,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 これは、公開可能なパッケージが2つあるpnpmモノレポです。
 
 | パッケージ | 説明 | npm |
-| --------- | ------------- |-----|
+|---------|-------------|-----|
 | [`@mcptoolshop/voice-soundboard-core`](packages/core) | 検証、SSML、チャンキング、スキーマを含む、バックエンドに依存しないコアライブラリ | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
 | [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI、ガードレール、トランスポートを備えたMCPサーバー | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
@@ -286,8 +286,11 @@ pnpm install
 # Build
 pnpm build
 
-# Test (342 tests)
+# Test (344 tests)
 pnpm test
+
+# Build + test in one step
+pnpm verify
 ```
 
 > [MCP Tool Shop](https://mcp-tool-shop.github.io/)の一部
@@ -326,6 +329,10 @@ mcp-voice-soundboard/
   docs/                 Architecture docs
 ```
 
+## プライバシー
+
+**テレメトリー機能はありません。** このツールは、利用状況データは一切収集せず、分析情報を送信せず、設定されたTTSバックエンドへのネットワーク接続以外は行いません。すべての処理はローカルで行われます。
+
 ## セキュリティ
 
 脆弱性報告については、[SECURITY.md](SECURITY.md)を参照してください。
@@ -335,7 +342,7 @@ mcp-voice-soundboard/
 ## 関連
 
 | プロジェクト | 説明 |
-| --------- | ------------- |
+|---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Codeプラグイン &mdash; スラッシュコマンド、感情を認識したナレーション |
 
 ## サポート
@@ -344,6 +351,17 @@ mcp-voice-soundboard/
 - **バグ報告:** [イシュー](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **セキュリティ:** [SECURITY.md](SECURITY.md)
 
+## 評価
+
+| カテゴリ | 評価 | 備考 |
+|----------|-------|-------|
+| A. セキュリティ | 10/10 | SECURITY.md、THREAT_MODEL.md、機密情報保護、テレメトリー機能なし |
+| B. エラー処理 | 8/10 | 構造化されたエラーハンドリング（コード/ヒント/再試行可能）、toToolErrorパターン |
+| C. 運用ドキュメント | 9/10 | README、CHANGELOG、ハンドブック、ツールドキュメント |
+| D. リリース時の品質管理 | 9/10 | CI、検証スクリプト、dependabot、ロックファイル |
+| E. 識別 | 10/10 | ロゴ、翻訳、ランディングページ、メタデータ |
+| **Total** | **46/50** | |
+
 ## ライセンス
 
 [MIT](LICENSE)
@@ -351,5 +369,5 @@ mcp-voice-soundboard/
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

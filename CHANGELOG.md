@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2026-02-27
+## [1.0.0] - 2026-02-27
+
+### Overview
+
+**First stable release.** Structured error contract, Ship Gate audit (46/50), version alignment, and v1 README.
 
 ### Added
 
@@ -14,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `fromError()` helper — converts any caught error into a `VoiceErrorResponse`, extracting hint + retryable from `SoundboardError` subclasses
 - `toToolError()` pattern in MCP server — converts errors into MCP tool error responses with structured fields, never exposes stack traces
 - `wrapError()` utility — wraps unknown thrown values into `SoundboardError`
+- `pnpm verify` script (build + test in one command)
+- Explicit "No telemetry" privacy statement in README
+- SHIP_GATE.md and SCORECARD.md for product quality tracking
 
 ### Changed
 
@@ -22,11 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `voiceSpeak` and `voiceDialogue` handlers migrated from manual `instanceof` chains to `fromError()`
 - Golden-contract tests now verify `hint` and `retryable` fields in error responses
 - MCP server version string aligned with package version
+- Repo description and topics updated (48 voices, 9 languages)
 
 ### Fixed
 
-- MCP handshake version was stuck at `0.2.1` while package was at `0.2.4` — now both `0.3.0`
+- MCP handshake version was stuck at `0.2.1` — now aligned at `1.0.0`
 - Error responses from `BusyError`, `RateLimitError`, `TimeoutError` now correctly report `retryable: true`
+- Stale v2.x git tags deleted
+- Dependabot cleaned (removed stale pip ecosystem entry)
 
 ## [0.2.1] - 2026-02-18
 

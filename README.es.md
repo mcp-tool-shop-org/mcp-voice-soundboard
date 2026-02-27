@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.md">English</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -133,7 +133,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 48 voces en 9 idiomas. El idioma se infiere automáticamente del prefijo del ID de la voz; no se requiere configuración.
 
 | Prefijo | Idioma |
-| -------- | ---------- |
+|--------|----------|
 | `af_` / `am_` | Inglés (americano) |
 | `bf_` / `bm_` | Inglés (británico) |
 | `jf_` / `jm_` | Japonés |
@@ -146,99 +146,99 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ### Inglés — Americano
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `af_aoede` | Aoede | Femenina | Musical |
-| `af_bella` | Bella | Femenina | Warm |
-| `af_heart` | Heart | Femenina | Cariñosa |
-| `af_jessica` | Jessica | Femenina | Profesional |
-| `af_kore` | Kore | Femenina | Juvenil |
-| `af_nicole` | Nicole | Femenina | Soft |
-| `af_sarah` | Sarah | Femenina | Clear |
-| `af_sky` | Sky | Femenina | Airy |
-| `am_eric` | Eric | Male | Confiada |
-| `am_fenrir` | Fenrir | Male | Poderosa |
-| `am_liam` | Liam | Male | Amigable |
-| `am_michael` | Michael | Male | Deep |
-| `am_onyx` | Onyx | Male | Suave |
-| `am_puck` | Puck | Male | Juguetona |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `af_aoede` | Aoede | Femenino | Musical |
+| `af_bella` | Bella | Femenino | Cálido |
+| `af_heart` | Corazón | Femenino | Cariñosa |
+| `af_jessica` | Jessica | Femenino | Profesional |
+| `af_kore` | Kore | Femenino | Juvenil |
+| `af_nicole` | Nicole | Femenino | Suave |
+| `af_sarah` | Sarah | Femenino | Claro |
+| `af_sky` | Cielo | Femenino | Ligero |
+| `am_eric` | Eric | Masculino | Confiado |
+| `am_fenrir` | Fenrir | Masculino | Poderosa |
+| `am_liam` | Liam | Masculino | Amigable |
+| `am_michael` | Michael | Masculino | Profundo |
+| `am_onyx` | Ónix | Masculino | Suave |
+| `am_puck` | Puck | Masculino | Juguetona |
 
 ### Inglés — Británico
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `bf_alice` | Alice | Femenina | Formal |
-| `bf_emma` | Emma | Femenina | Refinada |
-| `bf_isabella` | Isabella | Femenina | Warm |
-| `bm_fable` | Fable | Male | Narrativa |
-| `bm_george` | George | Male | Autoritaria |
-| `bm_lewis` | Lewis | Male | Amigable |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `bf_alice` | Alice | Femenino | Formal |
+| `bf_emma` | Emma | Femenino | Refinado |
+| `bf_isabella` | Isabella | Femenino | Cálido |
+| `bm_fable` | Fábula | Masculino | Narración de historias |
+| `bm_george` | George | Masculino | Autoritario |
+| `bm_lewis` | Lewis | Masculino | Amigable |
 
 ### Japonés
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `jf_alpha` | Alpha | Femenino | Clear |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `jf_alpha` | Alfa | Femenino | Claro |
 | `jf_gongitsune` | Gongitsune | Femenino | Narración de historias |
 | `jf_nezuko` | Nezuko | Femenino | Gentil |
-| `jf_tebukuro` | Tebukuro | Femenino | Warm |
-| `jm_kumo` | Kumo | Male | Calm |
+| `jf_tebukuro` | Tebukuro | Femenino | Cálido |
+| `jm_kumo` | Kumo | Masculino | Calmado |
 
 ### Chino mandarín
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
 | `zf_xiaobei` | Xiaobei | Femenino | Brillante |
 | `zf_xiaoni` | Xiaoni | Femenino | Gentil |
-| `zf_xiaoxiao` | Xiaoxiao | Femenino | Clear |
-| `zf_xiaoyi` | Xiaoyi | Femenino | Warm |
-| `zm_yunjian` | Yunjian | Male | Autoritario |
-| `zm_yunxi` | Yunxi | Male | Amigable |
-| `zm_yunxia` | Yunxia | Male | Calm |
-| `zm_yunyang` | Yunyang | Male | Confiado |
+| `zf_xiaoxiao` | Xiaoxiao | Femenino | Claro |
+| `zf_xiaoyi` | Xiaoyi | Femenino | Cálido |
+| `zm_yunjian` | Yunjian | Masculino | Autoritario |
+| `zm_yunxi` | Yunxi | Masculino | Amigable |
+| `zm_yunxia` | Yunxia | Masculino | Calmado |
+| `zm_yunyang` | Yunyang | Masculino | Confiado |
 
 ### Español
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `ef_dora` | Dora | Femenino | Warm |
-| `em_alex` | Alex | Male | Confiado |
-| `em_santa` | Santa | Male | Jolly |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `ef_dora` | Dora | Femenino | Cálido |
+| `em_alex` | Alex | Masculino | Confiado |
+| `em_santa` | Santa | Masculino | Alegre |
 
 ### Francés
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
 | `ff_siwis` | Siwis | Femenino | Refinado |
 
 ### Hindi
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `hf_alpha` | Alpha | Femenino | Clear |
-| `hf_beta` | Beta | Femenino | Warm |
-| `hm_omega` | Omega | Male | Deep |
-| `hm_psi` | Psi | Male | Calm |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `hf_alpha` | Alfa | Femenino | Claro |
+| `hf_beta` | Beta | Femenino | Cálido |
+| `hm_omega` | Omega | Masculino | Profundo |
+| `hm_psi` | Psi | Masculino | Calmado |
 
 ### Italiano
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `if_sara` | Sara | Femenino | Warm |
-| `im_nicola` | Nicola | Male | Confiado |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `if_sara` | Sara | Femenino | Cálido |
+| `im_nicola` | Nicola | Masculino | Confiado |
 
 ### Portugués brasileño
 
-| ID | Name | Género | Style |
-|----| ------ | -------- | ------- |
-| `pf_dora` | Dora | Femenino | Warm |
-| `pm_alex` | Alex | Male | Confiado |
-| `pm_santa` | Santa | Male | Jolly |
+| ID | Nombre | Género | Estilo |
+|----|------|--------|-------|
+| `pf_dora` | Dora | Femenino | Cálido |
+| `pm_alex` | Alex | Masculino | Confiado |
+| `pm_santa` | Santa | Masculino | Alegre |
 
 ### Preajustes
 
-| Preajuste | Voice | Speed | Descripción |
-| -------- | ------- | ------- | ------------- |
+| Preajuste | Voz | Velocidad | Descripción |
+|--------|-------|-------|-------------|
 | `narrator` | `bm_george` | 0.95 | Estilo documental tranquilo |
 | `announcer` | `am_onyx` | 1.05 | Energía de presentadora de noticias |
 | `whisper` | `af_aoede` | 0.85 | Suave, íntimo |
@@ -257,13 +257,13 @@ Soportado: `feliz`, `triste`, `enojado`, `asustado`, `sorprendido`, `disgustado`
 
 ## Marcas de la línea de comandos
 
-| Flag | Predeterminado | Descripción |
-| ------ | --------- | ------------- |
+| Bandera | Predeterminado | Descripción |
+|------|---------|-------------|
 | `--artifact=path\ | base64` | `path` | Modo de entrega de audio |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | Directorio de salida |
-| `--backend=mock\ |http` | `mock` | Selección de backend |
+| `--backend=mock\ | http | `mock` | Selección de backend |
 | `--backend-url=<url>` | &mdash; | URL de backend HTTP |
-| `--ambient` | off | Habilitar el sistema de monólogo interno |
+| `--ambient` | desactivado | Habilitar el sistema de monólogo interno |
 | `--max-concurrent=<n>` | `1` | Número máximo de solicitudes de síntesis concurrentes |
 | `--timeout=<ms>` | `20000` | Tiempo de espera por solicitud |
 | `--retention-minutes=<n>` | `240` | Edad de limpieza automática (0 para desactivar) |
@@ -273,7 +273,7 @@ Soportado: `feliz`, `triste`, `enojado`, `asustado`, `sorprendido`, `disgustado`
 Este es un monorepo de pnpm con dos paquetes publicables:
 
 | Paquete | Descripción | npm |
-| --------- | ------------- |-----|
+|---------|-------------|-----|
 | [`@mcptoolshop/voice-soundboard-core`](packages/core) | Biblioteca central independiente del backend (validación, SSML, segmentación, esquemas) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
 | [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | Servidor MCP con CLI, protecciones y transporte | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
@@ -286,8 +286,11 @@ pnpm install
 # Build
 pnpm build
 
-# Test (342 tests)
+# Test (344 tests)
 pnpm test
+
+# Build + test in one step
+pnpm verify
 ```
 
 > Parte de [MCP Tool Shop](https://mcp-tool-shop.github.io/)
@@ -326,6 +329,10 @@ mcp-voice-soundboard/
   docs/                 Architecture docs
 ```
 
+## Privacidad
+
+**Sin telemetría.** Esta herramienta no recopila datos de uso, no envía análisis y no realiza solicitudes de red, excepto a la parte posterior de TTS que configure. Todo el procesamiento se realiza localmente.
+
 ## Seguridad
 
 Consulta [SECURITY.md](SECURITY.md) para informar sobre vulnerabilidades.
@@ -335,7 +342,7 @@ Consulta [THREAT_MODEL.md](THREAT_MODEL.md) para el análisis completo de la sup
 ## Relacionado
 
 | Proyecto | Descripción |
-| --------- | ------------- |
+|---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Plugin de Claude para código &mdash; comandos con barra, narración con conciencia de la emoción. |
 
 ## Soporte
@@ -344,6 +351,17 @@ Consulta [THREAT_MODEL.md](THREAT_MODEL.md) para el análisis completo de la sup
 - **Informes de errores:** [Problemas](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **Seguridad:** [SECURITY.md](SECURITY.md)
 
+## Cuadro de evaluación
+
+| Categoría | Puntuación | Notas |
+|----------|-------|-------|
+| A. Seguridad | 10/10 | SECURITY.md, THREAT_MODEL.md, redacción, sin telemetría |
+| B. Manejo de errores | 8/10 | Contrato de errores estructurado (código/pista/reintentable), patrón toToolError |
+| C. Documentación para operadores | 9/10 | README, CHANGELOG, MANUAL, documentación de la herramienta |
+| D. Higiene de la implementación | 9/10 | CI, script de verificación, dependabot, lockfile |
+| E. Identidad | 10/10 | Logotipo, traducciones, página de inicio, metadatos |
+| **Total** | **46/50** | |
+
 ## Licencia
 
 [MIT](LICENSE)
@@ -351,5 +369,5 @@ Consulta [THREAT_MODEL.md](THREAT_MODEL.md) para el análisis completo de la sup
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.md">English</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -133,112 +133,112 @@ category?:    "thinking"           # general | thinking | observation | debug
 9 भाषाओं में 48 आवाजें उपलब्ध हैं। भाषा का पता स्वचालित रूप से आवाज आईडी के उपसर्ग से लगाया जाता है - किसी कॉन्फ़िगरेशन की आवश्यकता नहीं है।
 
 | उपसर्ग | भाषा |
-| -------- | ---------- |
+|--------|----------|
 | `af_` / `am_` | अंग्रेजी (अमेरिकी) |
 | `bf_` / `bm_` | अंग्रेजी (ब्रिटिश) |
 | `jf_` / `jm_` | जापानी |
 | `zf_` / `zm_` | मंदारिन चीनी |
 | `ef_` / `em_` | स्पेनिश |
 | `ff_` | फ्रेंच |
-| `hf_` / `hm_` | Hindi |
+| `hf_` / `hm_` | हिंदी |
 | `if_` / `im_` | इतालवी |
 | `pf_` / `pm_` | ब्राजीलियाई पुर्तगाली |
 
 ### अंग्रेजी — अमेरिकी
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `af_aoede` | Aoede | महिला | संगीत |
-| `af_bella` | Bella | महिला | Warm |
-| `af_heart` | Heart | महिला | संवेदनशील |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `af_aoede` | एओडे | महिला | संगीत |
+| `af_bella` | बेला | महिला | गर्म |
+| `af_heart` | दिल | महिला | संवेदनशील |
 | `af_jessica` | जेसिका | महिला | पेशेवर |
-| `af_kore` | Kore | महिला | युवा |
-| `af_nicole` | निकोल | महिला | Soft |
-| `af_sarah` | Sarah | महिला | Clear |
-| `af_sky` | Sky | महिला | Airy |
-| `am_eric` | Eric | Male | आत्मविश्वासी |
-| `am_fenrir` | फेनफ़िर | Male | शक्तिशाली |
-| `am_liam` | Liam | Male | दोस्ताना |
-| `am_michael` | माइकल | Male | Deep |
-| `am_onyx` | Onyx | Male | सुगम |
-| `am_puck` | Puck | Male | चंचल |
+| `af_kore` | कोरे | महिला | युवा |
+| `af_nicole` | निकोल | महिला | नरम |
+| `af_sarah` | सारा | महिला | स्पष्ट |
+| `af_sky` | आकाश | महिला | हवादार |
+| `am_eric` | एरिक | पुरुष | आत्मविश्वासी |
+| `am_fenrir` | फेनफ़िर | पुरुष | शक्तिशाली |
+| `am_liam` | लियाम | पुरुष | दोस्ताना |
+| `am_michael` | माइकल | पुरुष | गहरा |
+| `am_onyx` | ओनिक्स | पुरुष | सुगम |
+| `am_puck` | पॉक | पुरुष | चंचल |
 
 ### अंग्रेजी — ब्रिटिश
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `bf_alice` | Alice | महिला | शिष्ट |
-| `bf_emma` | Emma | महिला | परिष्कृत |
-| `bf_isabella` | इसabella | महिला | Warm |
-| `bm_fable` | Fable | Male | कहानी कहने वाला |
-| `bm_george` | जॉर्ज | Male | अधिकारपूर्ण |
-| `bm_lewis` | Lewis | Male | दोस्ताना |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `bf_alice` | ऐलिस | महिला | शिष्ट |
+| `bf_emma` | एम्मा | महिला | परिष्कृत |
+| `bf_isabella` | इसabella | महिला | गर्म |
+| `bm_fable` | कहानी | पुरुष | कहानी सुनाना |
+| `bm_george` | जॉर्ज | पुरुष | अधिकारपूर्ण |
+| `bm_lewis` | लुईस | पुरुष | दोस्ताना |
 
 ### जापानी
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `jf_alpha` | Alpha | महिला | Clear |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `jf_alpha` | अल्फा | महिला | स्पष्ट |
 | `jf_gongitsune` | गोंगित्सुने | महिला | कहानी सुनाना |
 | `jf_nezuko` | नेज़ुको | महिला | शांत |
-| `jf_tebukuro` | तेबुकुरो | महिला | Warm |
-| `jm_kumo` | Kumo | Male | Calm |
+| `jf_tebukuro` | तेबुकुरो | महिला | गर्म |
+| `jm_kumo` | कुमो | पुरुष | शांत |
 
 ### मंदारिन चीनी
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
 | `zf_xiaobei` | शियाओबेई | महिला | चमकदार |
 | `zf_xiaoni` | शियाओनी | महिला | शांत |
-| `zf_xiaoxiao` | शियाओक्सियाओ | महिला | Clear |
-| `zf_xiaoyi` | शियाओयी | महिला | Warm |
-| `zm_yunjian` | युनजियान | Male | अधिकारपूर्ण |
-| `zm_yunxi` | Yunxi | Male | दोस्ताना |
-| `zm_yunxia` | युनशिया | Male | Calm |
-| `zm_yunyang` | युनयांग | Male | आत्मविश्वासी |
+| `zf_xiaoxiao` | शियाओक्सियाओ | महिला | स्पष्ट |
+| `zf_xiaoyi` | शियाओयी | महिला | गर्म |
+| `zm_yunjian` | युनजियान | पुरुष | अधिकारपूर्ण |
+| `zm_yunxi` | युनक्सी | पुरुष | दोस्ताना |
+| `zm_yunxia` | युनशिया | पुरुष | शांत |
+| `zm_yunyang` | युनयांग | पुरुष | आत्मविश्वासी |
 
 ### स्पेनिश
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `ef_dora` | Dora | महिला | Warm |
-| `em_alex` | Alex | Male | आत्मविश्वासी |
-| `em_santa` | Santa | Male | Jolly |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `ef_dora` | डोरा | महिला | गर्म |
+| `em_alex` | एलेक्स | पुरुष | आत्मविश्वासी |
+| `em_santa` | सांता | पुरुष | खुश |
 
 ### फ्रेंच
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `ff_siwis` | Siwis | महिला | परिष्कृत |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `ff_siwis` | सिस | महिला | परिष्कृत |
 
 ### हिंदी
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `hf_alpha` | Alpha | महिला | Clear |
-| `hf_beta` | Beta | महिला | Warm |
-| `hm_omega` | Omega | Male | Deep |
-| `hm_psi` | Psi | Male | Calm |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `hf_alpha` | अल्फा | महिला | स्पष्ट |
+| `hf_beta` | बीटा | महिला | गर्म |
+| `hm_omega` | ओमेगा | पुरुष | गहरा |
+| `hm_psi` | साई | पुरुष | शांत |
 
 ### इतालवी
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `if_sara` | Sara | महिला | Warm |
-| `im_nicola` | निकोला | Male | आत्मविश्वासी |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `if_sara` | सारा | महिला | गर्म |
+| `im_nicola` | निकोला | पुरुष | आत्मविश्वासी |
 
 ### ब्राजीलियाई पुर्तगाली
 
-| ID | Name | लिंग | Style |
-|----| ------ | -------- | ------- |
-| `pf_dora` | Dora | महिला | Warm |
-| `pm_alex` | Alex | Male | आत्मविश्वासी |
-| `pm_santa` | Santa | Male | Jolly |
+| ID | नाम | लिंग | शैली |
+|----|------|--------|-------|
+| `pf_dora` | डोरा | महिला | गर्म |
+| `pm_alex` | एलेक्स | पुरुष | आत्मविश्वासी |
+| `pm_santa` | सांता | पुरुष | खुश |
 
 ### पूर्व-निर्धारित सेटिंग्स
 
-| पूर्व-निर्धारित सेटिंग | Voice | Speed | विवरण |
-| -------- | ------- | ------- | ------------- |
+| पूर्व-निर्धारित सेटिंग | आवाज | गति | विवरण |
+|--------|-------|-------|-------------|
 | `narrator` | `bm_george` | 0.95 | शांत, वृत्तचित्र शैली |
 | `announcer` | `am_onyx` | 1.05 | समाचार प्रस्तुतकर्ता की शैली |
 | `whisper` | `af_aoede` | 0.85 | नरम, अंतरंग |
@@ -257,13 +257,13 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## कमांड लाइन विकल्प
 
-| Flag | डिफ़ॉल्ट | विवरण |
-| ------ | --------- | ------------- |
+| झंडा | डिफ़ॉल्ट | विवरण |
+|------|---------|-------------|
 | `--artifact=path\ | base64` | `path` | ऑडियो डिलीवरी मोड |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | आउटपुट निर्देशिका |
-| `--backend=mock\ |http` | `mock` | बैकएंड चयन |
+| `--backend=mock\ | http | `mock` | बैकएंड चयन |
 | `--backend-url=<url>` | &mdash; | HTTP बैकएंड यूआरएल |
-| `--ambient` | off | आंतरिक-संवाद प्रणाली सक्षम करें |
+| `--ambient` | बंद | आंतरिक-संवाद प्रणाली सक्षम करें |
 | `--max-concurrent=<n>` | `1` | अधिकतम समवर्ती संश्लेषण अनुरोध |
 | `--timeout=<ms>` | `20000` | प्रति-अनुरोध समय सीमा |
 | `--retention-minutes=<n>` | `240` | स्वचालित सफाई अवधि (0 से अक्षम करें) |
@@ -273,7 +273,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 यह एक pnpm मोनोरेपो है जिसमें दो प्रकाशित करने योग्य पैकेज हैं:
 
 | पैकेज | विवरण | npm |
-| --------- | ------------- |-----|
+|---------|-------------|-----|
 | [`@mcptoolshop/voice-soundboard-core`](packages/core) | बैकएंड-अज्ञेय मुख्य लाइब्रेरी (सत्यापन, SSML, टुकड़ा करना, स्कीमा) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
 | [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | CLI, गार्डरेल और परिवहन के साथ MCP सर्वर | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
 
@@ -286,8 +286,11 @@ pnpm install
 # Build
 pnpm build
 
-# Test (342 tests)
+# Test (344 tests)
 pnpm test
+
+# Build + test in one step
+pnpm verify
 ```
 
 > [MCP टूल शॉप](https://mcp-tool-shop.github.io/) का हिस्सा
@@ -326,6 +329,10 @@ mcp-voice-soundboard/
   docs/                 Architecture docs
 ```
 
+## गोपनीयता
+
+**कोई भी डेटा संग्रह नहीं।** यह उपकरण किसी भी उपयोग डेटा को एकत्र नहीं करता है, कोई भी विश्लेषण नहीं भेजता है, और किसी भी नेटवर्क अनुरोध को नहीं करता है, सिवाय आपके द्वारा कॉन्फ़िगर किए गए टीटीएस बैकएंड के। सभी प्रक्रियाएं स्थानीय हैं।
+
 ## सुरक्षा
 
 भेद्यता रिपोर्टिंग के लिए [SECURITY.md](SECURITY.md) देखें।
@@ -335,7 +342,7 @@ mcp-voice-soundboard/
 ## संबंधित
 
 | परियोजना | विवरण |
-| --------- | ------------- |
+|---------|-------------|
 | [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | क्लाउड कोड प्लगइन &mdash; स्लैश कमांड, भावना-जागरूक कथन |
 
 ## सहायता
@@ -344,6 +351,17 @@ mcp-voice-soundboard/
 - **त्रुटि रिपोर्ट:** [समस्याएँ](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
 - **सुरक्षा:** [SECURITY.md](SECURITY.md)
 
+## मूल्यांकन
+
+| श्रेणी | अंक | टिप्पणियाँ |
+|----------|-------|-------|
+| ए. सुरक्षा | 10/10 | SECURITY.md, THREAT_MODEL.md, रेडैक्शन, कोई डेटा संग्रह नहीं |
+| बी. त्रुटि प्रबंधन | 8/10 | संरचित त्रुटि अनुबंध (कोड/संकेत/पुनः प्रयास योग्य), toToolError पैटर्न |
+| सी. ऑपरेटर दस्तावेज़ | 9/10 | README, CHANGELOG, HANDBOOK, उपकरण दस्तावेज़ |
+| डी. शिपिंग स्वच्छता | 9/10 | CI, सत्यापन स्क्रिप्ट, डिपेंडabot, लॉकफ़ाइल |
+| ई. पहचान | 10/10 | लोगो, अनुवाद, लैंडिंग पृष्ठ, मेटाडेटा |
+| **Total** | **46/50** | |
+
 ## लाइसेंस
 
 [MIT](LICENSE)
@@ -351,5 +369,5 @@ mcp-voice-soundboard/
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>
