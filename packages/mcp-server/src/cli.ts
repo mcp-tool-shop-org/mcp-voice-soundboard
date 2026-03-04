@@ -79,6 +79,16 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
   const app = express();
   app.use(express.json());
 
+  // CORS — allow browser clients (e.g. Registry Pulse dashboard) to call the MCP endpoint
+  app.use((_req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, mcp-session-id");
+    res.setHeader("Access-Control-Expose-Headers", "mcp-session-id");
+    if (_req.method === "OPTIONS") { res.status(204).end(); return; }
+    next();
+  });
+
   // Health check for Fly.io / load balancers
   app.get("/health", (_req, res) => {
     res.json({ status: "ok", server: SERVER_NAME, version: "0.1.2" });
