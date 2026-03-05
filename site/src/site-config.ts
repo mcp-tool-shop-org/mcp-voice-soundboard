@@ -14,7 +14,7 @@ export const config: SiteConfig = {
     headlineAccent: 'a voice.',
     description: '48 voices, 9 languages, 5 presets, emotion spans, SSML-lite, SFX tags, and multi-speaker dialogue. Ships as a single npx command.',
     primaryCta: { href: '#usage', label: 'Get started' },
-    secondaryCta: { href: '#tools', label: 'See the tools' },
+    secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
       {
         label: 'Quick start',
