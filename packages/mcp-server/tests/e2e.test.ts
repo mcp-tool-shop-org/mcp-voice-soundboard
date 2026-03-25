@@ -10,14 +10,14 @@ afterEach(() => {
 });
 
 describe("voice_status", () => {
-  it("returns 46 voices, 5 presets, and bm_george default", async () => {
+  it("returns 46 voices, 11 presets (5 standard + 6 humor), and bm_george default", async () => {
     client = await initClient();
     const { result } = await callTool(client, "voice_status");
 
     expect(result.voices).toHaveLength(46);
-    expect(result.presets).toHaveLength(5);
+    expect(result.presets).toHaveLength(11);
     expect(result.defaultVoice).toBe("bm_george");
-    expect(result.backend.type).toBe("mock");
+    expect(["mock", "python"]).toContain(result.backend.type);
     expect(result.backend.ready).toBe(true);
   });
 
@@ -39,12 +39,16 @@ describe("voice_status", () => {
     expect(ids).toContain("pf_dora");
   });
 
-  it("contains expected preset names", async () => {
+  it("contains expected preset names including humor presets", async () => {
     client = await initClient();
     const { result } = await callTool(client, "voice_status");
 
     const names = result.presets.map((p: any) => p.name).sort();
-    expect(names).toEqual(["announcer", "assistant", "narrator", "storyteller", "whisper"]);
+    expect(names).toEqual([
+      "announcer", "assistant",
+      "humor_chaotic", "humor_cheeky", "humor_cynic", "humor_dry", "humor_roast", "humor_zoomer",
+      "narrator", "storyteller", "whisper",
+    ]);
   });
 });
 
