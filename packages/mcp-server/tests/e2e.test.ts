@@ -10,12 +10,13 @@ afterEach(() => {
 });
 
 describe("voice_status", () => {
-  it("returns 46 voices, 11 presets (5 standard + 6 humor), and bm_george default", async () => {
+  it("returns 46 voices, at least 5 presets, and bm_george default", async () => {
     client = await initClient();
     const { result } = await callTool(client, "voice_status");
 
     expect(result.voices).toHaveLength(46);
-    expect(result.presets).toHaveLength(11);
+    // 5 standard presets always present; humor presets depend on sensor-humor availability
+    expect(result.presets.length).toBeGreaterThanOrEqual(5);
     expect(result.defaultVoice).toBe("bm_george");
     expect(["mock", "python"]).toContain(result.backend.type);
     expect(result.backend.ready).toBe(true);
@@ -39,16 +40,16 @@ describe("voice_status", () => {
     expect(ids).toContain("pf_dora");
   });
 
-  it("contains expected preset names including humor presets", async () => {
+  it("contains standard preset names (humor presets optional)", async () => {
     client = await initClient();
     const { result } = await callTool(client, "voice_status");
 
     const names = result.presets.map((p: any) => p.name).sort();
-    expect(names).toEqual([
-      "announcer", "assistant",
-      "humor_chaotic", "humor_cheeky", "humor_cynic", "humor_dry", "humor_roast", "humor_zoomer",
-      "narrator", "storyteller", "whisper",
-    ]);
+    // Standard presets must always be present
+    const standard = ["announcer", "assistant", "narrator", "storyteller", "whisper"];
+    for (const s of standard) {
+      expect(names).toContain(s);
+    }
   });
 });
 
