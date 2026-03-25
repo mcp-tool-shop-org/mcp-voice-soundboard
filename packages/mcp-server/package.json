@@ -1,6 +1,6 @@
 {
   "name": "@mcptoolshop/voice-soundboard-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for text-to-speech — 48 voices, 9 languages, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
   "type": "module",
   "main": "dist/index.js",
@@ -11,7 +11,9 @@
   "files": [
     "dist",
     "backend-python",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "license": "MIT",
   "author": "mcp-tool-shop <64996768+mcp-tool-shop@users.noreply.github.com>",

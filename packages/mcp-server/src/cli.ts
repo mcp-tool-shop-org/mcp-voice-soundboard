@@ -7,12 +7,18 @@
  * - No PORT → STDIO mode (for local Claude Desktop / CLI usage)
  */
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { defaultOutputRoot, type ArtifactMode } from "@mcptoolshop/voice-soundboard-core";
 import { createServer, type ServerOptions } from "./server.js";
 import { readBackendConfig, selectBackend, type Backend } from "./backend.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(resolve(__dirname, "..", "package.json"), "utf-8"));
 
 const SERVER_NAME = "voice-soundboard-mcp";
 
@@ -91,7 +97,7 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
 
   // Health check for Fly.io / load balancers
   app.get("/health", (_req, res) => {
-    res.json({ status: "ok", server: SERVER_NAME, version: "0.1.2" });
+    res.json({ status: "ok", server: SERVER_NAME, version: pkg.version });
   });
 
   // Session management
@@ -155,6 +161,41 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
+
+  if (argv.includes("--version") || argv.includes("-V")) {
+    console.log(`voice-soundboard-mcp ${pkg.version}`);
+    process.exit(0);
+  }
+
+  if (argv.includes("--help") || argv.includes("-h")) {
+    console.log(`voice-soundboard-mcp ${pkg.version} — MCP server for text-to-speech
+
+Usage:
+  voice-soundboard-mcp [options]         Start MCP server (stdio)
+  PORT=8080 voice-soundboard-mcp         Start MCP server (HTTP)
+
+Options:
+  --version, -V                  Print version and exit
+  --help, -h                     Show this help
+  --backend=<type>               Backend: mock | http | python (default: mock)
+  --artifact=<mode>              Delivery: path | base64 (default: path)
+  --output-dir=<path>            Audio output directory
+  --ambient                      Enable inner monologue system
+  --max-concurrent=<n>           Max concurrent synthesis (default: 3)
+  --timeout=<ms>                 Request timeout in ms (default: 60000)
+  --retention-minutes=<n>        Audio file retention (0 = keep forever)
+
+Environment variables:
+  PORT                              Set to enable HTTP mode
+  VOICE_SOUNDBOARD_BACKEND          Same as --backend
+  VOICE_SOUNDBOARD_HTTP_URL         HTTP backend URL
+  VOICE_SOUNDBOARD_OUTPUT_DIR       Same as --output-dir
+  VOICE_SOUNDBOARD_AMBIENT_ENABLED  1 to enable ambient mode
+  VOICE_SOUNDBOARD_TIMEOUT          Same as --timeout
+  VOICE_SOUNDBOARD_MAX_CONCURRENT   Same as --max-concurrent`);
+    process.exit(0);
+  }
+
   const backendConfig = readBackendConfig(argv);
   const flags = parseCliFlags(argv);
 
