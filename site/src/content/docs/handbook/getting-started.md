@@ -68,7 +68,7 @@ The `narrator` preset uses the `bm_george` voice at 0.95x speed — a calm docum
 
 - 48 approved voices across 9 languages
 - 5 curated presets (narrator, announcer, whisper, storyteller, assistant)
-- 8 emotion spans for prosody control
+- 8 emotion spans for prosody and voice routing
 - SSML-lite support for timing and emphasis
 - 6 SFX tags for inline sound effects
 - Multi-speaker dialogue with automatic cast assignment

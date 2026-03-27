@@ -53,7 +53,7 @@ pnpm install
 # Build
 pnpm build
 
-# Test (344 tests)
+# Test (363 tests)
 pnpm test
 
 # Build + test in one step

@@ -27,11 +27,13 @@ Five curated presets for common use cases:
 
 | Preset | Voice | Speed | Description |
 |--------|-------|-------|-------------|
-| `narrator` | `bm_george` | 0.95 | Calm documentary style |
-| `announcer` | `am_onyx` | 1.05 | News anchor energy |
-| `whisper` | `af_aoede` | 0.85 | Soft, intimate |
-| `storyteller` | `bf_emma` | 0.90 | Warm bedtime-story feel |
-| `assistant` | `af_jessica` | 1.0 | Neutral, helpful |
+| `narrator` | `bm_george` | 0.95 | Calm, clear, documentary style |
+| `announcer` | `am_eric` | 1.1 | Bold, energetic, broadcast style |
+| `whisper` | `af_sky` | 0.85 | Soft, intimate, gentle |
+| `storyteller` | `bf_emma` | 0.90 | Expressive, varied pacing |
+| `assistant` | `af_jessica` | 1.0 | Friendly, helpful, conversational |
+
+Six humor presets are also available for sensor-humor integration. Use the `mood` parameter on `voice_speak` with one of: `dry`, `roast`, `chaotic`, `cheeky`, `cynic`, `zoomer`.
 
 ## Voice catalog highlights
 

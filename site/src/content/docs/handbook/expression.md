@@ -7,15 +7,15 @@ sidebar:
 
 ## Emotion spans
 
-Wrap text in emotion tags to control prosody:
+Wrap text in curly-brace emotion tags to control prosody and voice routing. Each emotion maps to a specific voice and speed:
 
 ```
-[happy]Great news![/happy] But [sad]I have to go.[/sad]
+{joy}Great news!{/joy} But {calm}let me explain.{/calm}
 ```
 
-Eight emotions available: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`, `excited`.
+Eight emotions available: `neutral`, `serious`, `friendly`, `professional`, `calm`, `joy`, `urgent`, `whisper`.
 
-Emotions can be mixed across a sentence for nuanced delivery.
+Emotions can be mixed across a sentence for nuanced delivery. Untagged text defaults to `neutral`. Unknown emotion names fall back to `neutral` with a warning.
 
 ## SSML-lite
 
@@ -35,7 +35,7 @@ Inline sound effects that play alongside speech:
 | `[chime]` | Gentle bell |
 | `[whoosh]` | Swoosh transition |
 | `[tada]` | Celebration fanfare |
-| `[error]` | Error alert |
+| `[pop]` | Short pop sound |
 | `[click]` | Button click |
 
 Enable SFX with `sfx: true` in `voice_speak` (on by default).
@@ -45,6 +45,6 @@ Enable SFX with `sfx: true` in `voice_speak` (on by default).
 All expression features can be combined in a single synthesis request:
 
 ```
-[excited]Welcome to the show![/excited] <break time="300ms"/>
-[calm]Today we'll be discussing...[/calm] [ding]
+{joy}Welcome to the show!{/joy} <break time="300ms"/>
+{calm}Today we'll be discussing...{/calm} [ding]
 ```

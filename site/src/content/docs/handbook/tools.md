@@ -14,9 +14,11 @@ Synthesize speech from text.
 | `text` | (required) | Text to synthesize |
 | `voice` | — | Voice ID or preset name |
 | `speed` | `1.0` | Speed multiplier (0.5–2.0) |
+| `mood` | — | Humor mood: `dry`, `roast`, `chaotic`, `cheeky`, `cynic`, `zoomer` |
 | `format` | `"wav"` | Output format: wav, mp3, ogg, raw |
 | `artifactMode` | `"path"` | Delivery mode: path or base64 |
-| `sfx` | `true` | Enable `[ding]`, `[chime]` etc. |
+| `outputDir` | — | Subdirectory within output root |
+| `sfx` | `false` | Enable `[ding]`, `[chime]` etc. |
 
 ## voice_dialogue
 
@@ -29,6 +31,8 @@ Multi-speaker dialogue synthesis using `Speaker: line` format.
 | `speed` | `1.0` | Speed multiplier |
 | `concat` | `true` | Combine all lines into a single file |
 | `debug` | `false` | Include `cue_sheet` in response |
+| `artifactMode` | `"path"` | Delivery mode: path or base64 |
+| `outputDir` | — | Subdirectory within output root |
 
 When no cast is provided, speakers are auto-assigned voices from the approved list.
 

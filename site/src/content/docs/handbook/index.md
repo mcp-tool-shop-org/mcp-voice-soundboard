@@ -13,7 +13,8 @@ Welcome to the MCP Voice Soundboard handbook — the complete guide to giving yo
 - **[Tools](/mcp-voice-soundboard/handbook/tools/)** — All 5 MCP tools in detail
 - **[Voices & Presets](/mcp-voice-soundboard/handbook/voices-and-presets/)** — 48 voices, 9 languages, 5 presets
 - **[Expression](/mcp-voice-soundboard/handbook/expression/)** — Emotion spans, SSML-lite, and SFX tags
-- **[Configuration](/mcp-voice-soundboard/handbook/configuration/)** — CLI flags, backends, and guardrails
+- **[Configuration](/mcp-voice-soundboard/handbook/configuration/)** — CLI flags, environment variables, backends, and guardrails
 - **[Architecture](/mcp-voice-soundboard/handbook/architecture/)** — Monorepo structure and packages
+- **[Beginners Guide](/mcp-voice-soundboard/handbook/beginners/)** — Step-by-step walkthrough for first-time users
 
 [Back to landing page](/mcp-voice-soundboard/)

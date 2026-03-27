@@ -26,9 +26,9 @@
 - **MCP native** &mdash; stdio transport, works with Claude Desktop, Cursor, and any MCP client
 - **5 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
 - **48 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
-- **Emotion spans** &mdash; 8 emotions via `[happy]...[/happy]` inline markup
+- **Emotion spans** &mdash; 8 emotions via `{joy}...{/joy}` inline markup
 - **SSML-lite** &mdash; `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
-- **SFX tags** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` inline sound effects
+- **SFX tags** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[pop]`, `[click]` inline sound effects
 - **Multi-speaker dialogue** &mdash; `Speaker: line` format with auto-cast and pause directives
 - **Guardrails** &mdash; rate limiting, concurrency semaphore, request timeouts, path traversal protection, secret redaction
 - **Swappable backends** &mdash; Mock (built-in), HTTP proxy, Python bridge, or bring your own
@@ -90,8 +90,10 @@ Synthesize speech from text.
 text:         "Hello world!"
 voice?:       "am_fenrir"          # Voice ID or preset name
 speed?:       1.0                  # 0.5 - 2.0
+mood?:        "dry"                # Humor mood (sensor-humor integration)
 format?:      "wav"                # wav | mp3 | ogg | raw
 artifactMode?: "path"             # path | base64
+outputDir?:   "subdir"            # Subdirectory within output root
 sfx?:         true                # Enable [ding], [chime] etc.
 ```
 
@@ -105,6 +107,8 @@ cast?:        { "Alice": "af_sky", "Bob": "am_fenrir" }
 speed?:       1.0
 concat?:      true                 # Combine into single file
 debug?:       true                 # Include cue_sheet
+artifactMode?: "path"             # path | base64
+outputDir?:   "subdir"            # Subdirectory within output root
 ```
 
 ### `voice_status`
@@ -240,21 +244,21 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 | Preset | Voice | Speed | Description |
 |--------|-------|-------|-------------|
-| `narrator` | `bm_george` | 0.95 | Calm documentary style |
-| `announcer` | `am_onyx` | 1.05 | News anchor energy |
-| `whisper` | `af_aoede` | 0.85 | Soft, intimate |
-| `storyteller` | `bf_emma` | 0.90 | Warm bedtime-story feel |
-| `assistant` | `af_jessica` | 1.0 | Neutral, helpful |
+| `narrator` | `bm_george` | 0.95 | Calm, clear, documentary style |
+| `announcer` | `am_eric` | 1.1 | Bold, energetic, broadcast style |
+| `whisper` | `af_sky` | 0.85 | Soft, intimate, gentle |
+| `storyteller` | `bf_emma` | 0.90 | Expressive, varied pacing |
+| `assistant` | `af_jessica` | 1.0 | Friendly, helpful, conversational |
 
 ## Emotion Spans
 
-Wrap text in emotion tags to control prosody:
+Wrap text in emotion tags to control prosody and voice routing:
 
 ```
-[happy]Great news![/happy] But [sad]I have to go.[/sad]
+{joy}Great news!{/joy} But {calm}let me explain.{/calm}
 ```
 
-Supported: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`, `excited`
+Supported: `neutral`, `serious`, `friendly`, `professional`, `calm`, `joy`, `urgent`, `whisper`
 
 ## CLI Flags
 
@@ -262,11 +266,10 @@ Supported: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`,
 |------|---------|-------------|
 | `--artifact=path\|base64` | `path` | Audio delivery mode |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | Output directory |
-| `--backend=mock\|http` | `mock` | Backend selection |
-| `--backend-url=<url>` | &mdash; | HTTP backend URL |
+| `--backend=mock\|http\|python` | `mock` | Backend selection |
 | `--ambient` | off | Enable inner-monologue system |
-| `--max-concurrent=<n>` | `1` | Max concurrent synthesis requests |
-| `--timeout=<ms>` | `20000` | Per-request timeout |
+| `--max-concurrent=<n>` | `3` | Max concurrent synthesis requests |
+| `--timeout=<ms>` | `60000` | Per-request timeout |
 | `--retention-minutes=<n>` | `240` | Auto-cleanup age (0 to disable) |
 
 ## Packages
@@ -287,7 +290,7 @@ pnpm install
 # Build
 pnpm build
 
-# Test (344 tests)
+# Test (363 tests)
 pnpm test
 
 # Build + test in one step

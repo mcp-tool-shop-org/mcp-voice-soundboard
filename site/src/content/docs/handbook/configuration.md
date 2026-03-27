@@ -11,20 +11,36 @@ sidebar:
 |------|---------|-------------|
 | `--artifact=path\|base64` | `path` | Audio delivery mode |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | Output directory |
-| `--backend=mock\|http` | `mock` | Backend selection |
-| `--backend-url=<url>` | — | HTTP backend URL |
+| `--backend=mock\|http\|python` | `mock` | Backend selection |
 | `--ambient` | off | Enable inner-monologue system |
-| `--max-concurrent=<n>` | `1` | Max concurrent synthesis requests |
-| `--timeout=<ms>` | `20000` | Per-request timeout |
+| `--max-concurrent=<n>` | `3` | Max concurrent synthesis requests |
+| `--timeout=<ms>` | `60000` | Per-request timeout |
 | `--retention-minutes=<n>` | `240` | Auto-cleanup age (0 to disable) |
+
+## Environment variables
+
+All CLI flags have equivalent environment variables. Environment variables are lower precedence than CLI flags.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VOICE_SOUNDBOARD_BACKEND` | `mock` | Same as `--backend` |
+| `VOICE_SOUNDBOARD_TTS_URL` | — | HTTP backend URL |
+| `VOICE_SOUNDBOARD_TTS_TOKEN` | — | HTTP backend auth token |
+| `VOICE_SOUNDBOARD_OUTPUT_DIR` | OS temp dir | Same as `--output-dir` |
+| `VOICE_SOUNDBOARD_AMBIENT_ENABLED` | `0` | Set to `1` to enable ambient mode |
+| `VOICE_SOUNDBOARD_TIMEOUT` | `60000` | Same as `--timeout` |
+| `VOICE_SOUNDBOARD_MAX_CONCURRENT` | `3` | Same as `--max-concurrent` |
+| `VOICE_SOUNDBOARD_PYTHON` | `python` | Python command for python backend |
+| `VOICE_SOUNDBOARD_PYTHON_MODULE` | — | Python bridge module path |
+| `PORT` | — | Set to enable HTTP transport mode (for remote deployment) |
 
 ## Backends
 
 **Mock** (default) — Built-in backend that generates silent WAV files. Zero setup, useful for development and testing.
 
-**HTTP proxy** — Forward synthesis requests to an external TTS API. Set `--backend=http` and `--backend-url=<url>`.
+**HTTP proxy** — Forward synthesis requests to an external TTS API. Set `--backend=http` and the `VOICE_SOUNDBOARD_TTS_URL` environment variable.
 
-**Python bridge** — Connect to a Python-based TTS engine (Kokoro, Coqui, etc.) via a bridge process.
+**Python bridge** — Connect to a Python-based TTS engine (Kokoro, Coqui, etc.) via a bridge process. Set `--backend=python`. The server auto-detects Python availability when no explicit backend is set.
 
 ## Guardrails
 
