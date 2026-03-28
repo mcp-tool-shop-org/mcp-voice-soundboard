@@ -101,6 +101,8 @@ export class HttpBackend implements Backend {
   private readonly token?: string;
   private readonly timeout: number;
   private readonly maxResponseSize: number;
+  /** Active fetch controller — aborted by interrupt(). */
+  private activeController: AbortController | null = null;
 
   constructor(config: HttpBackendConfig) {
     this.url = config.url;
@@ -153,6 +155,7 @@ export class HttpBackend implements Backend {
     let resp: Response;
     try {
       const controller = new AbortController();
+      this.activeController = controller;
       const timer = setTimeout(() => controller.abort(), this.timeout);
       resp = await fetch(this.url, {
         method: "POST",
@@ -165,6 +168,7 @@ export class HttpBackend implements Backend {
       });
       clearTimeout(timer);
     } catch (e) {
+      this.activeController = null;
       const err = e as Error;
       if (err.name === "AbortError") {
         throw new HttpBackendError(
@@ -177,6 +181,7 @@ export class HttpBackend implements Backend {
         "BACKEND_UNREACHABLE",
       );
     }
+    this.activeController = null;
 
     if (!resp.ok) {
       let body = "";
@@ -199,6 +204,13 @@ export class HttpBackend implements Backend {
 
     const body = await this.readResponseBody(resp);
     return this.parseResponse(body, request);
+  }
+
+  async interrupt(): Promise<void> {
+    if (this.activeController) {
+      this.activeController.abort();
+      this.activeController = null;
+    }
   }
 
   private buildHeaders(): Record<string, string> {

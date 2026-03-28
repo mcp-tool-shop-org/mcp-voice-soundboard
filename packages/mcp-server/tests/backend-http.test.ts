@@ -25,7 +25,7 @@ describe("HTTP backend — voice_status", () => {
       args: ["--backend=http"],
       env: { VOICE_SOUNDBOARD_TTS_URL: testServer.url },
     });
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     expect(result.backend.type).toBe("http");
     expect(result.backend.ready).toBe(true);

@@ -10,18 +10,33 @@ afterEach(() => {
 });
 
 describe("golden: voice_status schema", () => {
-  it("has exactly these top-level keys", async () => {
+  it("has exactly these top-level keys (full mode)", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     expect(Object.keys(result).sort()).toEqual(
       ["backend", "defaultVoice", "presets", "voices"],
     );
   });
 
+  it("compact mode returns health, queue, and rateLimitInfo", async () => {
+    client = await initClient();
+    const { result } = await callTool(client, "voice_status"); // compact=true by default
+
+    expect(Object.keys(result).sort()).toEqual(
+      ["backend", "queue", "rateLimitInfo"],
+    );
+    expect(result.backend).toHaveProperty("type");
+    expect(result.backend).toHaveProperty("ready");
+    expect(result.queue).toHaveProperty("active");
+    expect(result.queue).toHaveProperty("waiting");
+    expect(result.queue).toHaveProperty("maxConcurrent");
+    expect(typeof result.rateLimitInfo).toBe("string");
+  });
+
   it("backend has type, ready, and details", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     expect(result.backend).toHaveProperty("type");
     expect(result.backend).toHaveProperty("ready");
@@ -31,7 +46,7 @@ describe("golden: voice_status schema", () => {
 
   it("voice objects have stable shape", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     for (const voice of result.voices) {
       expect(voice).toHaveProperty("id");
@@ -46,7 +61,7 @@ describe("golden: voice_status schema", () => {
 
   it("preset objects have stable shape", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     for (const preset of result.presets) {
       expect(preset).toHaveProperty("name");

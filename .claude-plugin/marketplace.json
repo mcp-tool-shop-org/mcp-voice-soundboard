@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "mcp-voice-soundboard",
-      "description": "Text-to-speech for Claude Code. 48 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
-      "version": "0.2.4",
+      "description": "Text-to-speech for Claude Code. 46 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.",
+      "version": "1.0.2",
       "source": "./",
       "author": {
         "name": "mcp-tool-shop",

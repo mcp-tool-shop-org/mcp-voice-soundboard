@@ -12,7 +12,7 @@ afterEach(() => {
 describe("voice_status", () => {
   it("returns 46 voices, at least 5 presets, and bm_george default", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     expect(result.voices).toHaveLength(46);
     // 5 standard presets always present; humor presets depend on sensor-humor availability
@@ -24,7 +24,7 @@ describe("voice_status", () => {
 
   it("contains all approved voice IDs", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     const ids = result.voices.map((v: any) => v.id).sort();
     expect(ids).toHaveLength(46);
@@ -42,7 +42,7 @@ describe("voice_status", () => {
 
   it("contains standard preset names (humor presets optional)", async () => {
     client = await initClient();
-    const { result } = await callTool(client, "voice_status");
+    const { result } = await callTool(client, "voice_status", { compact: false });
 
     const names = result.presets.map((p: any) => p.name).sort();
     // Standard presets must always be present

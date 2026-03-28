@@ -8,6 +8,7 @@
  */
 
 import { readFileSync } from "node:fs";
+import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -227,6 +228,89 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
   process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 }
 
+/** Check if python is available on PATH. */
+function checkPython(): Promise<{ available: boolean; version?: string }> {
+  return new Promise((res) => {
+    execFile("python", ["--version"], { timeout: 5000 }, (err, stdout, stderr) => {
+      if (err) {
+        res({ available: false });
+      } else {
+        const version = (stdout || stderr).trim();
+        res({ available: true, version });
+      }
+    });
+  });
+}
+
+/** Check if kokoro-onnx Python package is importable. */
+function checkKokoro(): Promise<{ available: boolean; details?: string }> {
+  return new Promise((res) => {
+    execFile("python", ["-c", "import kokoro_onnx; print('ok')"], { timeout: 10000 }, (err) => {
+      if (err) {
+        res({ available: false, details: "kokoro-onnx not installed or not importable" });
+      } else {
+        res({ available: true });
+      }
+    });
+  });
+}
+
+async function runDiagnostics(argv: string[]): Promise<void> {
+  let issues = 0;
+
+  console.log(`voice-soundboard-mcp ${pkg.version} — diagnostics\n`);
+
+  // Node version
+  console.log(`Node.js:    ${process.version}`);
+  console.log(`Platform:   ${process.platform} ${process.arch}`);
+  console.log(`Output dir: ${defaultOutputRoot()}`);
+  console.log("");
+
+  // Python check
+  const python = await checkPython();
+  if (python.available) {
+    console.log(`Python:     OK (${python.version})`);
+  } else {
+    console.log(`Python:     NOT FOUND — python backend will not work`);
+    issues++;
+  }
+
+  // kokoro-onnx check
+  if (python.available) {
+    const kokoro = await checkKokoro();
+    if (kokoro.available) {
+      console.log(`kokoro-onnx: OK`);
+    } else {
+      console.log(`kokoro-onnx: NOT FOUND — ${kokoro.details}`);
+      issues++;
+    }
+  } else {
+    console.log(`kokoro-onnx: SKIPPED (no Python)`);
+  }
+
+  // Backend health check
+  try {
+    const backendConfig = readBackendConfig(argv);
+    const backend = await selectBackend(backendConfig);
+    const health = await backend.health();
+    console.log(`Backend:    ${backend.type} — ${health.ready ? "ready" : "NOT READY"}${health.details ? ` (${health.details})` : ""}`);
+    if (!health.ready) issues++;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.log(`Backend:    ERROR — ${msg}`);
+    issues++;
+  }
+
+  console.log("");
+  if (issues === 0) {
+    console.log("All checks passed.");
+    process.exit(0);
+  } else {
+    console.log(`${issues} issue(s) found.`);
+    process.exit(1);
+  }
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
 
@@ -252,6 +336,7 @@ Options:
   --max-concurrent=<n>           Max concurrent synthesis (default: 3)
   --timeout=<ms>                 Request timeout in ms (default: 60000)
   --retention-minutes=<n>        Audio file retention (0 = keep forever)
+  --diagnose, --check            Run diagnostics and exit
 
 Environment variables:
   PORT                              Set to enable HTTP mode
@@ -262,6 +347,11 @@ Environment variables:
   VOICE_SOUNDBOARD_TIMEOUT          Same as --timeout
   VOICE_SOUNDBOARD_MAX_CONCURRENT   Same as --max-concurrent`);
     process.exit(0);
+  }
+
+  if (argv.includes("--diagnose") || argv.includes("--check")) {
+    await runDiagnostics(argv);
+    return;
   }
 
   const backendConfig = readBackendConfig(argv);

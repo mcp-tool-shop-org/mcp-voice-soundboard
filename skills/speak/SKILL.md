@@ -25,10 +25,14 @@ Speak the following aloud: **$ARGUMENTS**
    - Specific voice → use voice ID directly (e.g. `am_fenrir`, `bf_alice`)
 
 3. Add emotion spans if the text contains emotional content:
-   - `[happy]...[/happy]` for joy, excitement
-   - `[sad]...[/sad]` for sadness, disappointment
-   - `[urgent]...[/urgent]` for warnings, deadlines
-   - `[calm]...[/calm]` for reassurance
+   - `{joy}...{/joy}` for joy, excitement
+   - `{calm}...{/calm}` for reassurance, steadiness
+   - `{urgent}...{/urgent}` for warnings, deadlines
+   - `{whisper}...{/whisper}` for soft, intimate tone
+   - `{friendly}...{/friendly}` for warm, approachable tone
+   - `{serious}...{/serious}` for gravity, weight
+   - `{professional}...{/professional}` for business, formal tone
+   - `{neutral}...{/neutral}` for default, even tone
 
 4. Call `voice_speak` with the prepared text and options
 

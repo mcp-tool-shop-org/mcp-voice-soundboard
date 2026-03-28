@@ -20,7 +20,7 @@ Create a multi-speaker dialogue: **$ARGUMENTS**
    Alice: Welcome everyone!
    [pause 500ms]
    Bob: Thanks for the introduction.
-   Alice: [happy]Let's dive in![/happy]
+   Alice: {joy}Let's dive in!{/joy}
    ```
 
 3. Choose voice casting based on the speakers:
@@ -48,6 +48,6 @@ Create a multi-speaker dialogue: **$ARGUMENTS**
 ## Tips
 
 - Add `[pause 300ms]` between speakers for natural pacing
-- Emotion spans work inside dialogue: `Alice: [surprised]Really?![/surprised]`
+- Emotion spans work inside dialogue: `Alice: {joy}Really?!{/joy}`
 - Use `debug: true` to see the cue sheet and catch parse warnings
 - Uncast speakers are auto-assigned — but explicit casting sounds better

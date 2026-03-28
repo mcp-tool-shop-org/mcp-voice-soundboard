@@ -105,6 +105,34 @@ Built-in safety limits:
 - Secret redaction in logs and errors
 - WAV validation on all audio output
 
+## Backend Status
+
+Before first use, call `voice_status` to check the active backend. If backend type is `"mock"`, audio will be silent WAV files. For real TTS, the python backend must be configured.
+
+## Output Directory
+
+Audio files are written to the OS temp directory. Always tell the user the full path of generated audio files.
+
+## Configuring .mcp.json for Real Audio
+
+To enable the python TTS backend, set `VOICE_SOUNDBOARD_BACKEND` in your `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "voice-soundboard": {
+      "command": "npx",
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"],
+      "env": {
+        "VOICE_SOUNDBOARD_BACKEND": "python"
+      }
+    }
+  }
+}
+```
+
+Without this, the default backend is `mock` and all audio output will be silent placeholder WAV files.
+
 ## Environment Variables
 
 | Variable | Default | Description |

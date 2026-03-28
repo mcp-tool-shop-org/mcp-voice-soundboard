@@ -2,6 +2,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { randomUUID } from "node:crypto";
 import {
   AmbientEmitter,
   SoundboardError,
@@ -9,11 +10,17 @@ import {
   type ArtifactMode,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "./backend.js";
-import { buildStatusResponse } from "./tools/voiceStatus.js";
+import { buildStatusResponse, type StatusContext } from "./tools/voiceStatus.js";
 import { handleSpeak } from "./tools/voiceSpeak.js";
 import { handleInterrupt } from "./tools/voiceInterrupt.js";
 import { handleDialogue } from "./tools/voiceDialogue.js";
 import { handleInnerMonologue } from "./tools/voiceInnerMonologue.js";
+import { handleCleanup } from "./tools/voiceCleanup.js";
+import { handlePlay } from "./tools/voicePlay.js";
+import { handleConfig } from "./tools/voiceConfig.js";
+import { handleQueue } from "./tools/voiceQueue.js";
+import { getSessionDefaults } from "./sessionConfig.js";
+import { synthesisRegistry } from "./synthesisRegistry.js";
 import { SynthesisSemaphore, BusyError } from "./concurrency.js";
 import { ToolRateLimiter, RateLimitError } from "./rateLimit.js";
 import { withTimeout, TimeoutError } from "./timeout.js";
@@ -29,7 +36,7 @@ export interface ServerOptions {
   outputRoot?: string;
   /** Enable ambient/inner-monologue system. Default: false. */
   ambient?: boolean;
-  /** Maximum concurrent synthesis requests. Default: SHIP_LIMITS.maxConcurrentSynth. */
+  /** Maximum concurrent synthesis requests. Default: 3 (matches CLI --max-concurrent default). */
   maxConcurrent?: number;
   /** Per-request timeout in ms. Default: SHIP_LIMITS.requestTimeoutMs. */
   requestTimeoutMs?: number;
@@ -81,7 +88,7 @@ export function createServer(options: ServerOptions): McpServer {
     defaultArtifactMode,
     outputRoot,
     ambient,
-    maxConcurrent = SHIP_LIMITS.maxConcurrentSynth,
+    maxConcurrent = 3,
     requestTimeoutMs = SHIP_LIMITS.requestTimeoutMs,
     retentionMinutes = DEFAULT_RETENTION_MINUTES,
   } = options;
@@ -110,12 +117,17 @@ export function createServer(options: ServerOptions): McpServer {
     },
   );
 
-  // voice_status — no arguments, lightweight, not rate-limited
+  // voice_status — lightweight, not rate-limited
+  const statusContext: StatusContext = { semaphore, rateLimiter, maxConcurrent };
   server.tool(
     "voice_status",
-    "Get engine health, available voices with full roster details, presets with voice/speed/style info, and backend configuration",
-    async () => {
-      const status = await buildStatusResponse(backend);
+    "Get engine health and status. compact=true (default) returns only backend health, queue depth, and rate-limit info to save context. compact=false includes full voice roster and preset details.",
+    {
+      compact: z.boolean().optional().describe("Compact mode (default: true) — only health, queue depth, rate-limit info. Set false for full voice roster and presets."),
+    },
+    async (args) => {
+      const compact = args.compact ?? true;
+      const status = await buildStatusResponse(backend, { compact, context: statusContext });
       return {
         content: [{ type: "text", text: JSON.stringify(status, null, 2) }],
       };
@@ -133,18 +145,32 @@ export function createServer(options: ServerOptions): McpServer {
       format: z.enum(["wav", "mp3", "ogg", "raw"]).optional().describe("Output audio format"),
       artifactMode: z.enum(["path", "base64"]).optional().describe("Delivery mode: file path or base64"),
       outputDir: z.string().optional().describe("Subdirectory within output root for path mode"),
-      sfx: z.boolean().optional().describe("Enable SFX tags [ding], [chime], etc. (default: false)"),
+      sfx: z.boolean().optional().describe("Enable SFX tags [ding], [chime], etc. (default: true)"),
     },
     async (args) => {
       if (!rateLimiter.check("voice_speak")) {
         return safeErrorResponse(new RateLimitError("voice_speak"));
       }
+      // Merge session defaults for params not explicitly provided
+      const sessionDefs = getSessionDefaults();
+      const mergedArgs = {
+        ...args,
+        voice: args.voice ?? sessionDefs.voice,
+        speed: args.speed ?? sessionDefs.speed,
+        sfx: args.sfx ?? sessionDefs.sfx,
+        artifactMode: args.artifactMode ?? sessionDefs.artifact,
+      };
+      const synthId = randomUUID();
+      const signal = synthesisRegistry.register(synthId);
       try {
         const result = await withTimeout(
-          () => semaphore.run(() => handleSpeak(args, backend, {
-            defaultArtifactMode,
-            outputRoot,
-          })),
+          () => semaphore.run(() => {
+            if (signal.aborted) throw new SoundboardError("INTERRUPTED", "Synthesis was interrupted", "Retry if needed");
+            return handleSpeak(mergedArgs, backend, {
+              defaultArtifactMode,
+              outputRoot,
+            });
+          }),
           requestTimeoutMs,
         );
         const isError = "error" in result && result.error === true;
@@ -154,6 +180,8 @@ export function createServer(options: ServerOptions): McpServer {
         };
       } catch (error) {
         return safeErrorResponse(error);
+      } finally {
+        synthesisRegistry.cleanup(synthId);
       }
     },
   );
@@ -167,7 +195,7 @@ export function createServer(options: ServerOptions): McpServer {
       reason: z.enum(["user_spoke", "context_change", "timeout", "manual"]).optional().describe("Reason for interruption"),
     },
     async (args) => {
-      const result = await handleInterrupt(args);
+      const result = await handleInterrupt(args, backend);
       return {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
       };
@@ -191,12 +219,17 @@ export function createServer(options: ServerOptions): McpServer {
       if (!rateLimiter.check("voice_dialogue")) {
         return safeErrorResponse(new RateLimitError("voice_dialogue"));
       }
+      const synthId = randomUUID();
+      const signal = synthesisRegistry.register(synthId);
       try {
         const result = await withTimeout(
-          () => semaphore.run(() => handleDialogue(args as any, backend, {
-            defaultArtifactMode,
-            outputRoot,
-          })),
+          () => semaphore.run(() => {
+            if (signal.aborted) throw new SoundboardError("INTERRUPTED", "Synthesis was interrupted", "Retry if needed");
+            return handleDialogue(args as any, backend, {
+              defaultArtifactMode,
+              outputRoot,
+            });
+          }),
           requestTimeoutMs,
         );
         const isError = "error" in result && result.error === true;
@@ -206,6 +239,8 @@ export function createServer(options: ServerOptions): McpServer {
         };
       } catch (error) {
         return safeErrorResponse(error);
+      } finally {
+        synthesisRegistry.cleanup(synthId);
       }
     },
   );
@@ -225,6 +260,97 @@ export function createServer(options: ServerOptions): McpServer {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         isError,
       };
+    },
+  );
+
+  // voice_queue — batch synthesis, guarded with semaphore + timeout + rate limit
+  server.tool(
+    "voice_queue",
+    "Synthesize multiple texts in sequence. Returns results in order. Use this when you need to generate several audio files at once, avoiding round-trip overhead and BUSY errors.",
+    {
+      items: z.array(z.object({
+        text: z.string().describe("Text to synthesize"),
+        voice: z.string().optional().describe("Voice ID or preset name"),
+        speed: z.number().min(0.5).max(2.0).optional().describe("Speed multiplier (0.5-2.0)"),
+      })).min(1).max(10).describe("Array of items to synthesize (1-10)"),
+    },
+    async (args) => {
+      if (!rateLimiter.check("voice_queue")) {
+        return safeErrorResponse(new RateLimitError("voice_queue"));
+      }
+      try {
+        const result = await withTimeout(
+          () => semaphore.run(() => handleQueue(args.items, backend, {
+            defaultArtifactMode,
+            outputRoot,
+          })),
+          requestTimeoutMs * args.items.length,
+        );
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (error) {
+        return safeErrorResponse(error);
+      }
+    },
+  );
+
+  // voice_play — play a previously synthesized audio file
+  server.tool(
+    "voice_play",
+    "Play a previously synthesized audio file through system speakers. Provide the audioPath from a voice_speak result.",
+    {
+      audioPath: z.string().describe("Absolute path to a .wav file from a voice_speak result"),
+    },
+    async (args) => {
+      try {
+        const result = await handlePlay(args, outputRoot);
+        const isError = "error" in result && result.error === true;
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+          isError,
+        };
+      } catch (error) {
+        return safeErrorResponse(error);
+      }
+    },
+  );
+
+  // voice_config — set session-level defaults
+  server.tool(
+    "voice_config",
+    "Set session-level defaults for voice, speed, and sfx. These apply to subsequent voice_speak calls unless overridden.",
+    {
+      voice: z.string().optional().describe("Default voice ID or preset name for subsequent calls"),
+      speed: z.number().min(0.5).max(2.0).optional().describe("Default speed multiplier (0.5-2.0)"),
+      sfx: z.boolean().optional().describe("Default SFX tag processing (true/false)"),
+      artifact: z.enum(["path", "base64"]).optional().describe("Default artifact delivery mode (path or base64)"),
+    },
+    async (args) => {
+      const result = handleConfig(args);
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+      };
+    },
+  );
+
+  // voice_cleanup — manual audio file cleanup
+  server.tool(
+    "voice_cleanup",
+    "Delete stale vsmcp_* audio files from the output directory. Use olderThanMinutes=0 (default) to delete all, or set a threshold to only delete older files.",
+    {
+      olderThanMinutes: z.number().min(0).optional().describe("Delete files older than this many minutes (0 = delete all, default: 0)"),
+    },
+    async (args) => {
+      const root = outputRoot ?? (await import("@mcptoolshop/voice-soundboard-core")).defaultOutputRoot();
+      try {
+        const result = await handleCleanup(args, root);
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (error) {
+        return safeErrorResponse(error);
+      }
     },
   );
 

@@ -47,6 +47,20 @@ export class ToolRateLimiter {
     return true;
   }
 
+  /** Human-readable status summary for compact voice_status. */
+  status(now: number = Date.now()): string {
+    const cutoff = now - this.config.windowMs;
+    const parts: string[] = [];
+    for (const [tool, timestamps] of this.buckets) {
+      const active = timestamps.filter((t) => t > cutoff).length;
+      if (active > 0) {
+        parts.push(`${tool}: ${active}/${this.config.maxCalls}`);
+      }
+    }
+    if (parts.length === 0) return `${this.config.maxCalls} calls/min per tool (no recent usage)`;
+    return `${this.config.maxCalls} calls/min per tool — recent: ${parts.join(", ")}`;
+  }
+
   /** Reset all rate limit state. */
   clear(): void {
     this.buckets.clear();

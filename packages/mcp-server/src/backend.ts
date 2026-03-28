@@ -66,7 +66,9 @@ export function readBackendConfig(argv: string[]): BackendConfig {
   }
 
   // Env vars (lower precedence than explicit flags)
-  config.ttsUrl = process.env.VOICE_SOUNDBOARD_TTS_URL;
+  // VOICE_SOUNDBOARD_TTS_URL is canonical; VOICE_SOUNDBOARD_HTTP_URL is an alias (DX-015)
+  config.ttsUrl = process.env.VOICE_SOUNDBOARD_TTS_URL
+    ?? process.env.VOICE_SOUNDBOARD_HTTP_URL;
   config.ttsToken = process.env.VOICE_SOUNDBOARD_TTS_TOKEN;
   config.pythonCommand = process.env.VOICE_SOUNDBOARD_PYTHON;
   config.pythonModule = process.env.VOICE_SOUNDBOARD_PYTHON_MODULE;
@@ -220,6 +222,10 @@ export class MockBackend implements Backend {
 
   async health(): Promise<BackendHealth> {
     return { ready: true, details: "Mock backend — returns silence" };
+  }
+
+  async interrupt(): Promise<void> {
+    // Mock backend has no real synthesis to cancel — no-op.
   }
 
   async synthesize(request: SynthesisRequest): Promise<SynthesisResult> {

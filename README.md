@@ -80,6 +80,44 @@ With options:
 }
 ```
 
+## Real Audio Setup
+
+By default, the server uses a **mock backend** that produces silent WAV files. To get real speech synthesis, set up the Python TTS backend:
+
+**Step 1: Install Python dependencies**
+
+```bash
+pip install kokoro-onnx onnxruntime numpy
+```
+
+**Step 2: First-run model download**
+
+The Kokoro TTS model (~400 MB) downloads automatically on the first synthesis request. Subsequent runs use the cached model.
+
+**Step 3: Configure your MCP client**
+
+Set `VOICE_SOUNDBOARD_BACKEND=python` in your `.mcp.json` or MCP client config:
+
+```json
+{
+  "mcpServers": {
+    "voice-soundboard": {
+      "command": "npx",
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"],
+      "env": {
+        "VOICE_SOUNDBOARD_BACKEND": "python"
+      }
+    }
+  }
+}
+```
+
+**Step 4: Verify**
+
+Call `voice_status` in your MCP client. The response should show `backend: "python"` with `ready: true`.
+
+**Requirements:** Python 3.9+, ~2 GB RAM. Windows, macOS, and Linux are all supported.
+
 ## MCP Tools
 
 ### `voice_speak`
