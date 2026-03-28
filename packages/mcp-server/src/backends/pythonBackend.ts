@@ -94,7 +94,7 @@ export class PythonBackend implements Backend {
   async synthesize(request: SynthesisRequest): Promise<SynthesisResult> {
     await this.ensureProcess();
 
-    const resp = await this.send({
+    const payload: Record<string, unknown> = {
       op: "synthesize",
       text: request.text,
       voice: request.resolved.voice.id,
@@ -102,7 +102,14 @@ export class PythonBackend implements Backend {
       format: request.artifact.format,
       output_dir: request.artifact.outputDir,
       artifact_mode: request.artifact.mode,
-    });
+    };
+
+    // Pass Piper-native prosody if present (set by mood handler for Piper engine)
+    if ((request as any).piperProsody) {
+      payload.piper_prosody = (request as any).piperProsody;
+    }
+
+    const resp = await this.send(payload);
 
     if (!resp.ok) {
       const errObj = resp.error as Record<string, unknown> | undefined;
@@ -163,6 +170,9 @@ export class PythonBackend implements Backend {
       if (process.env.VOICE_SOUNDBOARD_TTS_URL) env.VOICE_SOUNDBOARD_TTS_URL = process.env.VOICE_SOUNDBOARD_TTS_URL;
       // Pass output dir so Python writes artifacts to the configured location
       if (process.env.VOICE_SOUNDBOARD_OUTPUT_DIR) env.VOICE_SOUNDBOARD_OUTPUT_DIR = process.env.VOICE_SOUNDBOARD_OUTPUT_DIR;
+      // Pass engine selection (kokoro or piper) and Piper model dir
+      if (process.env.VOICE_SOUNDBOARD_ENGINE) env.VOICE_SOUNDBOARD_ENGINE = process.env.VOICE_SOUNDBOARD_ENGINE;
+      if (process.env.VOICE_SOUNDBOARD_PIPER_MODEL_DIR) env.VOICE_SOUNDBOARD_PIPER_MODEL_DIR = process.env.VOICE_SOUNDBOARD_PIPER_MODEL_DIR;
 
       this.proc = spawn(this.pythonCommand, ["-m", this.bridgeModule], {
         stdio: ["pipe", "pipe", "pipe"],

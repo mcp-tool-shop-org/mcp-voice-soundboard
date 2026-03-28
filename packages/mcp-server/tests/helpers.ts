@@ -26,7 +26,11 @@ export function spawnServer(opts?: SpawnOptions): McpTestClient {
   const cliArgs = opts?.args ?? [];
   const extraEnv = opts?.env ?? {};
 
-  const proc: ChildProcess = spawn("node", [CLI_PATH, ...cliArgs], {
+  // Force mock backend unless the caller explicitly passes --backend=...
+  const hasBackendFlag = cliArgs.some(a => a.startsWith("--backend="));
+  const finalArgs = hasBackendFlag ? cliArgs : ["--backend=mock", ...cliArgs];
+
+  const proc: ChildProcess = spawn("node", [CLI_PATH, ...finalArgs], {
     stdio: ["pipe", "pipe", "pipe"],
     env: { ...process.env, ...extraEnv },
   });

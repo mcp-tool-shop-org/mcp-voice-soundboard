@@ -24,7 +24,7 @@
 ## Highlights
 
 - **MCP native** &mdash; stdio transport, works with Claude Desktop, Cursor, and any MCP client
-- **5 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
+- **8 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`, `voice_play`, `voice_queue`, `voice_config`
 - **46 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
 - **Emotion spans** &mdash; 8 emotions via `{joy}...{/joy}` inline markup
 - **SSML-lite** &mdash; `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
@@ -169,6 +169,33 @@ Ephemeral micro-utterances for ambient narration. Requires `--ambient` flag or `
 ```
 text:         "Interesting..."     # Max 500 chars, auto-redacted
 category?:    "thinking"           # general | thinking | observation | debug
+```
+
+### `voice_play`
+
+Play a previously synthesized audio file through system speakers.
+
+```
+audioPath:    "/tmp/voice-soundboard/vsmcp_abc123.wav"
+```
+
+### `voice_queue`
+
+Synthesize multiple texts in sequence. Avoids round-trip overhead and BUSY errors.
+
+```
+items:        [{ text: "First", voice?: "narrator" }, { text: "Second" }]  # Max 10
+```
+
+### `voice_config`
+
+Set session-level defaults for voice, speed, and SFX. Applies to subsequent `voice_speak` calls unless overridden.
+
+```
+voice?:       "narrator"           # Default voice/preset
+speed?:       1.0                  # Default speed
+sfx?:         true                 # Default SFX processing
+artifact?:    "path"               # Default artifact mode
 ```
 
 ## Voices
@@ -328,7 +355,7 @@ pnpm install
 # Build
 pnpm build
 
-# Test (363 tests)
+# Test (410 tests)
 pnpm test
 
 # Build + test in one step

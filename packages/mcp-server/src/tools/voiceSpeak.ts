@@ -9,10 +9,15 @@ import {
   resolveOutputDir,
   hasEmotionTags,
   runEmotionPlan,
+  getHumorPreset,
+  wrapWithProsody,
+  HUMOR_MOODS,
   type VoiceSpeakResponse,
   type VoiceErrorResponse,
   type ArtifactMode,
   type OutputFormat,
+  type HumorMood,
+  type PiperProsodyConfig,
   type EmotionSynthesisContext,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
@@ -25,6 +30,8 @@ export interface SpeakArgs {
   format?: string;
   artifactMode?: string;
   outputDir?: string;
+  /** Humor mood — resolves to a humor preset with voice + prosody. Overrides voice/speed if set. */
+  mood?: string;
 }
 
 export interface SpeakDefaults {
@@ -53,23 +60,57 @@ export async function handleSpeak(
     }
   }
 
+  // Mood-aware path: resolve humor preset → voice + prosody-wrapped text
+  let speakText = args.text;
+  let speakVoice = args.voice;
+  let speakSpeed = args.speed;
+  let moodUsed: string | undefined;
+  let piperProsody: PiperProsodyConfig | undefined;
+
+  if (args.mood) {
+    const mood = args.mood.toLowerCase() as HumorMood;
+    if (!HUMOR_MOODS.includes(mood)) {
+      return errorResponse(
+        "INVALID_MOOD" as any,
+        `Unknown humor mood "${args.mood}". Valid: ${HUMOR_MOODS.join(", ")}`,
+      );
+    }
+    const preset = getHumorPreset(mood);
+    if (preset) {
+      speakVoice = speakVoice ?? preset.name;  // resolve via preset name → voice
+      speakSpeed = speakSpeed ?? preset.speed;
+      // If preset has Piper-native prosody, pass it through for Piper backend
+      if (preset.piperProsody) {
+        piperProsody = preset.piperProsody;
+      }
+      // Still wrap SSML for non-Piper backends (Kokoro, Azure, etc.)
+      speakText = wrapWithProsody(args.text, preset.prosody);
+      moodUsed = mood;
+    }
+  }
+
   // Emotion-aware path: if text contains emotion tags, route through runEmotionPlan
-  if (hasEmotionTags(args.text)) {
-    return handleEmotionSpeak(args, backend, artifactMode ?? "path", resolvedOutputDir);
+  if (hasEmotionTags(speakText)) {
+    return handleEmotionSpeak({ ...args, text: speakText, voice: speakVoice, speed: speakSpeed }, backend, artifactMode ?? "path", resolvedOutputDir);
   }
 
   let request;
   try {
     request = buildSynthesisRequest({
-      text: args.text,
-      voice: args.voice,
-      speed: args.speed,
+      text: speakText,
+      voice: speakVoice,
+      speed: speakSpeed,
       format: (args.format as OutputFormat) ?? undefined,
       artifactMode,
       outputDir: resolvedOutputDir,
     });
   } catch (e) {
     return fromError(e);
+  }
+
+  // Attach Piper prosody to request for Python backend passthrough
+  if (piperProsody) {
+    (request as any).piperProsody = piperProsody;
   }
 
   if (!backend.ready) {
@@ -91,6 +132,7 @@ export async function handleSpeak(
       durationMs: result.durationMs,
       sampleRate: result.sampleRate,
       format: result.format,
+      ...(moodUsed ? { moodUsed } : {}),
     };
   } catch (e) {
     return fromError(e, request.traceId);

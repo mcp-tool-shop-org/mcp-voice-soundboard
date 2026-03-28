@@ -110,7 +110,7 @@ export function createServer(options: ServerOptions): McpServer {
   const server = new McpServer(
     {
       name: "voice-soundboard",
-      version: "1.0.2",
+      version: "1.1.0",
     },
     {
       capabilities: { tools: {} },
@@ -142,6 +142,7 @@ export function createServer(options: ServerOptions): McpServer {
       text: z.string().describe("Text to synthesize"),
       voice: z.string().optional().describe("Voice ID or preset name"),
       speed: z.number().min(0.5).max(2.0).optional().describe("Speed multiplier (0.5-2.0)"),
+      mood: z.enum(["dry", "roast", "chaotic", "cheeky", "cynic", "zoomer"]).optional().describe("Humor mood — auto-selects voice + prosody for comedic delivery (sensor-humor integration)"),
       format: z.enum(["wav", "mp3", "ogg", "raw"]).optional().describe("Output audio format"),
       artifactMode: z.enum(["path", "base64"]).optional().describe("Delivery mode: file path or base64"),
       outputDir: z.string().optional().describe("Subdirectory within output root for path mode"),

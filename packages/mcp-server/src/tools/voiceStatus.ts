@@ -3,6 +3,7 @@
 import {
   VOICES,
   PRESETS,
+  HUMOR_PRESETS,
   DEFAULT_VOICE,
   type VoiceStatusResponse,
 } from "@mcptoolshop/voice-soundboard-core";
@@ -56,7 +57,7 @@ export async function buildStatusResponse(
 
   return {
     voices: [...VOICES.values()],
-    presets: [...PRESETS.values()],
+    presets: [...PRESETS.values(), ...HUMOR_PRESETS.values()],
     defaultVoice: DEFAULT_VOICE,
     backend: {
       type: backend.type,

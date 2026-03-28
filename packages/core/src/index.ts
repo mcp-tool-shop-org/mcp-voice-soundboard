@@ -17,9 +17,16 @@ export {
 
 export {
   type PresetConfig,
+  type ProsodyConfig,
+  type PiperProsodyConfig,
+  type HumorMood,
   PRESETS,
   PRESET_NAMES,
+  HUMOR_PRESETS,
+  HUMOR_MOODS,
   getPreset,
+  getHumorPreset,
+  wrapWithProsody,
 } from "./presets.js";
 
 export {
