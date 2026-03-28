@@ -148,14 +148,11 @@ describe("withTimeout", () => {
   });
 
   it("TimeoutError has correct code", async () => {
-    try {
-      await withTimeout(
-        () => new Promise((resolve) => setTimeout(resolve, 500)),
-        5,
-      );
-    } catch (e) {
-      expect(e).toBeInstanceOf(TimeoutError);
-      expect((e as TimeoutError).code).toBe("REQUEST_TIMEOUT");
-    }
+    const err = await withTimeout(
+      () => new Promise((resolve) => setTimeout(resolve, 500)),
+      5,
+    ).catch((e) => e);
+    expect(err).toBeInstanceOf(TimeoutError);
+    expect((err as TimeoutError).code).toBe("REQUEST_TIMEOUT");
   });
 });

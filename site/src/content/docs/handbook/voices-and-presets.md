@@ -1,6 +1,6 @@
 ---
 title: Voices & Presets
-description: 48 voices across 9 languages, plus 5 curated presets.
+description: 46 voices across 9 languages, plus 5 curated presets.
 sidebar:
   order: 3
 ---

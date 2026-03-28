@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import struct
 import sys
 import wave
@@ -138,7 +139,7 @@ def validate_wav(
         # Check peak level (should be ≤ -1 dBFS to avoid clipping)
         if samples:
             peak = max(abs(s) for s in samples)
-            peak_dbfs = 20 * (peak / 32767.0 + 1e-10).__log10__() if peak > 0 else -100
+            peak_dbfs = 20 * math.log10(peak / 32767.0 + 1e-10) if peak > 0 else -100
             # Note: This is approximate; exact dBFS calculation varies
             if peak >= 32767:  # Clipping
                 issues.append(ValidationError(

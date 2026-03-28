@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -24,7 +24,7 @@
 
 - **Compatible con MCP nativo:** Utiliza el transporte stdio y funciona con Claude Desktop, Cursor y cualquier cliente MCP.
 - **5 herramientas:** `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`.
-- **48 voces disponibles, en 9 idiomas:** Inglés (americano y británico), japonés, mandarín, español, francés, hindi, italiano, portugués brasileño. Presets predefinidos: `narrador`, `anunciador`, `susurro`, `cuentacuentos`, `asistente`.
+- **46 voces disponibles, en 9 idiomas:** Inglés (americano y británico), japonés, mandarín, español, francés, hindi, italiano, portugués brasileño. Presets predefinidos: `narrador`, `anunciador`, `susurro`, `cuentacuentos`, `asistente`.
 - **Marcadores de emoción:** 8 emociones mediante el uso de etiquetas `[feliz]...[/feliz]` dentro del texto.
 - **SSML-lite:** Soporte para `<break>`, `<emphasis>`, `<prosody>` sin la complejidad completa de SSML.
 - **Etiquetas de efectos de sonido (SFX):** `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` para insertar efectos de sonido directamente en el texto.
@@ -130,7 +130,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## Voces
 
-48 voces en 9 idiomas. El idioma se infiere automáticamente del prefijo del ID de la voz; no se requiere configuración.
+46 voces en 9 idiomas. El idioma se infiere automáticamente del prefijo del ID de la voz; no se requiere configuración.
 
 | Prefijo | Idioma |
 |--------|----------|

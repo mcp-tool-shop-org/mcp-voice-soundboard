@@ -15,5 +15,6 @@ export async function handleInterrupt(
     interrupted: false,
     streamId: args.streamId,
     reason: args.reason ?? "manual",
+    message: "No active synthesis to interrupt",
   };
 }

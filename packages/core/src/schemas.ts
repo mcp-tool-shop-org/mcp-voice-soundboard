@@ -43,6 +43,7 @@ export interface VoiceInterruptResponse {
   readonly interrupted: boolean;
   readonly streamId?: string;
   readonly reason: string;
+  readonly message?: string;
 }
 
 // ── voice.stream ──

@@ -61,12 +61,12 @@ class AuditEventType(Enum):
 
 
 class AuditSeverity(Enum):
-    """Severity levels for audit events."""
-    DEBUG = "debug"
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
+    """Severity levels for audit events (integer values for correct comparison)."""
+    DEBUG = 0
+    INFO = 1
+    WARNING = 2
+    ERROR = 3
+    CRITICAL = 4
 
 
 @dataclass

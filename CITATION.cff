@@ -10,8 +10,8 @@ authors:
 repository-code: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard
 url: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard
 abstract: >-
-  Text-to-speech MCP server for AI agents. 12 voices, emotion
-  spans, SSML-lite markup, multi-speaker dialogue, SFX tags,
+  Text-to-speech MCP server for AI agents. 46 voices, 9 languages,
+  emotion spans, SSML-lite markup, multi-speaker dialogue, SFX tags,
   and built-in guardrails.
 keywords:
   - text-to-speech
@@ -21,5 +21,5 @@ keywords:
   - ai-agents
   - ssml
 license: MIT
-version: 0.1.2
-date-released: '2026-02-14'
+version: 1.0.2
+date-released: '2026-03-25'

@@ -103,7 +103,7 @@ export function createServer(options: ServerOptions): McpServer {
   const server = new McpServer(
     {
       name: "voice-soundboard",
-      version: "1.0.1",
+      version: "1.0.2",
     },
     {
       capabilities: { tools: {} },
@@ -113,7 +113,7 @@ export function createServer(options: ServerOptions): McpServer {
   // voice_status — no arguments, lightweight, not rate-limited
   server.tool(
     "voice_status",
-    "Get engine health, available voices, presets, and backend info",
+    "Get engine health, available voices with full roster details, presets with voice/speed/style info, and backend configuration",
     async () => {
       const status = await buildStatusResponse(backend);
       return {
@@ -125,7 +125,7 @@ export function createServer(options: ServerOptions): McpServer {
   // voice_speak — guarded with semaphore + timeout + rate limit
   server.tool(
     "voice_speak",
-    "Synthesize speech from text",
+    "Synthesize speech from text. Supports voice IDs (e.g. af_jessica) or preset names (assistant, narrator, announcer, storyteller, whisper). Text can include emotion spans ({joy}text{/joy}), SSML-lite (<break/>, <emphasis/>), and SFX tags ([ding], [chime]) when sfx=true.",
     {
       text: z.string().describe("Text to synthesize"),
       voice: z.string().optional().describe("Voice ID or preset name"),
@@ -177,7 +177,7 @@ export function createServer(options: ServerOptions): McpServer {
   // voice_dialogue — guarded with semaphore + timeout + rate limit
   server.tool(
     "voice_dialogue",
-    "Synthesize multi-speaker dialogue from a script",
+    "Synthesize multi-speaker dialogue. Script format: one line per speaker as \"Name: text\", with optional [pause 500ms] directives. Uncast speakers are auto-assigned voices from the cast map.",
     {
       script: z.string().describe("Dialogue script: 'Speaker: text' per line, with optional [pause Xms] directives"),
       cast: z.record(z.string(), z.string()).optional().describe("Speaker → voice/preset mapping (uncast speakers are auto-assigned)"),

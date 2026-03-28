@@ -14,6 +14,7 @@ import {
   type EmotionSynthesisContext,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend, SynthesisResult } from "../backend.js";
+import { validateSynthesisResult } from "../validation.js";
 
 export interface DialogueArgs {
   script: string;
@@ -114,6 +115,7 @@ export async function handleDialogue(
               outputDir: resolvedOutputDir,
             });
             const sr = await backend.synthesize(req);
+            await validateSynthesisResult(sr);
             return {
               audioPath: sr.audioPath,
               audioBytesBase64: sr.audioBytesBase64,
@@ -156,6 +158,8 @@ export async function handleDialogue(
     let result: SynthesisResult;
     try {
       result = await backend.synthesize(request);
+      // MCP-011: Validate synthesis result before using
+      await validateSynthesisResult(result);
     } catch (e) {
       return fromError(e, request.traceId);
     }

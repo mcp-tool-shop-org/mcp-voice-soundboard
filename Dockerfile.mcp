@@ -7,7 +7,7 @@ FROM node:20-slim AS build
 WORKDIR /app
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 # Copy workspace root manifests first (cache layer)
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
@@ -28,7 +28,7 @@ FROM node:20-slim
 WORKDIR /app
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 # Copy workspace root manifests
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./

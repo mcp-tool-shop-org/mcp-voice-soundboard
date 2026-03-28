@@ -32,7 +32,7 @@ If you discover a security vulnerability in this project, please report it respo
 
 ## Scope
 
-This policy covers the `@mcp-tool-shop/voice-soundboard-core` and `@mcp-tool-shop/voice-soundboard-mcp` npm packages, including:
+This policy covers the `@mcptoolshop/voice-soundboard-core` and `@mcptoolshop/voice-soundboard-mcp` npm packages, including:
 
 - Input validation and sanitization
 - Filesystem sandbox (output directory traversal)

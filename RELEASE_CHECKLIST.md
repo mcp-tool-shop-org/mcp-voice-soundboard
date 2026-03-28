@@ -35,5 +35,5 @@
 ## Post-Release
 
 - [ ] Verify package is available on npm
-- [ ] Test installation: `npx @mcp-tool-shop/voice-soundboard-mcp --backend=mock`
+- [ ] Test installation: `npx @mcptoolshop/voice-soundboard-mcp --backend=mock`
 - [ ] Update any downstream consumers

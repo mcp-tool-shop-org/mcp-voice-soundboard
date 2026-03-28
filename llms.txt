@@ -1,6 +1,6 @@
 # MCP Voice Soundboard
 
-> Text-to-speech MCP server for AI agents with 12 voices, emotion markup, and multi-speaker dialogue.
+> Text-to-speech MCP server for AI agents with 46 voices, 9 languages, emotion markup, and multi-speaker dialogue.
 
 ## Purpose
 An MCP server (stdio transport) that gives AI agents speech synthesis capabilities. Supports inline emotion spans, SSML-lite prosody control, sound effects, and multi-speaker dialogue scripts. Ships with guardrails (rate limiting, concurrency, timeouts, secret redaction) and swappable TTS backends.
@@ -29,10 +29,10 @@ MCP client config:
 - `voice_inner_monologue` -- ephemeral micro-utterances (requires `--ambient` flag)
 
 ## Key Concepts
-- **12 voices**: af_aoede, af_jessica, af_sky, am_eric, am_fenrir, am_liam, am_onyx, bf_alice, bf_emma, bf_isabella, bm_george, bm_lewis
+- **46 voices** across 9 languages (American/British English, Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese)
 - **5 presets**: narrator, announcer, whisper, storyteller, assistant
-- **Emotion spans**: `[happy]...[/happy]` (8 emotions: happy, sad, angry, fearful, surprised, disgusted, calm, excited)
-- **SFX tags**: `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]`
+- **Emotion spans**: `{joy}...{/joy}` (8 emotions: neutral, serious, friendly, professional, calm, joy, urgent, whisper)
+- **SFX tags**: `[ding]`, `[chime]`, `[whoosh]`, `[click]`, `[pop]`, `[tada]`
 - **SSML-lite**: `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
 
 ## Constraints
@@ -40,7 +40,7 @@ MCP client config:
 - Node.js 20+ and TypeScript 5.7
 - pnpm monorepo: `@mcptoolshop/voice-soundboard-core` (library) + `@mcptoolshop/voice-soundboard-mcp` (server)
 - Inner monologue requires explicit `--ambient` flag or `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`
-- Max concurrent synthesis controlled by `--max-concurrent` (default 1)
+- Max concurrent synthesis controlled by `--max-concurrent` (default 3)
 
 ## Links
 - Repo: https://github.com/mcp-tool-shop-org/mcp-voice-soundboard

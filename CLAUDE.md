@@ -1,6 +1,6 @@
 # MCP Voice Soundboard — Plugin Context
 
-Text-to-speech MCP server for AI agents. 48 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.
+Text-to-speech MCP server for AI agents. 46 voices, 9 languages, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.
 
 ## Tools (5)
 
@@ -24,17 +24,17 @@ Use preset names as the `voice` parameter for quick access:
 | `storyteller` | bf_emma | 0.9 | Expressive, varied pacing |
 | `whisper` | af_sky | 0.85 | Soft, intimate, gentle |
 
-## Voices (48 across 9 languages)
+## Voices (46 across 9 languages)
 
 Voice IDs follow the pattern `{accent}{gender}_{name}`:
-- `af_` / `am_` — American English (8F, 6M)
-- `bf_` / `bm_` — British English (3F, 3M)
-- `jf_` / `jm_` — Japanese (4F, 1M)
-- `zf_` / `zm_` — Mandarin Chinese (3F, 2M)
-- `ef_` / `em_` — Spanish (3F, 2M)
-- `ff_` — French (2F)
+- `af_` / `am_` — American English (7F, 7M)
+- `bf_` / `bm_` — British English (4F, 2M)
+- `jf_` / `jm_` — Japanese (3F, 2M)
+- `zf_` / `zm_` — Mandarin Chinese (4F, 4M)
+- `ef_` / `em_` — Spanish (1F, 2M)
+- `ff_` — French (1F)
 - `hf_` / `hm_` — Hindi (2F, 2M)
-- `if_` / `im_` — Italian (2F, 2M)
+- `if_` / `im_` — Italian (1F, 1M)
 - `pf_` / `pm_` — Brazilian Portuguese (1F, 2M)
 
 Default voice: `bm_george` (British male, authoritative)
@@ -44,10 +44,10 @@ Default voice: `bm_george` (British male, authoritative)
 Wrap text in emotion tags for voice routing:
 
 ```
-[happy]Great news![/happy] But [sad]we lost the match[/sad].
+{joy}Great news!{/joy} But {calm}we need to stay focused{/calm}.
 ```
 
-Supported: `happy`, `angry`, `sad`, `fearful`, `surprised`, `urgent`, `calm`, `neutral`
+Supported: `neutral`, `serious`, `friendly`, `professional`, `calm`, `joy`, `urgent`, `whisper`
 
 ## SSML-lite
 
@@ -64,7 +64,7 @@ Inline sound effects (pure-WAV generation, no external files):
 [ding] Build complete! [chime] All tests passed.
 ```
 
-Available: `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]`
+Available: `[ding]`, `[chime]`, `[whoosh]`, `[click]`, `[pop]`, `[tada]`
 
 Enable with `sfx: true` in `voice_speak`.
 
@@ -76,7 +76,7 @@ Write scripts with `Speaker: line` format:
 Alice: Welcome to the show!
 [pause 500ms]
 Bob: Thanks for having me.
-Alice: [happy]Let's get started![/happy]
+Alice: {joy}Let's get started!{/joy}
 ```
 
 Use `cast` parameter to map speakers to voices:

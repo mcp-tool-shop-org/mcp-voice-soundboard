@@ -1,7 +1,7 @@
 /** HTTP TTS backend — POST to any TTS endpoint with timeouts + schema checks. */
 
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve, normalize } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import type { Backend, BackendHealth, SynthesisResult } from "../backend.js";
@@ -39,6 +39,60 @@ export class HttpBackendError extends SoundboardError {
 
 const DEFAULT_TIMEOUT = 15_000;
 const DEFAULT_MAX_RESPONSE = 50 * 1024 * 1024; // 50MB
+const AUDIO_URL_FETCH_TIMEOUT = 30_000; // 30s timeout for audio_url fetches
+const AUDIO_URL_MAX_BYTES = 50 * 1024 * 1024; // 50MB max for audio_url fetches
+
+/**
+ * Reject URLs pointing to private/internal IP ranges to prevent SSRF.
+ * Blocks: 10.x, 172.16-31.x, 192.168.x, 127.x, 169.254.x, ::1, fc00::/7, localhost.
+ */
+function isPrivateUrl(urlString: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(urlString);
+  } catch {
+    return true; // Malformed URLs are rejected
+  }
+
+  const hostname = parsed.hostname.toLowerCase();
+
+  // Block localhost variants
+  if (hostname === "localhost" || hostname === "localhost.") return true;
+
+  // Block IPv6 loopback and private
+  if (hostname === "::1" || hostname === "[::1]") return true;
+  // fc00::/7 covers fd00:: as well
+  if (/^\[?f[cd][0-9a-f]{2}:/i.test(hostname)) return true;
+
+  // Block private IPv4 ranges
+  const ipv4Match = hostname.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (ipv4Match) {
+    const [, a, b] = ipv4Match.map(Number);
+    if (a === 10) return true;                         // 10.0.0.0/8
+    if (a === 172 && b >= 16 && b <= 31) return true;  // 172.16.0.0/12
+    if (a === 192 && b === 168) return true;            // 192.168.0.0/16
+    if (a === 127) return true;                         // 127.0.0.0/8
+    if (a === 169 && b === 254) return true;            // 169.254.0.0/16
+    if (a === 0) return true;                           // 0.0.0.0/8
+  }
+
+  return false;
+}
+
+/**
+ * Validate that an audio_path from the backend is safe (no path traversal).
+ * Rejects paths containing '..' or absolute paths outside the expected tmp directory.
+ */
+function isUnsafeAudioPath(audioPath: string): boolean {
+  const normalized = normalize(audioPath);
+  // Reject any path containing '..'
+  if (normalized.includes("..")) return true;
+  // Reject paths that try to escape via absolute paths outside tmpdir
+  const resolvedPath = resolve(audioPath);
+  const tmp = tmpdir();
+  if (!resolvedPath.startsWith(tmp)) return true;
+  return false;
+}
 
 export class HttpBackend implements Backend {
   readonly type = "http" as const;
@@ -231,6 +285,13 @@ export class HttpBackend implements Backend {
     }
 
     if (typeof body.audio_path === "string") {
+      // MCP-002: Validate audio_path to prevent path traversal
+      if (isUnsafeAudioPath(body.audio_path)) {
+        throw new HttpBackendError(
+          "Backend returned an unsafe audio_path (path traversal or outside sandbox)",
+          "BACKEND_BAD_RESPONSE",
+        );
+      }
       if (request.artifact.mode === "base64") {
         // Would need to read the file — for now, return the path with a note
         // Real implementation would read + encode
@@ -248,15 +309,65 @@ export class HttpBackend implements Backend {
     }
 
     if (typeof body.audio_url === "string") {
-      // Download the audio from the URL
-      const audioResp = await fetch(body.audio_url as string);
+      // MCP-001: SSRF protection — reject private/internal URLs
+      if (isPrivateUrl(body.audio_url)) {
+        throw new HttpBackendError(
+          "Backend returned an audio_url pointing to a private/internal address",
+          "BACKEND_BAD_RESPONSE",
+        );
+      }
+
+      // MCP-003: Download with timeout and streaming size limit
+      const fetchController = new AbortController();
+      const fetchTimer = setTimeout(() => fetchController.abort(), AUDIO_URL_FETCH_TIMEOUT);
+      let audioResp: Response;
+      try {
+        audioResp = await fetch(body.audio_url as string, {
+          signal: fetchController.signal,
+          redirect: "error", // PH-003: Reject redirects to prevent SSRF via redirect
+        });
+      } catch (e) {
+        clearTimeout(fetchTimer);
+        const err = e as Error;
+        if (err.name === "AbortError") {
+          throw new HttpBackendError(
+            `audio_url fetch timed out after ${AUDIO_URL_FETCH_TIMEOUT}ms`,
+            "BACKEND_TIMEOUT",
+          );
+        }
+        throw new HttpBackendError(
+          `Failed to fetch audio_url: ${err.message}`,
+          "BACKEND_BAD_RESPONSE",
+        );
+      }
+      clearTimeout(fetchTimer);
+
       if (!audioResp.ok) {
         throw new HttpBackendError(
           `Failed to download audio from ${body.audio_url}: HTTP ${audioResp.status}`,
           "BACKEND_BAD_RESPONSE",
         );
       }
-      const audioBytes = Buffer.from(await audioResp.arrayBuffer());
+
+      if (!audioResp.body) {
+        throw new HttpBackendError("audio_url response has no body", "BACKEND_BAD_RESPONSE");
+      }
+      // Use arrayBuffer with a pre-check on content-length
+      const clHeader = audioResp.headers.get("content-length");
+      if (clHeader && parseInt(clHeader, 10) > AUDIO_URL_MAX_BYTES) {
+        throw new HttpBackendError(
+          `audio_url content-length ${clHeader} exceeds ${AUDIO_URL_MAX_BYTES} byte limit`,
+          "BACKEND_BAD_RESPONSE",
+        );
+      }
+      const arrayBuf = await audioResp.arrayBuffer();
+      if (arrayBuf.byteLength > AUDIO_URL_MAX_BYTES) {
+        throw new HttpBackendError(
+          `audio_url response ${arrayBuf.byteLength} bytes exceeds ${AUDIO_URL_MAX_BYTES} byte limit`,
+          "BACKEND_BAD_RESPONSE",
+        );
+      }
+      const audioBytes = Buffer.from(arrayBuf);
       validateWavHeader(audioBytes);
 
       if (request.artifact.mode === "base64") {

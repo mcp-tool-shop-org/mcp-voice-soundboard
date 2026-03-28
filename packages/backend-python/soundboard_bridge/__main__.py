@@ -47,7 +47,7 @@ _engine = None
 _engine_error = None
 
 
-def _load_engine(output_dir: str | None = None):
+def _load_engine():
     """Lazy-load the voice soundboard engine."""
     global _engine, _engine_error
     if _engine is not None or _engine_error is not None:
@@ -56,20 +56,30 @@ def _load_engine(output_dir: str | None = None):
     try:
         from voice_soundboard import VoiceEngine, Config
 
-        # Determine output directory: explicit arg > env var > default (cwd/output)
-        out = output_dir or os.environ.get("VOICE_SOUNDBOARD_OUTPUT_DIR")
-        kwargs = {}
-        if out:
-            out_path = Path(out)
-            out_path.mkdir(parents=True, exist_ok=True)
-            kwargs["output_dir"] = out_path
-            _log(f"Output dir: {out_path}")
-
-        _engine = VoiceEngine(Config(**kwargs))
+        _engine = VoiceEngine(Config())
         _log(f"Engine loaded: {type(_engine).__name__}")
     except Exception as e:
         _engine_error = str(e)
         _log(f"Engine load failed: {e}")
+
+
+# Sandbox root for output_dir validation (repo root or configurable)
+_SANDBOX_ROOT = Path(os.environ.get(
+    "VOICE_SOUNDBOARD_OUTPUT_ROOT",
+    str(Path(__file__).resolve().parents[3])  # repo root
+)).resolve()
+
+
+def _validate_output_dir(output_dir: str) -> Path:
+    """Validate output_dir is within the sandbox root. Raises ValueError on violation."""
+    resolved = Path(output_dir).resolve()
+    try:
+        resolved.relative_to(_SANDBOX_ROOT)
+    except ValueError:
+        raise ValueError(
+            f"output_dir '{output_dir}' resolves outside sandbox root '{_SANDBOX_ROOT}'"
+        )
+    return resolved
 
 
 # ── Operation handlers ──
@@ -91,8 +101,17 @@ def handle_synthesize(id: str, msg: dict) -> None:
     output_dir = msg.get("output_dir")
     artifact_mode = msg.get("artifact_mode", "path")
 
-    # Pass output_dir to engine init (only effective on first load)
-    _load_engine(output_dir)
+    # Validate output_dir against sandbox root
+    if output_dir:
+        try:
+            validated_output_dir = _validate_output_dir(output_dir)
+        except ValueError as e:
+            _err(id, "INVALID_OUTPUT_DIR", str(e))
+            return
+    else:
+        validated_output_dir = None
+
+    _load_engine()
     if _engine is None:
         _err(id, "BACKEND_UNAVAILABLE", f"Engine not available: {_engine_error}")
         return
@@ -117,18 +136,21 @@ def handle_synthesize(id: str, msg: dict) -> None:
                 format=fmt,
             )
         else:
-            # Path mode — move file to requested output_dir if it differs
-            audio_path = Path(str(getattr(result, "audio_path", "")))
-            if not audio_path or not audio_path.exists():
+            # Path mode — check audio_path exists before converting
+            raw_audio_path = getattr(result, "audio_path", None)
+            if not raw_audio_path:
+                _err(id, "SYNTHESIS_FAILED", "Engine did not produce an audio path")
+                return
+            audio_path = Path(str(raw_audio_path))
+            if not audio_path.exists():
                 _err(id, "SYNTHESIS_FAILED", "Engine did not produce an audio path")
                 return
 
-            if output_dir:
+            if validated_output_dir:
                 import shutil
-                dest_dir = Path(output_dir)
-                dest_dir.mkdir(parents=True, exist_ok=True)
-                dest = dest_dir / audio_path.name
-                if audio_path.parent.resolve() != dest_dir.resolve():
+                validated_output_dir.mkdir(parents=True, exist_ok=True)
+                dest = validated_output_dir / audio_path.name
+                if audio_path.parent.resolve() != validated_output_dir:
                     shutil.move(str(audio_path), str(dest))
                     audio_path = dest
 

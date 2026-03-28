@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -24,7 +24,7 @@
 
 - **原生 MCP 支持**：支持 stdio 传输，可与 Claude Desktop、Cursor 以及任何 MCP 客户端配合使用。
 - **5 个工具**：`voice_speak`、`voice_dialogue`、`voice_status`、`voice_interrupt`、`voice_inner_monologue`。
-- **48 种已批准的语音，9 种语言**：美式英语、英式英语、日语、普通话、西班牙语、法语、印地语、意大利语、巴西葡萄牙语。 预设选项：`narrator`（旁白）、`announcer`（播报员）、`whisper`（低语）、`storyteller`（故事讲述者）、`assistant`（助手）。
+- **46 种已批准的语音，9 种语言**：美式英语、英式英语、日语、普通话、西班牙语、法语、印地语、意大利语、巴西葡萄牙语。 预设选项：`narrator`（旁白）、`announcer`（播报员）、`whisper`（低语）、`storyteller`（故事讲述者）、`assistant`（助手）。
 - **情感标记**：通过 `[happy]...[/happy]` 形式添加 8 种情感。
 - **简化版 SSML**：支持 `<break>`、`<emphasis>`、`<prosody>` 标签，但简化了 SSML 的复杂性。
 - **音效标签**：支持 `[ding]`、`[chime]`、`[whoosh]`、`[tada]`、`[error]`、`[click]` 等音效。
@@ -130,7 +130,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## 语音
 
-提供 48 种语音，涵盖 9 种语言。 语音的语言将自动从语音 ID 前缀推断，无需任何配置。
+提供 46 种语音，涵盖 9 种语言。 语音的语言将自动从语音 ID 前缀推断，无需任何配置。
 
 | 前缀 | 语言 |
 |--------|----------|

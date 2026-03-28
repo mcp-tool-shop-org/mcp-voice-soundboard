@@ -13,6 +13,7 @@ const SFX_TAG_RE = /\[(\w+)\]/g;
 
 /** Check whether text contains any potential SFX tags. */
 export function hasSfxTags(text: string): boolean {
+  SFX_TAG_RE.lastIndex = 0;
   return SFX_TAG_RE.test(text);
 }
 

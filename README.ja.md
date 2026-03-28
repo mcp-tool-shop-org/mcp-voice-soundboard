@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -24,7 +24,7 @@
 
 - **MCPネイティブ**：stdioトランスポートに対応し、Claude Desktop、Cursor、およびその他のMCPクライアントで使用可能
 - **5つのツール**：`voice_speak`、`voice_dialogue`、`voice_status`、`voice_interrupt`、`voice_inner_monologue`
-- **48種類の音声、9言語**：英語（アメリカ英語 + イギリス英語）、日本語、中国語（北京語）、スペイン語、フランス語、ヒンディー語、イタリア語、ブラジルポルトガル語。プリセット：`narrator`、`announcer`、`whisper`、`storyteller`、`assistant`
+- **46種類の音声、9言語**：英語（アメリカ英語 + イギリス英語）、日本語、中国語（北京語）、スペイン語、フランス語、ヒンディー語、イタリア語、ブラジルポルトガル語。プリセット：`narrator`、`announcer`、`whisper`、`storyteller`、`assistant`
 - **感情表現**：`[happy]...[/happy]`というインラインマークアップで、8種類の感情を表現可能
 - **SSML-lite**：`<break>`、`<emphasis>`、`<prosody>`などのタグを、完全なSSMLの複雑さなしで使用可能
 - **効果音タグ**：`[ding]`、`[chime]`、`[whoosh]`、`[tada]`、`[error]`、`[click]`などのインライン効果音
@@ -130,7 +130,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## 音声
 
-9言語、合計48種類の音声があります。言語は音声IDのプレフィックスから自動的に判別されます。設定は不要です。
+9言語、合計46種類の音声があります。言語は音声IDのプレフィックスから自動的に判別されます。設定は不要です。
 
 | プレフィックス | 言語 |
 |--------|----------|

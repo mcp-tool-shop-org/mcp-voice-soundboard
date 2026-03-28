@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -24,7 +24,7 @@
 
 - **MCP सपोर्ट:** stdio ट्रांसपोर्ट, क्लाउड डेस्कटॉप, कर्सर और किसी भी MCP क्लाइंट के साथ काम करता है।
 - **5 उपकरण:** `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
-- **48 स्वीकृत आवाजें, 9 भाषाएँ:** अंग्रेजी (अमेरिकी + ब्रिटिश), जापानी, मंदारिन, स्पेनिश, फ्रेंच, हिंदी, इतालवी, ब्राजीलियाई पुर्तगाली। तैयार किए गए विकल्प: `narrator` (कथावाचक), `announcer` (घोषक), `whisper` (फुसफुसाहट), `storyteller` (कहानीकार), `assistant` (सहायक)।
+- **46 स्वीकृत आवाजें, 9 भाषाएँ:** अंग्रेजी (अमेरिकी + ब्रिटिश), जापानी, मंदारिन, स्पेनिश, फ्रेंच, हिंदी, इतालवी, ब्राजीलियाई पुर्तगाली। तैयार किए गए विकल्प: `narrator` (कथावाचक), `announcer` (घोषक), `whisper` (फुसफुसाहट), `storyteller` (कहानीकार), `assistant` (सहायक)।
 - **भावनाएं:** `[खुश]...[/खुश]` जैसे इनलाइन मार्कअप का उपयोग करके भावनाओं को दर्शाया जा सकता है।
 - **SSML-lite:** `<break>`, `<emphasis>`, `<prosody>` जैसे SSML के कुछ ही तत्वों का उपयोग।
 - **SFX टैग:** `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` जैसे इनलाइन ध्वनि प्रभाव।
@@ -130,7 +130,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## आवाजें
 
-9 भाषाओं में 48 आवाजें उपलब्ध हैं। भाषा का पता स्वचालित रूप से आवाज आईडी के उपसर्ग से लगाया जाता है - किसी कॉन्फ़िगरेशन की आवश्यकता नहीं है।
+9 भाषाओं में 46 आवाजें उपलब्ध हैं। भाषा का पता स्वचालित रूप से आवाज आईडी के उपसर्ग से लगाया जाता है - किसी कॉन्फ़िगरेशन की आवश्यकता नहीं है।
 
 | उपसर्ग | भाषा |
 |--------|----------|

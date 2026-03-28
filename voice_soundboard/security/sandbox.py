@@ -108,11 +108,11 @@ class RestrictedGlobals:
     SAFE_BUILTINS = {
         "abs", "all", "any", "ascii", "bin", "bool", "bytearray", "bytes",
         "chr", "dict", "divmod", "enumerate", "filter", "float", "format",
-        "frozenset", "getattr", "hasattr", "hash", "hex", "id", "int",
+        "frozenset", "hash", "hex", "id", "int",
         "isinstance", "issubclass", "iter", "len", "list", "map", "max",
-        "min", "next", "object", "oct", "ord", "pow", "print", "range",
+        "min", "next", "oct", "ord", "pow", "print", "range",
         "repr", "reversed", "round", "set", "slice", "sorted", "str",
-        "sum", "tuple", "type", "zip",
+        "sum", "tuple", "zip",
     }
     
     @classmethod
@@ -171,12 +171,18 @@ class ResourceMonitor:
         self.start_cpu_time: float = 0.0
         self._stop_event = threading.Event()
         self._monitor_thread: threading.Thread | None = None
+        self.violation_event = threading.Event()
+        self.violation_type: str | None = None
+        self.violation_reason: str | None = None
     
     def start(self) -> None:
         """Start resource monitoring."""
         self.start_time = time.perf_counter()
         self.start_cpu_time = time.process_time()
         self._stop_event.clear()
+        self.violation_event.clear()
+        self.violation_type = None
+        self.violation_reason = None
         
         # Start monitoring thread
         self._monitor_thread = threading.Thread(
@@ -203,17 +209,17 @@ class ResourceMonitor:
             elapsed = time.perf_counter() - self.start_time
             
             if elapsed > self.config.max_execution_time_seconds:
-                raise SandboxViolation(
-                    "timeout",
-                    f"Execution exceeded {self.config.max_execution_time_seconds}s limit",
-                )
-            
+                self.violation_event.set()
+                self.violation_reason = f"Execution exceeded {self.config.max_execution_time_seconds}s limit"
+                self.violation_type = "timeout"
+                return
+
             cpu_time = time.process_time() - self.start_cpu_time
             if cpu_time > self.config.max_cpu_seconds:
-                raise SandboxViolation(
-                    "cpu_limit",
-                    f"CPU time exceeded {self.config.max_cpu_seconds}s limit",
-                )
+                self.violation_event.set()
+                self.violation_reason = f"CPU time exceeded {self.config.max_cpu_seconds}s limit"
+                self.violation_type = "cpu_limit"
+                return
 
 
 class PluginSandbox:
@@ -276,8 +282,15 @@ class PluginSandbox:
         
         try:
             yield execution_result
+            # Check if the monitor thread signalled a violation
+            if self._monitor and self._monitor.violation_event.is_set():
+                raise SandboxViolation(
+                    self._monitor.violation_type or "resource_limit",
+                    self._monitor.violation_reason or "Resource limit exceeded",
+                    plugin_id,
+                )
             execution_result.success = True
-            
+
         except SandboxViolation as e:
             e.plugin_id = plugin_id
             execution_result.error = e
@@ -299,56 +312,10 @@ class PluginSandbox:
             
             del self._active_contexts[plugin_id]
     
-    def execute_code(
-        self,
-        code: str,
-        context: dict[str, Any] | None = None,
-        plugin_id: str = "anonymous",
-    ) -> SandboxExecutionResult:
-        """
-        Execute arbitrary code within the sandbox.
-        
-        For untrusted code execution - use with caution.
-        """
-        result = SandboxExecutionResult(success=False)
-        
-        # Create restricted globals
-        sandbox_globals = RestrictedGlobals.create(self.config)
-        
-        # Add user context
-        if context:
-            sandbox_globals.update(context)
-        
-        # Start monitoring
-        monitor = ResourceMonitor(self.config)
-        monitor.start()
-        
-        try:
-            # Compile and execute
-            compiled = compile(code, f"<sandbox:{plugin_id}>", "exec")
-            exec(compiled, sandbox_globals)
-            
-            result.success = True
-            result.result = sandbox_globals.get("__result__")
-            
-        except SandboxViolation as e:
-            e.plugin_id = plugin_id
-            result.error = e
-            
-        except Exception as e:
-            result.error = SandboxViolation(
-                "runtime_error",
-                str(e),
-                plugin_id,
-            )
-            
-        finally:
-            exec_time, cpu_time = monitor.stop()
-            result.execution_time_seconds = exec_time
-            result.cpu_time_seconds = cpu_time
-        
-        return result
-    
+    # NOTE: execute_code() was removed because exec()-based sandboxing with
+    # restricted builtins is trivially bypassable. Only WASM or CONTAINER
+    # strategies provide real isolation for untrusted code execution.
+
     def validate_plugin(self, plugin: SandboxedPlugin) -> list[str]:
         """
         Validate a plugin before execution.

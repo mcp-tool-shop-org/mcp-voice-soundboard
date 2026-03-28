@@ -162,3 +162,74 @@ describe("voice_interrupt", () => {
     expect(result.reason).toBe("manual");
   });
 });
+
+// ── B-07: Emotion-tagged voice_speak ──
+
+describe("voice_speak — emotion tags", () => {
+  it("synthesizes text with emotion spans", async () => {
+    client = await initClient();
+    const { result, isError } = await callTool(client, "voice_speak", {
+      text: "{joy}Great news!{/joy}",
+    });
+
+    expect(isError).toBe(false);
+    // Emotion plan uses a different traceId format ("emotion-plan")
+    expect(result.traceId).toBeTruthy();
+    expect(result.voiceUsed).toBeTruthy();
+    expect(result.durationMs).toBeGreaterThan(0);
+  });
+
+  it("synthesizes mixed emotion and plain text", async () => {
+    client = await initClient();
+    const { result, isError } = await callTool(client, "voice_speak", {
+      text: "Hello. {serious}This is important.{/serious} Thank you.",
+    });
+
+    expect(isError).toBe(false);
+    expect(result.traceId).toBeTruthy();
+    expect(result.durationMs).toBeGreaterThan(0);
+  });
+});
+
+// ── B-06: voice_inner_monologue E2E ──
+
+describe("voice_inner_monologue", () => {
+  it("rejects when ambient is disabled (default)", async () => {
+    // Default server has ambient disabled
+    client = await initClient();
+    const { result, isError } = await callTool(client, "voice_inner_monologue", {
+      text: "Thinking about the problem",
+    });
+
+    expect(isError).toBe(true);
+    expect(result.accepted).toBe(false);
+    expect(result.code).toBe("AMBIENT_DISABLED");
+  });
+
+  it("accepts when ambient is enabled", async () => {
+    client = await initClient({
+      env: { VOICE_SOUNDBOARD_AMBIENT_ENABLED: "1" },
+    });
+    const { result, isError } = await callTool(client, "voice_inner_monologue", {
+      text: "Observing the code structure",
+      category: "observation",
+    });
+
+    expect(isError).toBe(false);
+    expect(result.accepted).toBe(true);
+    expect(result.entry).toBeDefined();
+    expect(result.entry.category).toBe("observation");
+  });
+
+  it("rejects empty text even when ambient is enabled", async () => {
+    client = await initClient({
+      env: { VOICE_SOUNDBOARD_AMBIENT_ENABLED: "1" },
+    });
+    const { result, isError } = await callTool(client, "voice_inner_monologue", {
+      text: "",
+    });
+
+    expect(isError).toBe(true);
+    expect(result.accepted).toBe(false);
+  });
+});

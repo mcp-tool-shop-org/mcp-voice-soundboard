@@ -5,12 +5,16 @@ on:
     branches: [main]
     paths:
       - 'packages/**'
+      - 'tests/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/**'
   pull_request:
     branches: [main]
     paths:
       - 'packages/**'
+      - 'tests/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/**'
   workflow_dispatch:

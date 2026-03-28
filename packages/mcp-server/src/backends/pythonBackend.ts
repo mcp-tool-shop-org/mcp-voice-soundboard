@@ -40,6 +40,9 @@ interface PendingRequest {
 }
 
 const DEFAULT_TIMEOUT = 30_000;
+const MAX_BUFFER_SIZE = 10 * 1024 * 1024; // 10MB — reject + clear if exceeded
+const MAX_CONSECUTIVE_FAILURES = 3;
+const COOLDOWN_MS = 60_000; // 60s cooldown after repeated spawn failures
 const BRIDGE_MODULE_DIR = import.meta.dirname
   ? resolve(import.meta.dirname, "..", "..", "backend-python")
   : resolve("backend-python");
@@ -53,6 +56,8 @@ export class PythonBackend implements Backend {
   private pending = new Map<string, PendingRequest>();
   private buffer = "";
   private _ready = false;
+  private _consecutiveFailures = 0;
+  private _cooldownUntil = 0;
 
   get ready(): boolean {
     return this._ready;
@@ -125,9 +130,23 @@ export class PythonBackend implements Backend {
     }
   }
 
-  /** Ensure the Python process is running. */
+  /** Ensure the Python process is running. Circuit-breaker: after repeated failures, cool down. */
   private async ensureProcess(): Promise<void> {
     if (this.proc && !this.proc.killed) return;
+
+    // Circuit-breaker: if too many consecutive failures, wait for cooldown
+    if (this._consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
+      const now = Date.now();
+      if (now < this._cooldownUntil) {
+        const remainingMs = this._cooldownUntil - now;
+        throw new PythonBackendError(
+          `Python backend in cooldown after ${this._consecutiveFailures} consecutive spawn failures (${Math.ceil(remainingMs / 1000)}s remaining)`,
+          "BACKEND_UNREACHABLE",
+        );
+      }
+      // Cooldown expired — allow one more attempt
+      process.stderr.write(`[python-backend] Cooldown expired, retrying spawn (attempt after ${this._consecutiveFailures} failures)\n`);
+    }
 
     return new Promise<void>((resolve, reject) => {
       const env: Record<string, string> = {};
@@ -152,6 +171,9 @@ export class PythonBackend implements Backend {
       });
 
       const startTimer = setTimeout(() => {
+        this._consecutiveFailures++;
+        this._cooldownUntil = Date.now() + COOLDOWN_MS;
+        process.stderr.write(`[python-backend] Spawn timeout (failure #${this._consecutiveFailures})\n`);
         reject(new PythonBackendError(
           "Python backend did not start within 10s",
           "BACKEND_TIMEOUT",
@@ -175,6 +197,9 @@ export class PythonBackend implements Backend {
       this.proc.on("error", (err) => {
         clearTimeout(startTimer);
         this._ready = false;
+        this._consecutiveFailures++;
+        this._cooldownUntil = Date.now() + COOLDOWN_MS;
+        process.stderr.write(`[python-backend] Spawn error (failure #${this._consecutiveFailures}): ${err.message}\n`);
         reject(new PythonBackendError(
           `Failed to start python: ${err.message}`,
           "BACKEND_UNREACHABLE",
@@ -203,6 +228,8 @@ export class PythonBackend implements Backend {
         resolve: () => {
           clearTimeout(startTimer);
           this._ready = true;
+          this._consecutiveFailures = 0;
+          this._cooldownUntil = 0;
           resolve();
         },
         reject: (err) => {
@@ -212,7 +239,18 @@ export class PythonBackend implements Backend {
         timer: startTimer,
       });
 
-      this.proc.stdin!.write(healthMsg);
+      try {
+        this.proc.stdin!.write(healthMsg);
+      } catch (e) {
+        clearTimeout(startTimer);
+        this.pending.delete(healthId);
+        process.stderr.write(`[python-backend] stdin write failed during startup: ${(e as Error).message}\n`);
+        this.kill();
+        reject(new PythonBackendError(
+          `Failed to write to Python stdin: ${(e as Error).message}`,
+          "BACKEND_UNREACHABLE",
+        ));
+      }
     });
   }
 
@@ -235,12 +273,41 @@ export class PythonBackend implements Backend {
 
       this.pending.set(id, { resolve, reject, timer });
       const msg = JSON.stringify({ id, ...payload }) + "\n";
-      this.proc.stdin!.write(msg);
+      try {
+        this.proc.stdin!.write(msg);
+      } catch (e) {
+        // EPIPE or other write error — process is dead/dying
+        this.pending.delete(id);
+        clearTimeout(timer);
+        process.stderr.write(`[python-backend] stdin write failed: ${(e as Error).message}\n`);
+        this.kill();
+        reject(new PythonBackendError(
+          `Failed to write to Python stdin: ${(e as Error).message}`,
+          "BACKEND_UNREACHABLE",
+        ));
+      }
     });
   }
 
   /** Drain the stdout buffer for complete NDJSON lines. */
   private drainBuffer(): void {
+    // B-03: Guard against unbounded buffer growth
+    if (this.buffer.length > MAX_BUFFER_SIZE) {
+      process.stderr.write(
+        `[python-backend] Buffer exceeded ${MAX_BUFFER_SIZE} bytes (${this.buffer.length}), rejecting pending requests and clearing\n`,
+      );
+      for (const [id, pending] of this.pending) {
+        clearTimeout(pending.timer);
+        pending.reject(new PythonBackendError(
+          "Python backend stdout buffer overflow",
+          "BACKEND_BAD_RESPONSE",
+        ));
+      }
+      this.pending.clear();
+      this.buffer = "";
+      return;
+    }
+
     const lines = this.buffer.split("\n");
     this.buffer = lines.pop()!;
     for (const line of lines) {
@@ -249,7 +316,10 @@ export class PythonBackend implements Backend {
       try {
         msg = JSON.parse(line) as Record<string, unknown>;
       } catch {
-        continue; // Skip malformed lines
+        // B-02: Log malformed JSON so it doesn't vanish silently
+        const truncated = line.length > 200 ? line.slice(0, 200) + "..." : line;
+        process.stderr.write(`[python-backend] Malformed JSON line: ${truncated}\n`);
+        continue;
       }
 
       const id = msg.id as string;

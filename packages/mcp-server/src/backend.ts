@@ -72,7 +72,11 @@ export function readBackendConfig(argv: string[]): BackendConfig {
   config.pythonModule = process.env.VOICE_SOUNDBOARD_PYTHON_MODULE;
 
   if (process.env.VOICE_SOUNDBOARD_HTTP_TIMEOUT) {
-    config.httpTimeout = parseInt(process.env.VOICE_SOUNDBOARD_HTTP_TIMEOUT, 10);
+    const parsed = parseInt(process.env.VOICE_SOUNDBOARD_HTTP_TIMEOUT, 10);
+    // MCP-010: Guard against NaN from invalid env var
+    if (Number.isFinite(parsed) && parsed > 0) {
+      config.httpTimeout = parsed;
+    }
   }
 
   return config;
@@ -102,7 +106,7 @@ export async function selectBackend(config: BackendConfig): Promise<Backend> {
     switch (config.backend) {
       case "mock":
         return new MockBackend();
-      case "http":
+      case "http": {
         // Lazy import to avoid loading HTTP backend when not needed
         const { HttpBackend } = await import("./backends/httpBackend.js");
         return new HttpBackend({
@@ -110,6 +114,7 @@ export async function selectBackend(config: BackendConfig): Promise<Backend> {
           token: config.ttsToken,
           timeout: config.httpTimeout,
         });
+      }
       case "python": {
         const { PythonBackend } = await import("./backends/pythonBackend.js");
         const pyBackend = new PythonBackend({
@@ -122,6 +127,9 @@ export async function selectBackend(config: BackendConfig): Promise<Backend> {
       }
       case "none":
         return new NoneBackend();
+      default:
+        // MCP-009: Reject unrecognized backend types
+        throw new Error(`Unknown backend type: ${JSON.stringify(config.backend)}. Valid types: mock, http, python, none`);
     }
   }
 

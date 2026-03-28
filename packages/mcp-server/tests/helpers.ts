@@ -7,7 +7,7 @@ const CLI_PATH = resolve(import.meta.dirname, "..", "dist", "cli.js");
 
 export interface McpTestClient {
   send(message: Record<string, unknown>): void;
-  receive(): Promise<Record<string, unknown>>;
+  receive(timeoutMs?: number): Promise<Record<string, unknown>>;
   close(): void;
 }
 
@@ -58,13 +58,21 @@ export function spawnServer(opts?: SpawnOptions): McpTestClient {
       proc.stdin!.write(JSON.stringify(message) + "\n");
     },
 
-    receive() {
+    receive(timeoutMs = 30_000) {
       if (messageQueue.length > 0) {
         return Promise.resolve(messageQueue.shift()!);
       }
-      return new Promise((resolve) => {
-        resolver = resolve;
-      });
+      return Promise.race([
+        new Promise<Record<string, unknown>>((resolve) => {
+          resolver = resolve;
+        }),
+        new Promise<never>((_, reject) => {
+          setTimeout(
+            () => reject(new Error(`receive() timed out after ${timeoutMs}ms — no response from server`)),
+            timeoutMs,
+          );
+        }),
+      ]);
     },
 
     close() {

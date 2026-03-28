@@ -8,6 +8,10 @@ describe("validateText", () => {
 
   it("rejects empty string", () => {
     expect(() => validateText("")).toThrow(LimitError);
+  });
+
+  it("empty string LimitError has TEXT_EMPTY code", () => {
+    expect.assertions(1);
     try { validateText(""); } catch (e) {
       expect((e as LimitError).code).toBe("TEXT_EMPTY");
     }
@@ -20,6 +24,11 @@ describe("validateText", () => {
   it("rejects text exceeding max length", () => {
     const long = "a".repeat(LIMITS.maxTextLength + 1);
     expect(() => validateText(long)).toThrow(LimitError);
+  });
+
+  it("too-long LimitError has TEXT_TOO_LONG code", () => {
+    expect.assertions(1);
+    const long = "a".repeat(LIMITS.maxTextLength + 1);
     try { validateText(long); } catch (e) {
       expect((e as LimitError).code).toBe("TEXT_TOO_LONG");
     }
@@ -47,6 +56,10 @@ describe("validateSpeed", () => {
 
   it("rejects speed below minimum", () => {
     expect(() => validateSpeed(0.3)).toThrow(LimitError);
+  });
+
+  it("below-minimum speed LimitError has SPEED_OUT_OF_RANGE code", () => {
+    expect.assertions(1);
     try { validateSpeed(0.3); } catch (e) {
       expect((e as LimitError).code).toBe("SPEED_OUT_OF_RANGE");
     }

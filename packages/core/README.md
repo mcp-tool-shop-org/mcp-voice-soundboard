@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
   Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
 </p>
 
@@ -27,7 +27,7 @@
 
 - **MCP native** &mdash; stdio transport, works with Claude Desktop, Cursor, and any MCP client
 - **5 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
-- **48 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
+- **46 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
 - **Emotion spans** &mdash; 8 emotions via `[happy]...[/happy]` inline markup
 - **SSML-lite** &mdash; `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
 - **SFX tags** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` inline sound effects
@@ -133,7 +133,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 
 ## Voices
 
-48 voices across 9 languages. Language is auto-inferred from the voice ID prefix — no configuration required.
+46 voices across 9 languages. Language is auto-inferred from the voice ID prefix — no configuration required.
 
 | Prefix | Language |
 |--------|----------|
@@ -147,7 +147,7 @@ category?:    "thinking"           # general | thinking | observation | debug
 | `if_` / `im_` | Italian |
 | `pf_` / `pm_` | Brazilian Portuguese |
 
-See the [full voice list](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard#voices) for all 48 voices with names and styles.
+See the [full voice list](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard#voices) for all 46 voices with names and styles.
 
 ### Presets
 

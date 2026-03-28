@@ -2,7 +2,7 @@ import type { SiteConfig } from '@mcptoolshop/site-theme';
 
 export const config: SiteConfig = {
   title: 'MCP Voice Soundboard',
-  description: 'Text-to-speech MCP server — 48 voices, 9 languages, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.',
+  description: 'Text-to-speech MCP server — 46 voices, 9 languages, 5 presets, emotion spans, SSML-lite, multi-speaker dialogue, SFX tags, and built-in guardrails.',
   logoBadge: 'v1',
   brandName: 'MCP Voice Soundboard',
   repoUrl: 'https://github.com/mcp-tool-shop-org/mcp-voice-soundboard',
@@ -12,7 +12,7 @@ export const config: SiteConfig = {
     badge: 'TypeScript · Node.js · MCP',
     headline: 'Give your agent',
     headlineAccent: 'a voice.',
-    description: '48 voices, 9 languages, 5 presets, emotion spans, SSML-lite, SFX tags, and multi-speaker dialogue. Ships as a single npx command.',
+    description: '46 voices, 9 languages, 5 presets, emotion spans, SSML-lite, SFX tags, and multi-speaker dialogue. Ships as a single npx command.',
     primaryCta: { href: '#usage', label: 'Get started' },
     secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
@@ -43,7 +43,7 @@ export const config: SiteConfig = {
           desc: 'stdio transport, works with Claude Desktop, Cursor, and any MCP client. Five tools: voice_speak, voice_dialogue, voice_status, voice_interrupt, voice_inner_monologue.',
         },
         {
-          title: '48 voices, 9 languages',
+          title: '46 voices, 9 languages',
           desc: 'English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Five curated presets: narrator, announcer, whisper, storyteller, assistant.',
         },
         {

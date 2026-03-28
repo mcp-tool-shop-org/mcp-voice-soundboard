@@ -64,6 +64,16 @@ function parseCliFlags(argv: string[]): {
     }
   }
 
+  // Env var fallbacks for timeout and max-concurrent (HX-012)
+  if (requestTimeoutMs == null && process.env.VOICE_SOUNDBOARD_TIMEOUT) {
+    const val = parseInt(process.env.VOICE_SOUNDBOARD_TIMEOUT, 10);
+    if (val > 0) requestTimeoutMs = val;
+  }
+  if (maxConcurrent == null && process.env.VOICE_SOUNDBOARD_MAX_CONCURRENT) {
+    const val = parseInt(process.env.VOICE_SOUNDBOARD_MAX_CONCURRENT, 10);
+    if (val > 0) maxConcurrent = val;
+  }
+
   return { artifactMode, outputRoot, ambient, maxConcurrent, requestTimeoutMs, retentionMinutes };
 }
 
@@ -100,8 +110,28 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
     res.json({ status: "ok", server: SERVER_NAME, version: pkg.version });
   });
 
-  // Session management
+  // Session management with limits (MCP-008)
+  const MAX_SESSIONS = 100;
+  const SESSION_IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
   const sessions = new Map<string, StreamableHTTPServerTransport>();
+  const sessionLastActive = new Map<string, number>();
+
+  // Periodic cleanup of idle sessions
+  const cleanupInterval = setInterval(() => {
+    const now = Date.now();
+    for (const [sid, lastActive] of sessionLastActive) {
+      if (now - lastActive > SESSION_IDLE_TIMEOUT_MS) {
+        const transport = sessions.get(sid);
+        if (transport) {
+          transport.close?.();
+        }
+        sessions.delete(sid);
+        sessionLastActive.delete(sid);
+        console.error(`[${SERVER_NAME}] Session expired (idle): ${sid}`);
+      }
+    }
+  }, 60_000); // Check every minute
+  cleanupInterval.unref(); // Don't prevent process exit
 
   app.post("/mcp", async (req, res) => {
     const sessionId = req.headers["mcp-session-id"] as string | undefined;
@@ -109,11 +139,18 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
 
     if (sessionId && sessions.has(sessionId)) {
       transport = sessions.get(sessionId)!;
+      sessionLastActive.set(sessionId, Date.now());
     } else if (!sessionId) {
+      // Reject if session limit reached
+      if (sessions.size >= MAX_SESSIONS) {
+        res.status(503).json({ error: "Too many active sessions" });
+        return;
+      }
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (id) => {
           sessions.set(id, transport);
+          sessionLastActive.set(id, Date.now());
           console.error(`[${SERVER_NAME}] Session created: ${id}`);
         },
       });
@@ -121,6 +158,7 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
         const sid = transport.sessionId;
         if (sid) {
           sessions.delete(sid);
+          sessionLastActive.delete(sid);
           console.error(`[${SERVER_NAME}] Session closed: ${sid}`);
         }
       };
@@ -152,11 +190,41 @@ async function startHttpServer(backend: Backend, flags: ReturnType<typeof parseC
     await sessions.get(sessionId)!.handleRequest(req, res);
   });
 
-  app.listen(port, "0.0.0.0", () => {
+  const httpServer = app.listen(port, "0.0.0.0", () => {
     console.error(`[${SERVER_NAME}] Transport: HTTP (Streamable)`);
     console.error(`[${SERVER_NAME}] Listening on http://0.0.0.0:${port}/mcp`);
     console.error(`[${SERVER_NAME}] Health check: http://0.0.0.0:${port}/health`);
   });
+
+  // PH-013: Graceful shutdown — stop accepting, drain sessions, exit
+  let shuttingDown = false;
+  const gracefulShutdown = (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.error(`[${SERVER_NAME}] ${signal} received, shutting down gracefully...`);
+    clearInterval(cleanupInterval);
+
+    // Stop accepting new connections
+    httpServer.close(() => {
+      console.error(`[${SERVER_NAME}] HTTP server closed`);
+    });
+
+    // Close all active sessions
+    for (const [sid, transport] of sessions) {
+      transport.close?.();
+      sessions.delete(sid);
+      sessionLastActive.delete(sid);
+    }
+
+    // Allow a brief drain period, then force exit
+    setTimeout(() => {
+      console.error(`[${SERVER_NAME}] Shutdown complete`);
+      process.exit(0);
+    }, 3000);
+  };
+
+  process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+  process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 }
 
 async function main(): Promise<void> {

@@ -28,7 +28,7 @@ No installation needed. Just add this to your MCP client config:
   "mcpServers": {
     "voice-soundboard": {
       "command": "npx",
-      "args": ["-y", "@mcp-tool-shop/voice-soundboard-mcp"]
+      "args": ["-y", "@mcptoolshop/voice-soundboard-mcp"]
     }
   }
 }
@@ -47,7 +47,7 @@ Save the file, restart the client, and the voice tools appear automatically.
 ### Option 2: Global Install
 
 ```bash
-npm install -g @mcp-tool-shop/voice-soundboard-mcp
+npm install -g @mcptoolshop/voice-soundboard-mcp
 ```
 
 Then use `voice-soundboard-mcp` as the command in your config instead of `npx`.
@@ -127,9 +127,9 @@ text:     "Hmm, interesting..."
 category: "thinking"           (general, thinking, observation, debug)
 ```
 
-### 12 Voices
+### 46 Voices (9 Languages)
 
-All voices are English, Kokoro-compatible, and curated for quality.
+All voices are Kokoro-compatible and curated for quality. The roster spans American English, British English, Japanese, Mandarin Chinese, Spanish, French, Hindi, Italian, and Brazilian Portuguese.
 
 **American Female:**
 | ID | Name | Style |
@@ -166,8 +166,8 @@ Presets are shortcuts that combine a voice with a speed setting:
 | Preset | Voice | Speed | Good for |
 |--------|-------|-------|----------|
 | `narrator` | George | 0.95x | Documentaries, explainers |
-| `announcer` | Onyx | 1.05x | News, alerts, notifications |
-| `whisper` | Aoede | 0.85x | Intimate, ASMR-style |
+| `announcer` | Eric | 1.1x | News, alerts, notifications |
+| `whisper` | Sky | 0.85x | Intimate, ASMR-style |
 | `storyteller` | Emma | 0.90x | Bedtime stories, fiction |
 | `assistant` | Jessica | 1.0x | General-purpose, neutral |
 
@@ -178,10 +178,10 @@ Use them by name: `voice: "narrator"` instead of a voice ID.
 Wrap any section of text in emotion tags to change how it sounds:
 
 ```
-[happy]I got the job![/happy] But [sad]I have to relocate.[/sad]
+{joy}I got the job!{/joy} But {calm}I need to think it through.{/calm}
 ```
 
-Available emotions: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`, `excited`
+Available emotions: `neutral`, `serious`, `friendly`, `professional`, `calm`, `joy`, `urgent`, `whisper`
 
 Emotions affect prosody (pitch, rate, volume) — they don't change the voice itself. You can nest them, and you can use multiple emotions in one request.
 
@@ -193,7 +193,7 @@ Inline sound effect markers (feature-flagged, pass `sfx: true` to enable):
 Welcome back! [ding] You have three new messages. [chime]
 ```
 
-Available: `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]`
+Available: `[ding]`, `[chime]`, `[whoosh]`, `[click]`, `[pop]`, `[tada]`
 
 SFX tags get parsed out of the text and placed as audio events at the right positions.
 
@@ -261,8 +261,8 @@ All flags go in the `args` array of your MCP config:
 | `--artifact=path\|base64` | `path` | How audio is delivered |
 | `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | Where audio files go |
 | `--ambient` | off | Enable inner-monologue system |
-| `--max-concurrent=<n>` | `1` | Max simultaneous synthesis requests |
-| `--timeout=<ms>` | `20000` | Per-request timeout |
+| `--max-concurrent=<n>` | `3` | Max simultaneous synthesis requests |
+| `--timeout=<ms>` | `60000` | Per-request timeout |
 | `--retention-minutes=<n>` | `240` | Auto-delete audio files older than this (0 = keep forever) |
 
 Example with multiple flags:
@@ -273,7 +273,7 @@ Example with multiple flags:
     "voice-soundboard": {
       "command": "npx",
       "args": [
-        "-y", "@mcp-tool-shop/voice-soundboard-mcp",
+        "-y", "@mcptoolshop/voice-soundboard-mcp",
         "--backend=http",
         "--artifact=path",
         "--output-dir=/tmp/voice-output",
@@ -307,8 +307,8 @@ Example with multiple flags:
 The server has built-in safety measures so an AI agent can't accidentally abuse it:
 
 - **Rate limiting** — 30 calls per tool per 60-second window
-- **Concurrency** — Only 1 synthesis runs at a time (configurable with `--max-concurrent`)
-- **Timeouts** — Each request must complete in 20 seconds (configurable with `--timeout`)
+- **Concurrency** — Up to 3 syntheses run at a time (configurable with `--max-concurrent`)
+- **Timeouts** — Each request must complete in 60 seconds (configurable with `--timeout`)
 - **Text limits** — Maximum 12,000 characters per request
 - **Path traversal protection** — Output paths are sandboxed; `../../etc/passwd` is rejected
 - **Symlink checks** — Output directories can't be symlinks pointing outside the sandbox
@@ -325,11 +325,11 @@ This is a pnpm monorepo with two npm packages:
 ```
 mcp-voice-soundboard/
   packages/
-    core/                 @mcp-tool-shop/voice-soundboard-core
+    core/                 @mcptoolshop/voice-soundboard-core
       src/
         limits.ts           Text/chunk limits + SHIP_LIMITS
         schemas.ts          Request/response types, error codes
-        voices.ts           12 approved voices + presets
+        voices.ts           46 approved voices + presets
         artifact.ts         Output directory sandboxing
         sandbox.ts          Safe filenames, symlink checks
         ssml/               SSML-lite parser
@@ -337,7 +337,7 @@ mcp-voice-soundboard/
         sfx/                SFX tag parser
         ambient.ts          Inner-monologue emitter
         redact.ts           Secret/PII redaction
-    mcp-server/           @mcp-tool-shop/voice-soundboard-mcp
+    mcp-server/           @mcptoolshop/voice-soundboard-mcp
       src/
         server.ts           MCP tool registration + guardrails
         cli.ts              CLI entrypoint
@@ -372,7 +372,7 @@ Imagine you have a robot friend (like Claude) who can read and write, but can't 
 
 **The cool parts:**
 
-- **Voices** — It's like having 12 different actors on speed-dial. George sounds like a news anchor, Sky sounds light and airy, Fenrir sounds powerful and deep.
+- **Voices** — It's like having 46 different actors on speed-dial speaking 9 languages. George sounds like a news anchor, Sky sounds light and airy, Fenrir sounds powerful and deep.
 - **Presets** — Shortcuts! Instead of picking a voice and speed, just say "use the storyteller" and it picks the perfect combo for bedtime stories.
 - **Emotions** — You can tell it "say this part happily and that part sadly" and the voice changes to match, like an actor reading a script.
 - **Dialogue** — You can write a whole conversation between characters (like a play) and it uses different voices for each person.

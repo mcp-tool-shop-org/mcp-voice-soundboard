@@ -113,15 +113,12 @@ describe("validateSynthesisResult", () => {
   });
 
   it("ValidationError has VALIDATION_FAILED code", async () => {
-    try {
-      await validateSynthesisResult({
-        durationMs: 0,
-        sampleRate: 24000,
-        format: "wav",
-      });
-    } catch (e) {
-      expect(e).toBeInstanceOf(ValidationError);
-      expect((e as ValidationError).code).toBe("VALIDATION_FAILED");
-    }
+    const err = await validateSynthesisResult({
+      durationMs: 0,
+      sampleRate: 24000,
+      format: "wav",
+    }).catch((e) => e);
+    expect(err).toBeInstanceOf(ValidationError);
+    expect((err as ValidationError).code).toBe("VALIDATION_FAILED");
   });
 });

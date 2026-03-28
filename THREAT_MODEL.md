@@ -35,8 +35,8 @@ LLM Client  --stdio-->  MCP Server  --HTTP/subprocess-->  TTS Backend
 - SFX event cap: 30 per text
 - Break duration cap: 2,000ms
 - Emotion span cap: 100 spans
-- Concurrency semaphore: max 1 concurrent synthesis
-- Request timeout: 20s (per-request), 10s (per-chunk)
+- Concurrency semaphore: max 3 concurrent synthesis
+- Request timeout: 60s (per-request), 10s (per-chunk)
 - Tool rate limiter: 30 calls/minute per tool
 
 ### T3: Secret Leakage via TTS Text
@@ -79,9 +79,9 @@ LLM Client  --stdio-->  MCP Server  --HTTP/subprocess-->  TTS Backend
 **Attack:** Flooding the server with simultaneous synthesis requests.
 
 **Mitigations:**
-- Synthesis semaphore (max 1 concurrent, 1 queued)
+- Synthesis semaphore (max 3 concurrent, configurable)
 - Per-tool rate limiter (30/min)
-- Request-level timeout (20s)
+- Request-level timeout (60s)
 - BUSY error returned immediately when queue is full
 
 ## Trust Boundaries

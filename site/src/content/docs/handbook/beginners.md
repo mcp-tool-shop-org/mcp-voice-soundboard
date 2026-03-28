@@ -13,7 +13,7 @@ MCP Voice Soundboard is a text-to-speech server that follows the Model Context P
 
 Key facts:
 
-- **48 voices** across 9 languages (English, Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese)
+- **46 voices** across 9 languages (English, Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese)
 - **5 tools**: `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
 - **Swappable backends**: Mock (built-in, zero setup), HTTP proxy, or Python bridge (Kokoro, Coqui, etc.)
 - **No telemetry**: all processing is local, no data leaves your machine except to the TTS backend you configure
@@ -166,7 +166,7 @@ The TTS backend is not available. If you are using the default mock backend, thi
 
 ### "Voice not approved"
 
-You passed a voice ID that is not in the 48-voice approved roster. Use `voice_status` to see the full list of valid voice IDs.
+You passed a voice ID that is not in the 46-voice approved roster. Use `voice_status` to see the full list of valid voice IDs.
 
 ### "Text exceeds maximum length"
 

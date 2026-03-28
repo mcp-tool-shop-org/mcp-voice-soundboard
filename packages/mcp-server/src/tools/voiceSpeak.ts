@@ -1,5 +1,6 @@
 /** voice.speak tool — synthesize speech. */
 
+import { randomUUID } from "node:crypto";
 import {
   buildSynthesisRequest,
   errorResponse,
@@ -15,6 +16,7 @@ import {
   type EmotionSynthesisContext,
 } from "@mcptoolshop/voice-soundboard-core";
 import type { Backend } from "../backend.js";
+import { validateSynthesisResult } from "../validation.js";
 
 export interface SpeakArgs {
   text: string;
@@ -71,11 +73,13 @@ export async function handleSpeak(
   }
 
   if (!backend.ready) {
-    return errorResponse("BACKEND_UNAVAILABLE", "Backend is not ready", request.traceId);
+    return errorResponse("BACKEND_UNAVAILABLE", `Backend '${backend.type}' is not ready`, request.traceId);
   }
 
   try {
     const result = await backend.synthesize(request);
+    // MCP-011: Validate synthesis result before returning
+    await validateSynthesisResult(result);
     return {
       traceId: request.traceId,
       voiceUsed: request.resolved.voice.id,
@@ -100,13 +104,15 @@ async function handleEmotionSpeak(
   outputDir?: string,
 ): Promise<VoiceSpeakResponse | VoiceErrorResponse> {
   if (!backend.ready) {
-    return errorResponse("BACKEND_UNAVAILABLE", "Backend is not ready");
+    return errorResponse("BACKEND_UNAVAILABLE", `Backend '${backend.type}' is not ready`);
   }
 
   try {
+    let firstVoiceUsed: string | undefined;
     const result = await runEmotionPlan({
       text: args.text,
       synthesize: async (text: string, _chunkIndex: number, ctx: EmotionSynthesisContext) => {
+        if (!firstVoiceUsed) firstVoiceUsed = ctx.voiceId;
         const request = buildSynthesisRequest({
           text,
           voice: ctx.voiceId,
@@ -115,6 +121,7 @@ async function handleEmotionSpeak(
           outputDir,
         });
         const synthResult = await backend.synthesize(request);
+        await validateSynthesisResult(synthResult);
         return {
           audioPath: synthResult.audioPath,
           audioBytesBase64: synthResult.audioBytesBase64,
@@ -133,8 +140,8 @@ async function handleEmotionSpeak(
     // Return the first chunk's info for the response
     const firstChunk = result.chunks[0];
     return {
-      traceId: "emotion-plan",
-      voiceUsed: "emotion-mapped",
+      traceId: randomUUID(),
+      voiceUsed: firstVoiceUsed ?? "emotion-mapped",
       speed: 1.0,
       artifactMode,
       audioPath: result.concatPath ?? firstChunk?.audioPath,
