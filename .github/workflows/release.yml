@@ -1,0 +1,51 @@
+name: Release to PyPI
+
+# Publishes the `voice-soundboard` Python package to PyPI via OIDC Trusted
+# Publishing — NO PyPI token. The trusted publisher is bound to THIS filename
+# (release.yml) + repo mcp-tool-shop-org/mcp-voice-soundboard + environment pypi;
+# do not rename this file.
+#
+# npm.yml + docker.yml fire on `release: published`; this also offers
+# workflow_dispatch so the pip package can be shipped to PyPI on its own without
+# re-firing the npm/Docker publishes.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+concurrency:
+  group: release-pypi-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build + publish voice-soundboard to PyPI (OIDC)
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # required for the trusted-publisher OIDC exchange
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Build sdist + wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+
+      - name: Verify the dist is named voice-soundboard (matches the publisher)
+        run: |
+          ls -1 dist/
+          test -n "$(ls dist/voice_soundboard-*.whl 2>/dev/null)" || {
+            echo "::error::no voice_soundboard wheel built"; exit 1; }
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
+        with:
+          # Idempotent: a re-run treats an already-uploaded file as success
+          # instead of erroring with E409 ("File already exists").
+          skip-existing: true
