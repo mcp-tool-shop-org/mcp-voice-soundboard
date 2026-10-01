@@ -10,6 +10,7 @@ on:
       - 'site/package.json'
       - 'site/package-lock.json'
       - 'site/astro.config.mjs'
+      - 'atlas/**'
   # No paths filter on pull requests, deliberately: this workflow emits the
   # required status check, and a PR that matched no path (a docs-only change)
   # would never report it and could never merge. Pushes to main stay
@@ -84,6 +85,9 @@ jobs:
         with:
           node-version: "22"
           cache: pnpm
+
+      - name: Atlas check
+        run: npx --yes @dogfood-lab/atlas@1.24.0 check
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

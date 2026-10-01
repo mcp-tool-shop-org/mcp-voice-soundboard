@@ -1,0 +1,58 @@
+summary: ""
+boundaries:
+  - name: .claude-plugin
+    globs:
+      - .claude-plugin/**
+    role: data
+  - name: .github
+    globs:
+      - .github/**
+    role: config
+  - name: assets
+    globs:
+      - assets/**
+    role: data
+  - name: backend-python
+    globs:
+      - packages/backend-python/**
+    role: code
+  - name: core
+    globs:
+      - packages/core/**
+    role: code
+  - name: docs
+    globs:
+      - docs/**
+    role: docs
+  - name: mcp-server
+    globs:
+      - packages/mcp-server/**
+    role: code
+  - name: root
+    globs:
+      - "*"
+    role: config
+  - name: scripts
+    globs:
+      - scripts/**
+    role: config
+  - name: site
+    globs:
+      - site/**
+    role: site
+  - name: skills
+    globs:
+      - skills/**
+    role: docs
+  - name: tests
+    globs:
+      - tests/**
+    role: test
+  - name: tools
+    globs:
+      - tools/**
+    role: code
+  - name: voice_soundboard
+    globs:
+      - voice_soundboard/**
+    role: code
