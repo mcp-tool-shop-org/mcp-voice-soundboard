@@ -44,21 +44,21 @@
   "changes": {
     "fileCounts": {
       "added": 0,
-      "changed": 4,
+      "changed": 0,
       "moved": 0,
-      "parts": 3,
+      "parts": 0,
       "removed": 0
     },
     "items": [
       {
         "kind": "counts",
-        "sentence": "Nothing structural changed since 2026-10-01; 4 files changed content.",
+        "sentence": "Nothing structural changed since 2026-10-14; no file changed.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "6cba5e40d5e358edb300ad9ab62a023768d7c5f7",
-      "generatedAt": "2026-10-01T03:00:16.101Z"
+      "commit": "d7d59458ab7510f0e91783b9eec018ce6dd15475",
+      "generatedAt": "2026-10-14T22:48:55.244Z"
     },
     "unchanged": true
   },
@@ -67,7 +67,7 @@
     "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "d7d59458ab7510f0e91783b9eec018ce6dd15475",
+  "commit": "f247c8edfcd00deff2ea9b4a7f9edc4005d0abeb",
   "defaultBranch": "main",
   "derived": "14 parts, mostly Python (209 files), TypeScript (89), CSS (2), Astro (1) and JavaScript (1). Work enters through 9 doors; CI, Publish to GHCR, Publish to npm, @mcptoolshop/voice-soundboard-mcp and voice-soundboard-mcp each reach 2 parts, and CI is followed because a pull request goes through it. It publishes to PyPI, @mcptoolshop/voice-soundboard-core (packages/core) and @mcptoolshop/voice-soundboard-mcp (packages/mcp-server) to npm, and a container image. It deploys a site to GitHub Pages. People run voice-soundboard and voice-soundboard-mcp. People import @mcptoolshop/voice-soundboard-core and @mcptoolshop/voice-soundboard-mcp.",
   "doors": [
@@ -402,7 +402,7 @@
   ],
   "engine": "1.24.0",
   "generated": [],
-  "generatedAt": "2026-10-14T22:48:55.244Z",
+  "generatedAt": "2026-10-14T22:51:29.703Z",
   "limits": [
     "5 import sites name declared dependencies that share their names with local modules (elevenlabs and openai); they are read as the dependencies, which are not in this repository.",
     "21 imports could not be resolved: `tests/v32_spatial/__init__.py` imports `.test_spatial_core`; `tests/v32_spatial/__init__.py` imports `.test_spatial_invariants`; `tests/v32_spatial/__init__.py` imports `.test_spatial_movement`; and 18 more.",

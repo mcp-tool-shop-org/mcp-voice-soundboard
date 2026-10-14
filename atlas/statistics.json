@@ -263,8 +263,13 @@
         "path": ".github/workflows/release.yml"
       },
       {
-        "commits": 2,
-        "lines": 214,
+        "commits": 1,
+        "lines": 8,
+        "path": "CHANGELOG.md"
+      },
+      {
+        "commits": 3,
+        "lines": 222,
         "path": "atlas/README.md"
       },
       {
@@ -273,18 +278,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 2,
-        "lines": 916,
+        "commits": 3,
+        "lines": 942,
         "path": "atlas/page.json"
       },
       {
-        "commits": 2,
-        "lines": 712,
+        "commits": 3,
+        "lines": 769,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 2,
-        "lines": 15382,
+        "commits": 3,
+        "lines": 15392,
         "path": "atlas/structure.json"
       },
       {
@@ -303,8 +308,8 @@
         "path": "pnpm-lock.yaml"
       },
       {
-        "commits": 1,
-        "lines": 2,
+        "commits": 2,
+        "lines": 4,
         "path": "pyproject.toml"
       },
       {
@@ -333,9 +338,9 @@
     "level": "low",
     "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-14T22:48:55.244Z",
+  "generatedAt": "2026-10-14T22:51:29.703Z",
   "generatedFrom": {
-    "commit": "d7d59458ab7510f0e91783b9eec018ce6dd15475"
+    "commit": "f247c8edfcd00deff2ea9b4a7f9edc4005d0abeb"
   },
   "pairs": [],
   "parameters": {
@@ -348,16 +353,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-10-14T14:19:44-07:00",
+    "headDate": "2026-10-14T18:48:59-04:00",
     "inScopeFiles": 393,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 11,
+    "qualifyingCommits": 12,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-17T21:19:44.000Z",
+    "since": "2026-04-17T22:48:59.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
