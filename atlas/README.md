@@ -1,14 +1,14 @@
 # mcp-voice-soundboard: how it works
 
-Mapped at 2026-10-01 from commit 6cba5e4 by Atlas 1.24.0.
+Mapped at 2026-10-14 from commit b275f30 by Atlas 1.24.0.
 
 ## What this is
 
 14 parts, mostly Python (209 files), TypeScript (89), CSS (2), Astro (1) and JavaScript (1). Work enters through 9 doors; CI, Publish to GHCR, Publish to npm, @mcptoolshop/voice-soundboard-mcp and voice-soundboard-mcp each reach 2 parts, and CI is followed because a pull request goes through it. It publishes to PyPI, @mcptoolshop/voice-soundboard-core (packages/core) and @mcptoolshop/voice-soundboard-mcp (packages/mcp-server) to npm, and a container image. It deploys a site to GitHub Pages. People run voice-soundboard and voice-soundboard-mcp. People import @mcptoolshop/voice-soundboard-core and @mcptoolshop/voice-soundboard-mcp.
 
-## What changed since the last map
+## What changed since 2026-10-14 (f247c8e)
 
-This is the first map.
+Nothing structural changed since 2026-10-14; 1 file changed content.
 
 ## What comes in
 
@@ -102,6 +102,6 @@ Read those in order to follow one pull request end to end.
 - 1 write goes to the home directory (.cache/), not to this repository.
 - 1 command is built at run time and not followed.
 - There is a fly.toml that no workflow runs; what deploys from it does so from outside this repository, and is not on this page.
-- Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions.
+- Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions.
 
 Regenerate with `npx --yes @dogfood-lab/atlas map`.
