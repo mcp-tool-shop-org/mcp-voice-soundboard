@@ -1869,7 +1869,7 @@
           "path": "packages/mcp-server/tests/httpTestServer.ts"
         },
         {
-          "hash": "b0a58b42a7b6fea9c3ea863689b80199b8fb4c480812a12f1639fb16bd028ca3",
+          "hash": "82d6314401b23578719952d5685335ec0654cfee4bdd358538c990b12ada22b1",
           "importsFiles": [
             "packages/mcp-server/src/redact.ts"
           ],
@@ -1963,7 +1963,7 @@
           "path": ".mcp.json"
         },
         {
-          "hash": "24afb33840b3efda0bb2d992a697225fea4bd1b968ed6b3c56408200be33e1e3",
+          "hash": "4574af83b45f384c61c26e31744c81f93fd6f9e3b85d8eea53b7eb4c11428d6f",
           "path": "CHANGELOG.md"
         },
         {
@@ -2071,7 +2071,7 @@
           "path": "pnpm-workspace.yaml"
         },
         {
-          "hash": "8212dfb2a9b6fe39cdd58ce0271e53f68caa183be8f4c109e596326df0767038",
+          "hash": "6b52babd01ac6bb906ad7d07975d4f7e3c467bfb4b2139ab317079c6692ab6ab",
           "path": "pyproject.toml"
         },
         {
@@ -2125,7 +2125,7 @@
           "path": "site/astro.config.mjs"
         },
         {
-          "hash": "af5d4f54dca60686724d306eb58759fb25b6f5ba4d66559ab84a968112a184e5",
+          "hash": "0607a19c4f60b635244a906c7ad2424359b50e20c4a83bc140f202abce4a941e",
           "path": "site/package-lock.json"
         },
         {
@@ -7506,7 +7506,7 @@
   ],
   "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "6cba5e40d5e358edb300ad9ab62a023768d7c5f7",
+    "commit": "d7d59458ab7510f0e91783b9eec018ce6dd15475",
     "tracked": 388
   },
   "landings": [

@@ -115,7 +115,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "mcp-server",
-      "qualifyingSourceCommits": 0,
+      "qualifyingSourceCommits": 1,
       "rebaseline": null
     },
     {
@@ -238,8 +238,8 @@
     "definition": "commits is how many commits in the window touch the file, including merges and commits dropped from coupling. lines is added plus deleted in those commits.",
     "files": [
       {
-        "commits": 6,
-        "lines": 44,
+        "commits": 8,
+        "lines": 52,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -263,14 +263,39 @@
         "path": ".github/workflows/release.yml"
       },
       {
-        "commits": 3,
-        "lines": 16,
+        "commits": 2,
+        "lines": 214,
+        "path": "atlas/README.md"
+      },
+      {
+        "commits": 2,
+        "lines": 116,
+        "path": "atlas/boundaries.yaml"
+      },
+      {
+        "commits": 2,
+        "lines": 916,
+        "path": "atlas/page.json"
+      },
+      {
+        "commits": 2,
+        "lines": 712,
+        "path": "atlas/statistics.json"
+      },
+      {
+        "commits": 2,
+        "lines": 15382,
+        "path": "atlas/structure.json"
+      },
+      {
+        "commits": 2,
+        "lines": 8,
         "path": "packages/core/package.json"
       },
       {
         "commits": 1,
-        "lines": 8,
-        "path": "packages/mcp-server/package.json"
+        "lines": 3,
+        "path": "packages/mcp-server/tests/redact.test.ts"
       },
       {
         "commits": 3,
@@ -288,8 +313,8 @@
         "path": "site/astro.config.mjs"
       },
       {
-        "commits": 1,
-        "lines": 6051,
+        "commits": 3,
+        "lines": 6063,
         "path": "site/package-lock.json"
       },
       {
@@ -306,11 +331,11 @@
   },
   "confidence": {
     "level": "low",
-    "reason": "fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions"
+    "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-01T03:00:16.101Z",
+  "generatedAt": "2026-10-14T22:48:55.244Z",
   "generatedFrom": {
-    "commit": "6cba5e40d5e358edb300ad9ab62a023768d7c5f7"
+    "commit": "d7d59458ab7510f0e91783b9eec018ce6dd15475"
   },
   "pairs": [],
   "parameters": {
@@ -323,16 +348,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-09-30T19:32:05-07:00",
+    "headDate": "2026-10-14T14:19:44-07:00",
     "inScopeFiles": 393,
     "pinnedStart": null,
-    "priorFloor": null,
-    "qualifyingCommits": 8,
+    "priorFloor": "fallen",
+    "qualifyingCommits": 11,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-04T02:32:05.000Z",
+    "since": "2026-04-17T21:19:44.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
