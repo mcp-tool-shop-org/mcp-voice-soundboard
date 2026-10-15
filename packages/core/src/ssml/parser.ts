@@ -353,12 +353,13 @@ function pushEvent(state: ParseState, event: SpeechEvent): void {
 }
 
 function decodeEntities(text: string): string {
+  // &amp; goes last: decoding it first would turn "&amp;lt;" into "<".
   return text
-    .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
 }
 
 function extractPlainText(segments: readonly PlanSegment[]): string {
@@ -405,8 +406,24 @@ function plainTextFallback(input: string, errorMessage: string): SpeechPlan {
   };
 }
 
+/** Remove every `<...>` run. A scan, not `/<[^>]*>/g`, which is quadratic on unclosed `<`. */
+function removeTags(input: string): string {
+  let out = "";
+  let pos = 0;
+  while (pos < input.length) {
+    const open = input.indexOf("<", pos);
+    if (open === -1) break;
+    const close = input.indexOf(">", open + 1);
+    // No `>` anywhere after this `<`: nothing left to strip.
+    if (close === -1) break;
+    out += input.slice(pos, open);
+    pos = close + 1;
+  }
+  return out + input.slice(pos);
+}
+
 function stripAllTags(input: string): string {
-  return decodeEntities(input.replace(/<[^>]*>/g, ""))
+  return decodeEntities(removeTags(input))
     .replace(/\s+/g, " ")
     .trim();
 }

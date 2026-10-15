@@ -83,10 +83,12 @@ export function parseDialogue(script: string, options?: ParseDialogueOptions): C
     }
 
     // Speaker line: Speaker: text
-    const lineMatch = trimmed.match(/^([^:]+):\s+(.+)$/);
+    // Split on the first colon by hand: /^([^:]+):\s+(.+)$/ is quadratic when a
+    // long whitespace run is followed by a line terminator inside the line.
+    const lineMatch = matchSpeakerLine(trimmed);
     if (lineMatch) {
-      const speaker = lineMatch[1].trim();
-      const text = lineMatch[2].trim();
+      const speaker = lineMatch[0].trim();
+      const text = lineMatch[1].trim();
 
       if (!text) {
         warnings.push({
@@ -140,6 +142,15 @@ export function parseDialogue(script: string, options?: ParseDialogueOptions): C
     speakers,
     warnings,
   };
+}
+
+/** "Speaker: text" → [speaker, text], or null. Whitespace must follow the colon; text may not span lines. */
+function matchSpeakerLine(line: string): [string, string] | null {
+  const colon = line.indexOf(":");
+  if (colon < 1 || !/^\s/.test(line.charAt(colon + 1))) return null;
+  const text = line.slice(colon + 1).trimStart();
+  if (!text || /[\n\r\u2028\u2029]/.test(text)) return null;
+  return [line.slice(0, colon), text];
 }
 
 // ── Casting ──
