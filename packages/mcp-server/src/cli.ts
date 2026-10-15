@@ -177,22 +177,25 @@ Usage:
 Options:
   --version, -V                  Print version and exit
   --help, -h                     Show this help
-  --backend=<type>               Backend: mock | http | python (default: mock)
+  --backend=<type>               Backend: http | python | mock | none
+                                 (default: http if VOICE_SOUNDBOARD_TTS_URL is set,
+                                 else python if available, else mock)
   --artifact=<mode>              Delivery: path | base64 (default: path)
-  --output-dir=<path>            Audio output directory
+  --output-dir=<path>            Audio output directory (default: <tmpdir>/voice-soundboard)
   --ambient                      Enable inner monologue system
-  --max-concurrent=<n>           Max concurrent synthesis (default: 3)
-  --timeout=<ms>                 Request timeout in ms (default: 60000)
-  --retention-minutes=<n>        Audio file retention (0 = keep forever)
+  --max-concurrent=<n>           Max concurrent synthesis (default: 1)
+  --timeout=<ms>                 Request timeout in ms (default: 20000)
+  --retention-minutes=<n>        Audio file retention (default: 240; 0 = keep forever)
 
 Environment variables:
   PORT                              Set to enable HTTP mode
-  VOICE_SOUNDBOARD_BACKEND          Same as --backend
-  VOICE_SOUNDBOARD_HTTP_URL         HTTP backend URL
-  VOICE_SOUNDBOARD_OUTPUT_DIR       Same as --output-dir
-  VOICE_SOUNDBOARD_AMBIENT_ENABLED  1 to enable ambient mode
-  VOICE_SOUNDBOARD_TIMEOUT          Same as --timeout
-  VOICE_SOUNDBOARD_MAX_CONCURRENT   Same as --max-concurrent`);
+  VOICE_SOUNDBOARD_TTS_URL          HTTP backend URL (selects the HTTP backend)
+  VOICE_SOUNDBOARD_TTS_TOKEN        Bearer token for the HTTP backend
+  VOICE_SOUNDBOARD_HTTP_TIMEOUT     HTTP backend timeout in ms
+  VOICE_SOUNDBOARD_PYTHON           Python command for the bridge
+  VOICE_SOUNDBOARD_PYTHON_MODULE    Python bridge module
+  VOICE_SOUNDBOARD_OUTPUT_DIR       Output directory for the Python bridge
+  VOICE_SOUNDBOARD_AMBIENT_ENABLED  1 to enable ambient mode`);
     process.exit(0);
   }
 

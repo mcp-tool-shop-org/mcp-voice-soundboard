@@ -1,56 +1,29 @@
 <p align="center">
-  <strong>English</strong> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.ja.md">日本語</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.zh.md">中文</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.es.md">Español</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.fr.md">Français</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.hi.md">हिन्दी</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.it.md">Italiano</a> | <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/README.pt-BR.md">Português</a>
-</p>
-
-<p align="center">
   <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/mcp-voice-soundboard/main/assets/logo-dark.jpg" alt="MCP Voice Soundboard" width="420" />
 </p>
 
-<h3 align="center">Text-to-speech MCP server for AI agents.</h3>
+<h3 align="center">Text-to-speech for AI agents, as an MCP server.</h3>
 
 <p align="center">
-  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?branch=main&style=flat-square&label=CI" alt="CI"></a>
   <a href="https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp"><img src="https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square&color=cb3837&logo=npm" alt="npm"></a>
+  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mcp-tool-shop-org/mcp-voice-soundboard/ci.yml?branch=main&style=flat-square&label=CI" alt="CI"></a>
   <img src="https://img.shields.io/badge/node-%E2%89%A520-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js 20+">
-  <img src="https://img.shields.io/badge/TypeScript-5.7-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
+  <a href="https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT"></a>
 </p>
 
 <p align="center">
-  48 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; SFX tags &bull; multi-speaker dialogue<br>
-  Swappable TTS backends. Guardrails built in. Ships as a single <code>npx</code> command.
+  46 voices &bull; 9 languages &bull; 5 presets &bull; 8 emotions &bull; SSML-lite &bull; sound effects &bull; multi-speaker dialogue
 </p>
 
----
+Give an agent a voice. Claude Desktop, Cursor or any MCP client can speak a line, perform a scripted dialogue between several speakers, and drop a chime where it belongs. Speech comes from **Kokoro-82M** (Apache-2.0) through **kokoro-onnx**, so it runs on your own machine with no account and no API key. Every request passes the same guardrails: rate limits, one synthesis at a time, timeouts, a sandboxed output folder and redaction of secrets.
 
-## Highlights
-
-- **MCP native** &mdash; stdio transport, works with Claude Desktop, Cursor, and any MCP client
-- **5 tools** &mdash; `voice_speak`, `voice_dialogue`, `voice_status`, `voice_interrupt`, `voice_inner_monologue`
-- **48 approved voices, 9 languages** &mdash; English (American + British), Japanese, Mandarin, Spanish, French, Hindi, Italian, Brazilian Portuguese. Curated presets: `narrator`, `announcer`, `whisper`, `storyteller`, `assistant`
-- **Emotion spans** &mdash; 8 emotions via `[happy]...[/happy]` inline markup
-- **SSML-lite** &mdash; `<break>`, `<emphasis>`, `<prosody>` without full SSML complexity
-- **SFX tags** &mdash; `[ding]`, `[chime]`, `[whoosh]`, `[tada]`, `[error]`, `[click]` inline sound effects
-- **Multi-speaker dialogue** &mdash; `Speaker: line` format with auto-cast and pause directives
-- **Guardrails** &mdash; rate limiting, concurrency semaphore, request timeouts, path traversal protection, secret redaction
-- **Swappable backends** &mdash; Mock (built-in), HTTP proxy, Python bridge, or bring your own
-
-## Quick Start
+## Quick start
 
 ```bash
-npx @mcptoolshop/voice-soundboard-mcp
+npx -y @mcptoolshop/voice-soundboard-mcp
 ```
 
-Or install globally:
-
-```bash
-npm install -g @mcptoolshop/voice-soundboard-mcp
-voice-soundboard-mcp
-```
-
-### Claude Desktop / MCP Client Config
-
-Add to your MCP client configuration (e.g. `claude_desktop_config.json`):
+Add it to your MCP client, for example `claude_desktop_config.json`:
 
 ```json
 {
@@ -63,296 +36,228 @@ Add to your MCP client configuration (e.g. `claude_desktop_config.json`):
 }
 ```
 
-With options:
+The server speaks MCP over stdio. Set `PORT` to serve it over HTTP instead.
 
-```json
-{
-  "mcpServers": {
-    "voice-soundboard": {
-      "command": "npx",
-      "args": [
-        "-y", "@mcptoolshop/voice-soundboard-mcp",
-        "--artifact=path",
-        "--output-dir=/tmp/voice-output",
-        "--timeout=30000",
-        "--max-concurrent=2"
-      ]
-    }
-  }
-}
-```
+## Where the speech comes from
 
-## MCP Tools
+The server picks a backend when it starts and logs which one:
+
+1. **HTTP:** when `VOICE_SOUNDBOARD_TTS_URL` is set, it sends synthesis to that endpoint (with `VOICE_SOUNDBOARD_TTS_TOKEN` as a bearer token if you set one).
+2. **Python bridge (Kokoro):** otherwise, when `python` is on your `PATH` (or `VOICE_SOUNDBOARD_PYTHON` names one), it starts the bundled bridge.
+   - On first use the bridge installs `kokoro-onnx` with `pip install --user` and downloads the model (`kokoro-v1.0.onnx`, about 310 MB, and `voices-v1.0.bin`, about 26 MB) into `~/.cache/voice-soundboard`.
+   - After that it runs offline.
+3. **Mock:** with neither, it answers with silent WAV files, so the tools still work end to end while you wire things up.
+
+Choose one explicitly with `--backend=http|python|mock|none`.
+
+## Tools
 
 ### `voice_speak`
 
-Synthesize speech from text.
+Speak text with one voice.
 
 ```
-text:         "Hello world!"
-voice?:       "am_fenrir"          # Voice ID or preset name
-speed?:       1.0                  # 0.5 - 2.0
-format?:      "wav"                # wav | mp3 | ogg | raw
-artifactMode?: "path"             # path | base64
-sfx?:         true                # Enable [ding], [chime] etc.
+text:          "Hello world!"
+voice?:        "am_fenrir"     # a voice ID or a preset name
+speed?:        1.0             # 0.5 to 2.0
+format?:       "wav"           # wav | mp3 | ogg | raw
+artifactMode?: "path"          # path | base64
+outputDir?:    "clips"         # a subfolder of the output root, in path mode
+sfx?:          true            # turn on [ding], [chime] and the other sound-effect tags
 ```
 
 ### `voice_dialogue`
 
-Multi-speaker dialogue synthesis.
+Perform a script with several speakers.
 
 ```
-script:       "Alice: Hello!\nBob: Hey there!"
-cast?:        { "Alice": "af_sky", "Bob": "am_fenrir" }
-speed?:       1.0
-concat?:      true                 # Combine into single file
-debug?:       true                 # Include cue_sheet
+script:        "Alice: Hello!\n[pause 300ms]\nBob: Hey there!"
+cast?:         { "Alice": "af_sky", "Bob": "narrator" }   # anyone not cast is assigned a voice
+speed?:        1.0
+concat?:       true            # one audio file for the whole scene
+debug?:        true            # include the cue sheet and parse warnings
+artifactMode?: "path"
+outputDir?:    "scenes"
 ```
 
 ### `voice_status`
 
-Returns engine health, available voices, presets, and backend info. No arguments.
+The backend and its health, the voices, the presets and the default voice. No arguments.
 
 ### `voice_interrupt`
 
-Stop or rollback active synthesis.
+Stop speech in progress.
 
 ```
-streamId?:    "stream-123"
-reason?:      "user_spoke"         # user_spoke | context_change | timeout | manual
+streamId?:     "stream-123"
+reason?:       "user_spoke"    # user_spoke | context_change | timeout | manual
 ```
 
 ### `voice_inner_monologue`
 
-Ephemeral micro-utterances for ambient narration. Requires `--ambient` flag or `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`.
+Short, throwaway utterances for ambient narration: up to 500 characters, rate-limited, with secrets redacted. Off unless the server runs with `--ambient` or `VOICE_SOUNDBOARD_AMBIENT_ENABLED=1`.
 
 ```
-text:         "Interesting..."     # Max 500 chars, auto-redacted
-category?:    "thinking"           # general | thinking | observation | debug
+text:          "Interesting..."
+category?:     "thinking"      # general | thinking | observation | debug
 ```
+
+## Markup
+
+| Markup | Syntax | Values |
+|---|---|---|
+| Emotion | `{joy}Great news!{/joy}` | `neutral`, `serious`, `friendly`, `professional`, `calm`, `joy`, `urgent`, `whisper` |
+| Sound effect | `[ding]` (with `sfx: true`) | `ding`, `chime`, `whoosh`, `click`, `pop`, `tada` |
+| SSML-lite | `<break time="300ms"/>` | `<speak>`, `<break>`, `<prosody>`, `<emphasis>` |
+| Dialogue | `Alice: Hello!` | one line per cue, `[pause 350ms]` between cues |
+
+Each emotion maps to a voice and speed. For example, `joy` uses `am_eric` at 1.03 and `urgent` uses `am_fenrir` at 1.08.
 
 ## Voices
 
-48 voices across 9 languages. Language is auto-inferred from the voice ID prefix — no configuration required.
-
-| Prefix | Language |
-|--------|----------|
-| `af_` / `am_` | English (American) |
-| `bf_` / `bm_` | English (British) |
-| `jf_` / `jm_` | Japanese |
-| `zf_` / `zm_` | Mandarin Chinese |
-| `ef_` / `em_` | Spanish |
-| `ff_` | French |
-| `hf_` / `hm_` | Hindi |
-| `if_` / `im_` | Italian |
-| `pf_` / `pm_` | Brazilian Portuguese |
-
-### English — American
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `af_aoede` | Aoede | Female | Musical |
-| `af_bella` | Bella | Female | Warm |
-| `af_heart` | Heart | Female | Caring |
-| `af_jessica` | Jessica | Female | Professional |
-| `af_kore` | Kore | Female | Youthful |
-| `af_nicole` | Nicole | Female | Soft |
-| `af_sarah` | Sarah | Female | Clear |
-| `af_sky` | Sky | Female | Airy |
-| `am_eric` | Eric | Male | Confident |
-| `am_fenrir` | Fenrir | Male | Powerful |
-| `am_liam` | Liam | Male | Friendly |
-| `am_michael` | Michael | Male | Deep |
-| `am_onyx` | Onyx | Male | Smooth |
-| `am_puck` | Puck | Male | Playful |
-
-### English — British
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `bf_alice` | Alice | Female | Proper |
-| `bf_emma` | Emma | Female | Refined |
-| `bf_isabella` | Isabella | Female | Warm |
-| `bm_fable` | Fable | Male | Storytelling |
-| `bm_george` | George | Male | Authoritative |
-| `bm_lewis` | Lewis | Male | Friendly |
-
-### Japanese
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `jf_alpha` | Alpha | Female | Clear |
-| `jf_gongitsune` | Gongitsune | Female | Storytelling |
-| `jf_nezuko` | Nezuko | Female | Gentle |
-| `jf_tebukuro` | Tebukuro | Female | Warm |
-| `jm_kumo` | Kumo | Male | Calm |
-
-### Mandarin Chinese
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `zf_xiaobei` | Xiaobei | Female | Bright |
-| `zf_xiaoni` | Xiaoni | Female | Gentle |
-| `zf_xiaoxiao` | Xiaoxiao | Female | Clear |
-| `zf_xiaoyi` | Xiaoyi | Female | Warm |
-| `zm_yunjian` | Yunjian | Male | Authoritative |
-| `zm_yunxi` | Yunxi | Male | Friendly |
-| `zm_yunxia` | Yunxia | Male | Calm |
-| `zm_yunyang` | Yunyang | Male | Confident |
-
-### Spanish
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `ef_dora` | Dora | Female | Warm |
-| `em_alex` | Alex | Male | Confident |
-| `em_santa` | Santa | Male | Jolly |
-
-### French
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `ff_siwis` | Siwis | Female | Refined |
-
-### Hindi
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `hf_alpha` | Alpha | Female | Clear |
-| `hf_beta` | Beta | Female | Warm |
-| `hm_omega` | Omega | Male | Deep |
-| `hm_psi` | Psi | Male | Calm |
-
-### Italian
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `if_sara` | Sara | Female | Warm |
-| `im_nicola` | Nicola | Male | Confident |
-
-### Brazilian Portuguese
-
-| ID | Name | Gender | Style |
-|----|------|--------|-------|
-| `pf_dora` | Dora | Female | Warm |
-| `pm_alex` | Alex | Male | Confident |
-| `pm_santa` | Santa | Male | Jolly |
+46 voices in 9 languages. The language follows from the voice ID's prefix, so there's nothing to configure. The default voice is `bm_george`.
 
 ### Presets
 
-| Preset | Voice | Speed | Description |
-|--------|-------|-------|-------------|
-| `narrator` | `bm_george` | 0.95 | Calm documentary style |
-| `announcer` | `am_onyx` | 1.05 | News anchor energy |
-| `whisper` | `af_aoede` | 0.85 | Soft, intimate |
-| `storyteller` | `bf_emma` | 0.90 | Warm bedtime-story feel |
-| `assistant` | `af_jessica` | 1.0 | Neutral, helpful |
+| Preset | Voice | Speed | Character |
+|---|---|---|---|
+| `assistant` | `af_jessica` | 1.0 | Friendly, helpful, conversational |
+| `narrator` | `bm_george` | 0.95 | Calm, clear, documentary style |
+| `announcer` | `am_eric` | 1.1 | Bold, energetic, broadcast style |
+| `storyteller` | `bf_emma` | 0.9 | Expressive, varied pacing |
+| `whisper` | `af_sky` | 0.85 | Soft, intimate, gentle |
 
-## Emotion Spans
+#### English (American) (14)
 
-Wrap text in emotion tags to control prosody:
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `af_aoede` | Aoede | female | musical |
+| `af_bella` | Bella | female | warm |
+| `af_heart` | Heart | female | caring |
+| `af_jessica` | Jessica | female | professional |
+| `af_kore` | Kore | female | youthful |
+| `af_nicole` | Nicole | female | soft |
+| `af_sarah` | Sarah | female | clear |
+| `af_sky` | Sky | female | airy |
+| `am_eric` | Eric | male | confident |
+| `am_fenrir` | Fenrir | male | powerful |
+| `am_liam` | Liam | male | friendly |
+| `am_michael` | Michael | male | deep |
+| `am_onyx` | Onyx | male | smooth |
+| `am_puck` | Puck | male | playful |
 
-```
-[happy]Great news![/happy] But [sad]I have to go.[/sad]
-```
+#### English (British) (6)
 
-Supported: `happy`, `sad`, `angry`, `fearful`, `surprised`, `disgusted`, `calm`, `excited`
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `bf_alice` | Alice | female | proper |
+| `bf_emma` | Emma | female | refined |
+| `bf_isabella` | Isabella | female | warm |
+| `bm_fable` | Fable | male | storytelling |
+| `bm_george` | George | male | authoritative |
+| `bm_lewis` | Lewis | male | friendly |
 
-## CLI Flags
+#### Japanese (5)
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--artifact=path\|base64` | `path` | Audio delivery mode |
-| `--output-dir=<path>` | `<tmpdir>/voice-soundboard/` | Output directory |
-| `--backend=mock\|http` | `mock` | Backend selection |
-| `--backend-url=<url>` | &mdash; | HTTP backend URL |
-| `--ambient` | off | Enable inner-monologue system |
-| `--max-concurrent=<n>` | `1` | Max concurrent synthesis requests |
-| `--timeout=<ms>` | `20000` | Per-request timeout |
-| `--retention-minutes=<n>` | `240` | Auto-cleanup age (0 to disable) |
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `jf_alpha` | Alpha | female | clear |
+| `jf_gongitsune` | Gongitsune | female | storytelling |
+| `jf_nezuko` | Nezuko | female | gentle |
+| `jf_tebukuro` | Tebukuro | female | warm |
+| `jm_kumo` | Kumo | male | calm |
 
-## Packages
+#### Mandarin Chinese (8)
 
-This is a pnpm monorepo with two publishable packages:
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `zf_xiaobei` | Xiaobei | female | bright |
+| `zf_xiaoni` | Xiaoni | female | gentle |
+| `zf_xiaoxiao` | Xiaoxiao | female | clear |
+| `zf_xiaoyi` | Xiaoyi | female | warm |
+| `zm_yunjian` | Yunjian | male | authoritative |
+| `zm_yunxi` | Yunxi | male | friendly |
+| `zm_yunxia` | Yunxia | male | calm |
+| `zm_yunyang` | Yunyang | male | confident |
 
-| Package | Description | npm |
-|---------|-------------|-----|
-| [`@mcptoolshop/voice-soundboard-core`](packages/core) | Backend-agnostic core library (validation, SSML, chunking, schemas) | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-core?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core) |
-| [`@mcptoolshop/voice-soundboard-mcp`](packages/mcp-server) | MCP server with CLI, guardrails, and transport | [![npm](https://img.shields.io/npm/v/@mcptoolshop/voice-soundboard-mcp?style=flat-square)](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-mcp) |
+#### Spanish (3)
 
-## Development
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `ef_dora` | Dora | female | warm |
+| `em_alex` | Alex | male | confident |
+| `em_santa` | Santa | male | jolly |
 
-```bash
-# Install
-pnpm install
+#### French (1)
 
-# Build
-pnpm build
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `ff_siwis` | Siwis | female | refined |
 
-# Test (342 tests)
-pnpm test
-```
+#### Hindi (4)
 
-> Part of [MCP Tool Shop](https://mcp-tool-shop.github.io/)
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `hf_alpha` | Alpha | female | clear |
+| `hf_beta` | Beta | female | warm |
+| `hm_omega` | Omega | male | deep |
+| `hm_psi` | Psi | male | calm |
 
-### Project Structure
+#### Italian (2)
 
-```
-mcp-voice-soundboard/
-  packages/
-    core/               @mcptoolshop/voice-soundboard-core
-      src/
-        limits.ts         SHIP_LIMITS, text/chunk limits
-        schemas.ts        VoiceRequest, VoiceResponse, error codes
-        artifact.ts       resolveOutputDir, path sandbox
-        voices.ts         Approved voice registry + presets
-        emotion.ts        Emotion span parser
-        ssml/             SSML-lite parser + limits
-        chunking/         Text chunker
-        sfx/              SFX tag parser + registry
-        sandbox.ts        Safe filenames, symlink checks
-        ambient.ts        AmbientEmitter for inner monologue
-        redact.ts         PII/secret redaction
-    mcp-server/         @mcptoolshop/voice-soundboard-mcp
-      src/
-        server.ts         MCP tool registration + guardrail wiring
-        cli.ts            CLI entrypoint (stdio transport)
-        backend.ts        Backend abstraction + mock/HTTP
-        concurrency.ts    SynthesisSemaphore
-        rateLimit.ts      ToolRateLimiter (sliding window)
-        timeout.ts        withTimeout utility
-        retention.ts      Output file cleanup timer
-        redact.ts         Server-level redaction
-        validation.ts     Synthesis result validation
-        tools/            Individual tool handlers
-  assets/               Logo, audio event manifests
-  docs/                 Architecture docs
-```
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `if_sara` | Sara | female | warm |
+| `im_nicola` | Nicola | male | confident |
 
-## Security
+#### Brazilian Portuguese (3)
 
-See [SECURITY.md](SECURITY.md) for vulnerability reporting.
+| Voice | Name | Gender | Style |
+|---|---|---|---|
+| `pf_dora` | Dora | female | warm |
+| `pm_alex` | Alex | male | confident |
+| `pm_santa` | Santa | male | jolly |
 
-See [THREAT_MODEL.md](THREAT_MODEL.md) for the full threat surface analysis.
+## Options
+
+| Flag | Default | What it does |
+|---|---|---|
+| `--backend=<type>` | chosen automatically (see above) | `http`, `python`, `mock` or `none` |
+| `--artifact=path\|base64` | `path` | Return audio as a file path or as base64 |
+| `--output-dir=<path>` | `<tmpdir>/voice-soundboard` | Where audio files are written |
+| `--max-concurrent=<n>` | `1` | Syntheses at the same time |
+| `--timeout=<ms>` | `20000` | Timeout per request |
+| `--retention-minutes=<n>` | `240` | Delete audio older than this (`0` keeps it) |
+| `--ambient` | off | Enable `voice_inner_monologue` |
+| `--version`, `--help` | | Print the version or the usage |
+
+| Environment variable | What it does |
+|---|---|
+| `PORT` | Serve over HTTP on this port instead of stdio |
+| `VOICE_SOUNDBOARD_TTS_URL` | HTTP backend endpoint (selects the HTTP backend) |
+| `VOICE_SOUNDBOARD_TTS_TOKEN` | Bearer token for the HTTP backend |
+| `VOICE_SOUNDBOARD_HTTP_TIMEOUT` | HTTP backend timeout in milliseconds |
+| `VOICE_SOUNDBOARD_PYTHON` | Python command for the bridge |
+| `VOICE_SOUNDBOARD_PYTHON_MODULE` | Bridge module to run |
+| `VOICE_SOUNDBOARD_OUTPUT_DIR` | Output folder for the Python bridge |
+| `VOICE_SOUNDBOARD_AMBIENT_ENABLED` | `1` enables `voice_inner_monologue` |
+
+## Limits and safety
+
+- **Request size:** 12,000 characters of text, 50 chunks, 100 emotion spans, 400 SSML nodes, 30 sound effects and breaks of 2 seconds or less.
+- **Output:** audio is written only inside the output root. Paths that climb out of it, and symlinks, are refused, and file names are generated by the server.
+- **Errors:** each one comes back with a code, a hint and whether it's safe to retry, never a stack trace.
+- **Privacy:** no telemetry, and nothing leaves your machine except calls to the HTTP backend you configure, and the bridge's one-time install and model download.
+
+See the [threat model](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/THREAT_MODEL.md) and the [security policy](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/SECURITY.md).
 
 ## Related
 
-| Project | Description |
-|---------|-------------|
-| [soundboard-plugin](https://github.com/mcp-tool-shop-org/soundboard-plugin) | Claude Code plugin &mdash; slash commands, emotion-aware narration |
+- [`@mcptoolshop/voice-soundboard-core`](https://www.npmjs.com/package/@mcptoolshop/voice-soundboard-core): the engine-agnostic library this server is built on, for your own integrations.
+- [Source](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard), [discussions](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions) and [issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues).
 
-## Support
+## Credits and license
 
-- **Questions / help:** [Discussions](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/discussions)
-- **Bug reports:** [Issues](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/issues)
-- **Security:** [SECURITY.md](SECURITY.md)
+Speech is generated by [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache-2.0) through [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx) (MIT).
 
-## License
-
-[MIT](LICENSE)
-
----
-
-<p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop</a>
-</p>
+This package is [MIT](https://github.com/mcp-tool-shop-org/mcp-voice-soundboard/blob/main/LICENSE). Part of [MCP Tool Shop](https://mcptoolshop.com/).

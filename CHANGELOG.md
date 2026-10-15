@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Three text scans take linear time, and entity decoding no longer double-decodes.** The emotion-span, dialogue speaker-line and SSML tag-stripping patterns backtracked quadratically on long runs of `<`, tags or whitespace. They are now forward-only scans with the same results on valid input, and the new tests, which time each scan on 80,000 to 100,000 characters, fail on the old code. `decodeEntities` decoded `&amp;` first, so `&amp;lt;` came out as `<`; it now decodes `&amp;` last and gives `&lt;`. (CodeQL `js/polynomial-redos`, `js/double-escaping` and `js/incomplete-multi-character-sanitization`.)
 
+### npm packages 1.0.3
+
+The first npm release of both packages (`1.0.2` was never published to npm).
+
+- `@mcptoolshop/voice-soundboard-core` and `@mcptoolshop/voice-soundboard-mcp` publish from CI through npm Trusted Publishing, with provenance.
+- Each package has its own README. The core package's README described the server; both now match the code: 46 voices (not 48), the eight emotions and their `{emotion}` syntax, the six sound-effect tags, the presets, and how the server picks its speech backend.
+- `voice-soundboard-mcp --help` lists the environment variables the server reads (`VOICE_SOUNDBOARD_TTS_URL`, not `_HTTP_URL`) and its real defaults (backend chosen automatically, 1 concurrent synthesis, a 20,000 ms timeout).
+- `LICENSE` and `CHANGELOG.md` are in each package, as `files` already listed.
+- Includes the 2.5.5 security fixes in `@mcptoolshop/voice-soundboard-core`.
+
 ## [2.5.4] - 2026-10-15
 
 ### Changed
