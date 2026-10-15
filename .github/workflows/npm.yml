@@ -30,12 +30,31 @@ jobs:
       - name: Build mcp-server
         run: pnpm --filter @mcptoolshop/voice-soundboard-mcp build
 
-      - name: Publish core
-        run: pnpm --filter @mcptoolshop/voice-soundboard-core publish --provenance --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # npm Trusted Publishing (OIDC) needs npm >= 11.5.1; Node 22 ships npm 10. A pinned npm 11
+      # goes into a sandbox on PATH, after the install, so dependency install scripts are unaffected.
+      - name: npm 11 for Trusted Publishing
+        run: |
+          SANDBOX="$HOME/.npm-cli-sandbox"
+          mkdir -p "$SANDBOX"
+          cd "$SANDBOX"
+          echo '{"name":"npm-cli-sandbox","version":"0.0.0","private":true}' > package.json
+          npm install --no-save --no-audit --no-fund --silent npm@^11.5.1
+          echo "$SANDBOX/node_modules/.bin" >> "$GITHUB_PATH"
 
-      - name: Publish mcp-server
-        run: pnpm --filter @mcptoolshop/voice-soundboard-mcp publish --provenance --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # A GitHub release here can be for the Python package (voice-soundboard on PyPI) while the npm
+      # packages keep their version, so each package publishes only a version npm does not have yet.
+      # `pnpm pack` rewrites the workspace:* dependency to a real version; npm publishes the tarball
+      # through Trusted Publishing, with no token.
+      - name: Publish core and mcp-server (versions not yet on npm)
+        run: |
+          set -euo pipefail
+          for dir in packages/core packages/mcp-server; do
+            name=$(node -p "require('./$dir/package.json').name")
+            version=$(node -p "require('./$dir/package.json').version")
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "$name@$version is already on npm; skipping"
+              continue
+            fi
+            (cd "$dir" && pnpm pack --pack-destination "$RUNNER_TEMP/$version-$(basename "$dir")")
+            npm publish "$RUNNER_TEMP/$version-$(basename "$dir")"/*.tgz --provenance --access public
+          done

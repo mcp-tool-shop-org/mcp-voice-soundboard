@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.4] - 2026-10-15
+
+### Changed
+
+- **A GitHub release no longer re-publishes the npm packages.** `npm.yml` runs on every published release, and the releases here are for the Python package, so it re-published `@mcptoolshop/voice-soundboard-core` and `-mcp` at their unchanged 1.0.2 and failed. It now publishes only a package version npm does not have yet, packed with pnpm (so `workspace:*` resolves) and published through npm Trusted Publishing instead of an `NPM_TOKEN` secret.
+
 ## [2.5.3] - 2026-10-14
 
 ### Changed
