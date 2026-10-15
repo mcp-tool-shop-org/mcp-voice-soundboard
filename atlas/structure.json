@@ -48,7 +48,7 @@
           "path": ".github/workflows/docker.yml"
         },
         {
-          "hash": "a184de7851dd3535898a55eaa6638ae4a084e64c5f6009b005541ba0d08c738e",
+          "hash": "4434c081a71e7dba4da17d9ce7cb95d982734cc0802b78f2005a4a9f74022d76",
           "path": ".github/workflows/npm.yml"
         },
         {
@@ -322,20 +322,20 @@
             {
               "in": "parseDialogue",
               "kind": "throw",
-              "line": 101
+              "line": 103
             },
             {
               "in": "parseDialogue",
               "kind": "throw",
-              "line": 108
+              "line": 110
             },
             {
               "in": "parseDialogue",
               "kind": "throw",
-              "line": 121
+              "line": 123
             }
           ],
-          "hash": "3f66719623236014a5987104933544a88823c66ade452db818abc879cac96cee",
+          "hash": "3749725f9cb76ff4ea049361dfd796840ed29f0b4954c78bbd6ccb303b873387",
           "importOrder": [
             "packages/core/src/voices.ts",
             "packages/core/src/presets.ts",
@@ -386,7 +386,7 @@
             "hasEmotionTags",
             "parseEmotionSpans"
           ],
-          "hash": "2afdafc292a88b32ced80e5ef47e0959420d263b927ff4f4b7eaea3e41a7bfb2",
+          "hash": "677f8a4f7e6d0f3713af2fb6f2118d38514c94356a1b8b150199f8ac1ec84361",
           "importOrder": [
             "packages/core/src/emotion/types.ts",
             "packages/core/src/emotion/map.ts"
@@ -777,7 +777,7 @@
               "line": 340
             }
           ],
-          "hash": "22873d638d379cd9e8347727a1f7be8d0cfa12c0e4cc03de65c3de52e7550844",
+          "hash": "9b48cae4bd5ad5af384e6fc115eaeaa4886acc83b6087169e3ba262762404517",
           "importOrder": [
             "packages/core/src/ssml/types.ts",
             "packages/core/src/ssml/limits.ts",
@@ -858,7 +858,7 @@
           "testFramework": "vitest"
         },
         {
-          "hash": "1ee7431f7e62d7271e2822b81917091b49bd7822704833b01e8b4dfd70939019",
+          "hash": "e0043d0658c98c3f660b82690e48cd426c8a9b801f19deefa500059e16e53f3a",
           "importsFiles": [
             "packages/core/src/dialogue/index.ts",
             "packages/core/src/voices.ts"
@@ -880,7 +880,7 @@
           "testFramework": "vitest"
         },
         {
-          "hash": "631b55e3a6d2e602dfa001d0831b06cfa01822d1b932fc9b9aa5e17de990258a",
+          "hash": "2f602a239689fc6367ddcf8a8f39c93746b7b63166c52ffe1ea04c921470a657",
           "importsFiles": [
             "packages/core/src/emotion/index.ts",
             "packages/core/src/voices.ts"
@@ -970,7 +970,7 @@
           "testFramework": "vitest"
         },
         {
-          "hash": "0d08547378d9db6e06d787e924816e6e81019a996006ed256895678d003b1569",
+          "hash": "6121462af9db99c7c24d41e0e08c6889a86306bbe12fff5701818c3569310b06",
           "importsFiles": [
             "packages/core/src/ssml/index.ts"
           ],
@@ -1963,7 +1963,7 @@
           "path": ".mcp.json"
         },
         {
-          "hash": "4574af83b45f384c61c26e31744c81f93fd6f9e3b85d8eea53b7eb4c11428d6f",
+          "hash": "762f3de2beed6ed523cb3cb07175a7918fee438263493e4cc3092ba842a957de",
           "path": "CHANGELOG.md"
         },
         {
@@ -2071,7 +2071,7 @@
           "path": "pnpm-workspace.yaml"
         },
         {
-          "hash": "6b52babd01ac6bb906ad7d07975d4f7e3c467bfb4b2139ab317079c6692ab6ab",
+          "hash": "776d957625cfccf2444face850e9d1c14c774721ab8863356837cbf5b1c89456",
           "path": "pyproject.toml"
         },
         {
@@ -6906,17 +6906,26 @@
           "dir": "",
           "job": "publish",
           "programs": [
-            "pnpm"
+            "cd",
+            "echo",
+            "mkdir",
+            "npm"
           ],
-          "step": "Publish core"
+          "step": "npm 11 for Trusted Publishing"
         },
         {
           "dir": "",
           "job": "publish",
           "programs": [
+            "1",
+            "basename",
+            "cd",
+            "echo",
+            "node",
+            "npm",
             "pnpm"
           ],
-          "step": "Publish mcp-server"
+          "step": "Publish core and mcp-server (versions not yet on npm)"
         }
       ],
       "elsewhere": [],
@@ -6953,7 +6962,12 @@
         }
       ],
       "landings": [],
-      "mentions": [],
+      "mentions": [
+        {
+          "job": "publish",
+          "path": "package.json"
+        }
+      ],
       "name": "Publish to npm",
       "permissions": [
         "contents:read",
@@ -6994,9 +7008,7 @@
         }
       ],
       "runsCount": 2,
-      "secrets": [
-        "NPM_TOKEN"
-      ],
+      "secrets": [],
       "sends": {
         "deploysPages": false,
         "dispatchesTo": [],
@@ -7506,7 +7518,7 @@
   ],
   "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "b275f30f86c74fcc174762b0aeb68f178ff8a749",
+    "commit": "1621d92bbfe0d40590c3ef4652bde4c9430c403a",
     "tracked": 388
   },
   "landings": [
@@ -7553,6 +7565,16 @@
         }
       ],
       "target": "assets/audio_events",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/npm.yml",
+          "confidence": "config"
+        }
+      ],
+      "target": "package.json",
       "writers": []
     },
     {

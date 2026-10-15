@@ -202,3 +202,21 @@ describe("parseEmotionSpans — edge cases", () => {
     expect(result.spans[0].text).toBe("Line one\nLine two");
   });
 });
+
+// ── Pathological input ──
+
+describe("parseEmotionSpans — pathological input", () => {
+  it("parses tens of thousands of unclosed open tags in linear time", () => {
+    const text = "{/a}" + "{a}".repeat(80_000);
+    const start = performance.now();
+    const result = parseEmotionSpans(text);
+    expect(performance.now() - start).toBeLessThan(500);
+    expect(result.spans.length).toBeGreaterThan(0);
+  });
+
+  it("matches the first open tag with the first close tag after it", () => {
+    const result = parseEmotionSpans("{happy}one {sad}two{/sad} three{/happy} four");
+    expect(result.warnings.map((w) => w.code)).toEqual(["EMOTION_MISMATCH"]);
+    expect(result.spans.map((s) => s.text)).toEqual(["{happy}one {sad}two{/sad}", "three{/happy} four"]);
+  });
+});

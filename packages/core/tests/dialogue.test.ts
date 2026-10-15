@@ -203,3 +203,29 @@ Bob: Well, it's been quite a journey.
     expect(sheet.warnings).toHaveLength(0);
   });
 });
+
+// ── Pathological input ──
+
+describe("parseDialogue — pathological input", () => {
+  it("parses a long whitespace run before a line terminator in linear time", () => {
+    // A bare CR inside a line made the speaker-line regex backtrack quadratically.
+    const bad = "A:" + " ".repeat(100_000) + "x" + String.fromCharCode(13) + "y";
+    const start = performance.now();
+    const sheet = parseDialogue(`Bob: hello\n${bad}`);
+    expect(performance.now() - start).toBeLessThan(500);
+    expect(sheet.cues).toHaveLength(1);
+    expect(sheet.warnings.map((w) => w.code)).toEqual(["DIALOGUE_UNRECOGNIZED_LINE"]);
+  });
+
+  it("splits the speaker at the first colon", () => {
+    const sheet = parseDialogue("Dr. Who: the time is 10:30");
+    expect(sheet.speakers).toEqual(["Dr. Who"]);
+    expect(sheet.cues[0]).toMatchObject({ type: "line", text: "the time is 10:30" });
+  });
+
+  it("requires whitespace after the colon", () => {
+    const sheet = parseDialogue("A: ok\nB:nope");
+    expect(sheet.cues).toHaveLength(1);
+    expect(sheet.warnings.map((w) => w.code)).toEqual(["DIALOGUE_UNRECOGNIZED_LINE"]);
+  });
+});

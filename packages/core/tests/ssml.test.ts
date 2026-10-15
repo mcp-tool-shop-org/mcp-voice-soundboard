@@ -277,6 +277,18 @@ describe("parseSsmlLite — XML entities", () => {
     const plan = parseSsmlLite("<speak>Tom &amp; Jerry say &quot;hi&quot;</speak>");
     expect(plan.plainText).toBe('Tom & Jerry say "hi"');
   });
+
+  it("decodes &amp; last so &amp;lt; stays a literal &lt;", () => {
+    const plan = parseSsmlLite("<speak>a &amp;lt; b &amp;amp; c</speak>");
+    expect(plan.plainText).toBe("a &lt; b &amp; c");
+  });
+
+  it("decodes &amp; last on the plain-text fallback too", () => {
+    // Over-long text makes the parse fail and takes the tag-stripping path.
+    const plan = parseSsmlLite(`<speak>a &amp;lt; ${"x".repeat(SSML_LIMITS.maxTotalChars)}</speak>`);
+    expect(plan.warnings.some((w) => w.code === "SSML_PARSE_FAILED")).toBe(true);
+    expect(plan.plainText.startsWith("a &lt; x")).toBe(true);
+  });
 });
 
 // ── Limits ──
@@ -293,6 +305,18 @@ describe("parseSsmlLite — limits", () => {
     const longText = "x".repeat(SSML_LIMITS.maxTotalChars + 1);
     const plan = parseSsmlLite(`<speak>${longText}</speak>`);
     expect(plan.warnings.some((w) => w.code === "SSML_PARSE_FAILED")).toBe(true);
+  });
+
+  it("strips tags from a run of unclosed '<' in linear time", () => {
+    const start = performance.now();
+    const plan = parseSsmlLite("<speak>ok" + "<".repeat(100_000));
+    expect(performance.now() - start).toBeLessThan(500);
+    expect(plan.warnings.some((w) => w.code === "SSML_PARSE_FAILED")).toBe(true);
+  });
+
+  it("strips every tag, including ones that contain '<'", () => {
+    const plan = parseSsmlLite("<speak><prosody rate=\"fast\">a <b <c> d <e>f");
+    expect(plan.plainText).toBe("a d f");
   });
 });
 
