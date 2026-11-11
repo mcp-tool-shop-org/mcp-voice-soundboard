@@ -83,7 +83,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "core",
-      "qualifyingSourceCommits": 0,
+      "qualifyingSourceCommits": 1,
       "rebaseline": null
     },
     {
@@ -115,7 +115,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "mcp-server",
-      "qualifyingSourceCommits": 1,
+      "qualifyingSourceCommits": 2,
       "rebaseline": null
     },
     {
@@ -258,18 +258,18 @@
         "path": ".github/workflows/pages.yml"
       },
       {
-        "commits": 2,
-        "lines": 53,
+        "commits": 3,
+        "lines": 55,
         "path": ".github/workflows/release.yml"
       },
       {
-        "commits": 2,
-        "lines": 14,
+        "commits": 4,
+        "lines": 30,
         "path": "CHANGELOG.md"
       },
       {
-        "commits": 3,
-        "lines": 222,
+        "commits": 4,
+        "lines": 229,
         "path": "atlas/README.md"
       },
       {
@@ -278,24 +278,94 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 3,
-        "lines": 942,
+        "commits": 4,
+        "lines": 966,
         "path": "atlas/page.json"
       },
       {
-        "commits": 3,
-        "lines": 778,
+        "commits": 4,
+        "lines": 816,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 3,
-        "lines": 15394,
+        "commits": 4,
+        "lines": 15456,
         "path": "atlas/structure.json"
       },
       {
-        "commits": 2,
-        "lines": 8,
+        "commits": 1,
+        "lines": 13,
+        "path": "packages/core/CHANGELOG.md"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "packages/core/LICENSE"
+      },
+      {
+        "commits": 1,
+        "lines": 301,
+        "path": "packages/core/README.md"
+      },
+      {
+        "commits": 3,
+        "lines": 12,
         "path": "packages/core/package.json"
+      },
+      {
+        "commits": 1,
+        "lines": 17,
+        "path": "packages/core/src/dialogue/parser.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 62,
+        "path": "packages/core/src/emotion/parser.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 23,
+        "path": "packages/core/src/ssml/parser.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 26,
+        "path": "packages/core/tests/dialogue.test.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 18,
+        "path": "packages/core/tests/emotion.test.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 24,
+        "path": "packages/core/tests/ssml.test.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 13,
+        "path": "packages/mcp-server/CHANGELOG.md"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "packages/mcp-server/LICENSE"
+      },
+      {
+        "commits": 1,
+        "lines": 477,
+        "path": "packages/mcp-server/README.md"
+      },
+      {
+        "commits": 1,
+        "lines": 4,
+        "path": "packages/mcp-server/package.json"
+      },
+      {
+        "commits": 1,
+        "lines": 25,
+        "path": "packages/mcp-server/src/cli.ts"
       },
       {
         "commits": 1,
@@ -308,8 +378,8 @@
         "path": "pnpm-lock.yaml"
       },
       {
-        "commits": 3,
-        "lines": 6,
+        "commits": 4,
+        "lines": 8,
         "path": "pyproject.toml"
       },
       {
@@ -338,9 +408,9 @@
     "level": "low",
     "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-15T01:17:56.158Z",
+  "generatedAt": "2026-11-11T22:24:55.789Z",
   "generatedFrom": {
-    "commit": "1621d92bbfe0d40590c3ef4652bde4c9430c403a"
+    "commit": "ffab8a547a0b9c0a0d9ea4dbf51b841b2afdfe36"
   },
   "pairs": [],
   "parameters": {
@@ -353,16 +423,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-10-14T18:04:18-07:00",
-    "inScopeFiles": 393,
+    "headDate": "2026-10-20T16:06:14-04:00",
+    "inScopeFiles": 397,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 13,
+    "qualifyingCommits": 16,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-18T01:04:18.000Z",
+    "since": "2026-04-23T20:06:14.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",

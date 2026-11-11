@@ -43,39 +43,31 @@
   ],
   "changes": {
     "fileCounts": {
-      "added": 0,
-      "changed": 9,
+      "added": 4,
+      "changed": 8,
       "moved": 0,
-      "parts": 3,
+      "parts": 4,
       "removed": 0
     },
     "items": [
       {
-        "kind": "landing",
-        "sentence": "package.json is now read by .github/workflows/npm.yml.",
-        "subjects": [
-          "package.json",
-          ".github/workflows/npm.yml"
-        ]
-      },
-      {
         "kind": "counts",
-        "sentence": "9 files changed content, across 3 parts.",
+        "sentence": "Nothing structural changed since 2026-10-15; 4 files added and 8 changed content.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "b275f30f86c74fcc174762b0aeb68f178ff8a749",
-      "generatedAt": "2026-10-14T22:56:34.103Z"
+      "commit": "1621d92bbfe0d40590c3ef4652bde4c9430c403a",
+      "generatedAt": "2026-10-15T01:17:56.158Z"
     },
-    "unchanged": false
+    "unchanged": true
   },
   "changesTogether": [],
   "changesTogetherNote": [
     "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "1621d92bbfe0d40590c3ef4652bde4c9430c403a",
+  "commit": "ffab8a547a0b9c0a0d9ea4dbf51b841b2afdfe36",
   "defaultBranch": "main",
   "derived": "14 parts, mostly Python (209 files), TypeScript (89), CSS (2), Astro (1) and JavaScript (1). Work enters through 9 doors; CI, Publish to GHCR, Publish to npm, @mcptoolshop/voice-soundboard-mcp and voice-soundboard-mcp each reach 2 parts, and CI is followed because a pull request goes through it. It publishes to PyPI, @mcptoolshop/voice-soundboard-core (packages/core) and @mcptoolshop/voice-soundboard-mcp (packages/mcp-server) to npm, and a container image. It deploys a site to GitHub Pages. People run voice-soundboard and voice-soundboard-mcp. People import @mcptoolshop/voice-soundboard-core and @mcptoolshop/voice-soundboard-mcp.",
   "doors": [
@@ -408,12 +400,12 @@
       "to": "core"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generated": [],
-  "generatedAt": "2026-10-15T01:17:56.158Z",
+  "generatedAt": "2026-11-11T22:24:55.789Z",
   "limits": [
     "5 import sites name declared dependencies that share their names with local modules (elevenlabs and openai); they are read as the dependencies, which are not in this repository.",
-    "21 imports could not be resolved: `tests/v32_spatial/__init__.py` imports `.test_spatial_core`; `tests/v32_spatial/__init__.py` imports `.test_spatial_invariants`; `tests/v32_spatial/__init__.py` imports `.test_spatial_movement`; and 18 more.",
+    "16 imports could not be resolved: `voice_soundboard/accessibility/screen_readers/detection.py` imports a path built at run time; `voice_soundboard/engine/backends/azure.py` imports `azure.cognitiveservices.speech`, which is no module on its import path and no declared dependency, twice; and 13 more.",
     "6 writes and 6 reads use paths built at run time and are not named here.",
     "9 writes and 84 reads go to a path their caller passes, not to this repository.",
     "3 writes go to a temporary directory, not to this repository.",
@@ -459,8 +451,9 @@
     "core": 23,
     "mcp-server": 6,
     "tools": 0,
-    "voice_soundboard": 46
+    "voice_soundboard": 47
   },
+  "testedCodeParts": 5,
   "unnamedWrites": 6,
   "unread": [],
   "unreadFiles": 0,

@@ -1,15 +1,14 @@
 # mcp-voice-soundboard: how it works
 
-Mapped at 2026-10-15 from commit 1621d92 by Atlas 1.24.0.
+Mapped at 2026-11-11 from commit ffab8a5 by Atlas 1.26.0.
 
 ## What this is
 
 14 parts, mostly Python (209 files), TypeScript (89), CSS (2), Astro (1) and JavaScript (1). Work enters through 9 doors; CI, Publish to GHCR, Publish to npm, @mcptoolshop/voice-soundboard-mcp and voice-soundboard-mcp each reach 2 parts, and CI is followed because a pull request goes through it. It publishes to PyPI, @mcptoolshop/voice-soundboard-core (packages/core) and @mcptoolshop/voice-soundboard-mcp (packages/mcp-server) to npm, and a container image. It deploys a site to GitHub Pages. People run voice-soundboard and voice-soundboard-mcp. People import @mcptoolshop/voice-soundboard-core and @mcptoolshop/voice-soundboard-mcp.
 
-## What changed since 2026-10-14 (b275f30)
+## What changed since 2026-10-15 (1621d92)
 
-- package.json is now read by .github/workflows/npm.yml.
-- 9 files changed content, across 3 parts.
+Nothing structural changed since 2026-10-15; 4 files added and 8 changed content.
 
 ## What comes in
 
@@ -96,7 +95,7 @@ Read those in order to follow one pull request end to end.
 ## What this map cannot see
 
 - 5 import sites name declared dependencies that share their names with local modules (elevenlabs and openai); they are read as the dependencies, which are not in this repository.
-- 21 imports could not be resolved: `tests/v32_spatial/__init__.py` imports `.test_spatial_core`; `tests/v32_spatial/__init__.py` imports `.test_spatial_invariants`; `tests/v32_spatial/__init__.py` imports `.test_spatial_movement`; and 18 more.
+- 16 imports could not be resolved: `voice_soundboard/accessibility/screen_readers/detection.py` imports a path built at run time; `voice_soundboard/engine/backends/azure.py` imports `azure.cognitiveservices.speech`, which is no module on its import path and no declared dependency, twice; and 13 more.
 - 6 writes and 6 reads use paths built at run time and are not named here.
 - 9 writes and 84 reads go to a path their caller passes, not to this repository.
 - 3 writes go to a temporary directory, not to this repository.
