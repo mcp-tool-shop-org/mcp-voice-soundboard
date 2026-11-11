@@ -40,7 +40,7 @@
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "266ec44591a6417cf85d57c4c091bebfb5a2a81e6f5971a352f3734d0149b132",
+          "hash": "adaef55a25fe710d4ffc1189d6ec43fc18d24457bc9f7f2819ed1a13a11041af",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -56,7 +56,7 @@
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "4baa8e58c1be6d07544a624db4cd65f7efa2daa0a3b7aebae29fd67b2fd47bf6",
+          "hash": "24ff2cde93141f7de8fd5ce41903a4c3699a91f4847c116d45a65a96dfa0dedb",
           "path": ".github/workflows/release.yml"
         }
       ],
@@ -171,11 +171,19 @@
       "externals": 0,
       "files": [
         {
-          "hash": "6700aeb78cab076a8154b739bd16122f449abca293cf20bfdc3d6effe03bcd5e",
+          "hash": "f6adc87a0eb96feea36e2e44560846280bae086b86acb1cbb68ea86540a3120d",
+          "path": "packages/core/CHANGELOG.md"
+        },
+        {
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
+          "path": "packages/core/LICENSE"
+        },
+        {
+          "hash": "d9e1d2daab7a22891e0c309bec4d5bfc382e45fb3b92bb25d1615204b8ae7440",
           "path": "packages/core/README.md"
         },
         {
-          "hash": "51ccd170f022bbcaf7bbb6b6bf2e06912c7f77aa72f85a1dc11b1686430aad38",
+          "hash": "369063bd7b49052af293149bd3853e711a4ccb4351f4334666bb48b01dc2ccfa",
           "path": "packages/core/package.json"
         },
         {
@@ -1143,7 +1151,15 @@
       "externals": 0,
       "files": [
         {
-          "hash": "ef89f2c71396a5de0af14d01ef57a89c1c65447fe6953ec2f553883e56645e9e",
+          "hash": "8dce5ea4b6d93c9769ba180fbf2285225cec2f5d653891741ac9c0471fef2c44",
+          "path": "packages/mcp-server/CHANGELOG.md"
+        },
+        {
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
+          "path": "packages/mcp-server/LICENSE"
+        },
+        {
+          "hash": "bdcecf66ba60dfbd5a8e424eb0a68e50a49889f5968ea8a9ffe63d1b8ca2ed98",
           "path": "packages/mcp-server/README.md"
         },
         {
@@ -1180,7 +1196,7 @@
           "path": "packages/mcp-server/backend-python/soundboard_bridge/__main__.py"
         },
         {
-          "hash": "579f83cb0ca162b5a2f151a952e563a96a87a1ae602467eb6f96760b39f1f9e5",
+          "hash": "d321d4eded04c7fbba0e056dae8f57a8c465f910441d763942d85fddc06d73f4",
           "path": "packages/mcp-server/package.json"
         },
         {
@@ -1359,7 +1375,7 @@
         {
           "entry": "main",
           "entryRule": 1,
-          "hash": "d136525c4546ef8bacd5244ce0cae064b66e371525f7b85ce53aca16c4ddcc7a",
+          "hash": "ca86a62a6619c992cf36e5a0b2ac3c2232840574188453e7343d7d273e0196b2",
           "importsFiles": [
             "packages/core/src/index.ts",
             "packages/mcp-server/src/backend.ts",
@@ -1408,7 +1424,7 @@
             {
               "calls": [
                 {
-                  "line": 199,
+                  "line": 202,
                   "name": "readBackendConfig",
                   "target": {
                     "file": "packages/mcp-server/src/backend.ts"
@@ -1425,7 +1441,7 @@
                       }
                     }
                   ],
-                  "line": 202,
+                  "line": 205,
                   "name": "selectBackend",
                   "target": {
                     "file": "packages/mcp-server/src/backend.ts"
@@ -1963,7 +1979,7 @@
           "path": ".mcp.json"
         },
         {
-          "hash": "762f3de2beed6ed523cb3cb07175a7918fee438263493e4cc3092ba842a957de",
+          "hash": "1432b3973f98aa00c4fb9092eb1059b9105c46b8528334b275e1c4a8fa0b608c",
           "path": "CHANGELOG.md"
         },
         {
@@ -2793,6 +2809,20 @@
         },
         {
           "hash": "29b4ac1c530db073c1d6b8a9516bc9fa5a4a1fef6e2e9db4e3d2e8bc3ecb0c93",
+          "importOrder": [
+            "tests/v32_spatial/test_spatial_core.py",
+            "tests/v32_spatial/test_spatial_invariants.py",
+            "tests/v32_spatial/test_spatial_movement.py",
+            "tests/v32_spatial/test_spatial_stress.py",
+            "tests/v32_spatial/test_spatial_performance.py"
+          ],
+          "importsFiles": [
+            "tests/v32_spatial/test_spatial_core.py",
+            "tests/v32_spatial/test_spatial_invariants.py",
+            "tests/v32_spatial/test_spatial_movement.py",
+            "tests/v32_spatial/test_spatial_performance.py",
+            "tests/v32_spatial/test_spatial_stress.py"
+          ],
           "path": "tests/v32_spatial/__init__.py"
         },
         {
@@ -2863,24 +2893,7 @@
       "origin": "authored",
       "role": "test",
       "testedBy": 0,
-      "unresolvedNamed": [
-        {
-          "path": "tests/v32_spatial/__init__.py",
-          "specifier": ".test_spatial_core",
-          "why": "other"
-        },
-        {
-          "path": "tests/v32_spatial/__init__.py",
-          "specifier": ".test_spatial_invariants",
-          "why": "other"
-        },
-        {
-          "path": "tests/v32_spatial/__init__.py",
-          "specifier": ".test_spatial_movement",
-          "why": "other"
-        }
-      ],
-      "unresolvedSites": 5
+      "unresolvedSites": 0
     },
     {
       "dynamicReads": 0,
@@ -6336,7 +6349,7 @@
       "outsideReads": 73,
       "outsideWrites": 7,
       "role": "code",
-      "testedBy": 46,
+      "testedBy": 47,
       "unresolvedNamed": [
         {
           "path": "voice_soundboard/accessibility/screen_readers/detection.py",
@@ -7516,10 +7529,10 @@
       "to": "voice_soundboard"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generatedFrom": {
-    "commit": "1621d92bbfe0d40590c3ef4652bde4c9430c403a",
-    "tracked": 388
+    "commit": "ffab8a547a0b9c0a0d9ea4dbf51b841b2afdfe36",
+    "tracked": 392
   },
   "landings": [
     {
